@@ -973,6 +973,41 @@ input:not([type]) {
 }
 
 /* ---------- Progress & settings ---------- */
+.goal-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+.goal-head p {
+  margin: 0 0 0.4rem;
+}
+.streak {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.streak.is-on {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+  color: var(--primary);
+}
+.streak-num {
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.streak-note {
+  margin: 0.45rem 0 0;
+}
 .goal .bar {
   height: 12px;
   background: var(--border);

@@ -32,6 +32,7 @@ Real-life scenario practice, end to end. Each scenario (ordering coffee, asking 
 - Speech recognition: Chrome/Edge supported, Firefox not, Safari partial. Chrome needs internet for recognition. Text-to-speech voices vary by OS.
 - The app does **not** score pronunciation. "Transcript match" only shows which words the browser heard; never present it as a pronunciation grade.
 - Progress is stored in LocalStorage on one device only; clearing browser data loses it.
+- Optional teacher tracking (small class, currently two students): when `VITE_TEACHER_SHEET_URL` is set at build time and the student enters a name in Settings, each finished activity (type, scenario, score, time, name) is sent to the teacher's Google Sheet via Apps Script. No login; voice and answers are never sent. Setup: `docs/teacher-sheet.md`.
 - 10 scenarios, 80 vocabulary items at present. Not in scope: accounts, cloud sync, classroom management, PWA/offline install (not yet).
 
 ## Brand Commitments
@@ -50,7 +51,7 @@ Real-life scenario practice, end to end. Each scenario (ordering coffee, asking 
 2. Speaking aloud is the goal; typing is a fallback that never blocks progress.
 3. Be honest about what the machine can judge (transcript match, not pronunciation) and what mode is active (scripted vs AI).
 4. Built for a learner alone: guidance in Vietnamese, clear next step, no teacher assumed.
-5. Private and free: nothing to sign up for, no voice stored.
+5. Private and free: nothing to sign up for, no voice stored. The only data that leaves the device is the activity log a student chooses to send to their teacher.
 
 ## Accessibility & Inclusion
 

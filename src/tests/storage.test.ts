@@ -4,6 +4,7 @@ import { getScenario } from '../data/scenarios';
 import {
   addRecord,
   computeStats,
+  computeStreak,
   isDifficult,
   isLearned,
   isScenarioComplete,
@@ -118,5 +119,24 @@ describe('listening grading', () => {
   });
   it('never starts the ordering task already solved', () => {
     for (let seed = 0; seed < 30; seed++) expect(initialOrder(seed)).not.toEqual([0, 1, 2, 3]);
+  });
+});
+
+describe('daily streak', () => {
+  const now = new Date(2026, 9, 22, 18, 0);
+  const on = (daysAgo: number, n = 1) =>
+    Array.from({ length: n }, (_, i) => ({ id: `${daysAgo}-${i}`, type: 'vocab' as const, scenarioId: null, score: 1, date: new Date(2026, 9, 22 - daysAgo, 9, i).toISOString() }));
+
+  it('counts consecutive days that met the goal, ending today', () => {
+    expect(computeStreak([...on(2, 2), ...on(1, 2), ...on(0, 2)], 2, now)).toEqual({ current: 3, todayMet: true, best: 3 });
+  });
+  it('stays alive until today is over', () => {
+    expect(computeStreak([...on(2, 2), ...on(1, 2), ...on(0, 1)], 2, now)).toEqual({ current: 2, todayMet: false, best: 2 });
+  });
+  it('resets after a missed day but remembers the best run', () => {
+    expect(computeStreak([...on(5), ...on(4), ...on(3), ...on(1, 0)], 1, now)).toEqual({ current: 0, todayMet: false, best: 3 });
+  });
+  it('ignores days below the goal', () => {
+    expect(computeStreak([...on(1, 1), ...on(0, 3)], 3, now).current).toBe(1);
   });
 });

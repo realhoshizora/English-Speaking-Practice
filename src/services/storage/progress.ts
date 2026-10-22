@@ -71,3 +71,36 @@ export function computeStats(state: ProgressState, scenarioIds: string[], now = 
     totalActivities: r.length,
   };
 }
+
+export interface Streak {
+  /** Days in a row the daily goal was met, ending today (if met) or yesterday (still alive today). */
+  current: number;
+  todayMet: boolean;
+  best: number;
+}
+
+const dayKey = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+
+export function computeStreak(records: PracticeRecord[], goal: number, now = new Date()): Streak {
+  const perDay = new Map<string, number>();
+  for (const r of records) {
+    const k = dayKey(new Date(r.date));
+    perDay.set(k, (perDay.get(k) ?? 0) + 1);
+  }
+  const met = (d: Date) => (perDay.get(dayKey(d)) ?? 0) >= goal;
+  const back = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - n);
+
+  const todayMet = met(now);
+  let current = 0;
+  while (met(back(now, current + (todayMet ? 0 : 1)))) current++;
+
+  let best = 0;
+  for (const r of records) {
+    const d = new Date(r.date);
+    if (!met(d) || met(back(d, 1))) continue; // only count runs from their first day
+    let n = 0;
+    while (met(back(d, -n))) n++;
+    best = Math.max(best, n);
+  }
+  return { current, todayMet, best: Math.max(best, current) };
+}

@@ -14,6 +14,7 @@ export const DEFAULT_SETTINGS: Settings = {
   provider: 'scripted',
   ollamaUrl: 'http://localhost:11434',
   ollamaModel: 'llama3.2',
+  studentName: '',
 };
 
 export function defaultState(): ProgressState {
@@ -49,6 +50,7 @@ function cleanSettings(s: unknown): Settings {
   if (s.provider === 'scripted' || s.provider === 'local-ai') out.provider = s.provider;
   if (isStr(s.ollamaUrl)) out.ollamaUrl = s.ollamaUrl;
   if (isStr(s.ollamaModel)) out.ollamaModel = s.ollamaModel;
+  if (isStr(s.studentName)) out.studentName = s.studentName.slice(0, 60);
   return out;
 }
 

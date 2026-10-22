@@ -3,7 +3,7 @@ import { ResetDataButton } from '../../components/ResetDataButton';
 import { SpeakButton } from '../../components/SpeakButton';
 import { getScenario, scenarioIds, scenarios } from '../../data/scenarios';
 import { vocabulary } from '../../data/vocabulary';
-import { computeStats } from '../../services/storage/progress';
+import { computeStats, computeStreak } from '../../services/storage/progress';
 import type { ActivityType, PracticeRecord } from '../../types';
 
 export const TYPE_LABEL: Record<ActivityType, { name: string; score: string }> = {
@@ -18,25 +18,46 @@ export function scoreText(r: PracticeRecord) {
   return r.score === null ? 'Tự luyện (không chấm)' : `${TYPE_LABEL[r.type].score}: ${Math.round(r.score * 100)}%`;
 }
 
-export function DailyGoal() {
+/** Rough guide only: the app does not time practice. */
+const MINUTES_PER_ACTIVITY = 4;
+
+function streakText(current: number, todayMet: boolean, best: number) {
+  if (todayMet) return `Hôm nay đã giữ chuỗi. Mai quay lại để lên ${current + 1} ngày nhé!`;
+  if (current > 0) return `Đạt mục tiêu hôm nay để chuỗi lên ${current + 1} ngày.`;
+  if (best > 0) return 'Bắt đầu chuỗi mới hôm nay. Mỗi ngày một chút là đủ.';
+  return 'Đạt mục tiêu hôm nay để bắt đầu chuỗi ngày luyện tập.';
+}
+
+export function DailyGoal({ showBest = false }: { showBest?: boolean }) {
   const { state } = useProgress();
   const s = computeStats(state, scenarioIds);
   const goal = state.settings.dailyGoal;
+  const streak = computeStreak(state.records, goal);
   const pct = Math.min(100, Math.round((s.todayActivities / goal) * 100));
   return (
     <div className="goal">
-      <p>
-        <strong>Mục tiêu hôm nay:</strong> {Math.min(s.todayActivities, goal)}/{goal} hoạt động
-        {s.todayActivities >= goal && (
-          <>
-            {' '}
-            <span aria-hidden="true">🎉</span> Hoàn thành!
-          </>
-        )}
-      </p>
+      <div className="goal-head">
+        <p>
+          <strong>Mục tiêu hôm nay:</strong> {Math.min(s.todayActivities, goal)}/{goal} hoạt động{' '}
+          <span className="muted">(khoảng {goal * MINUTES_PER_ACTIVITY} phút)</span>
+          {s.todayActivities >= goal && (
+            <>
+              {' '}
+              <span aria-hidden="true">🎉</span> Hoàn thành!
+            </>
+          )}
+        </p>
+        <p className={`streak ${streak.current > 0 ? 'is-on' : ''}`}>
+          <span className="streak-num">{streak.current}</span> ngày liên tiếp
+        </p>
+      </div>
       <div className="bar" role="progressbar" aria-valuemin={0} aria-valuemax={goal} aria-valuenow={Math.min(s.todayActivities, goal)} aria-label="Mục tiêu hôm nay">
         <span style={{ width: `${pct}%` }} />
       </div>
+      <p className="small streak-note">
+        {streakText(streak.current, streak.todayMet, streak.best)}
+        {showBest && streak.best > 0 && <span className="muted"> Kỷ lục của bạn: {streak.best} ngày.</span>}
+      </p>
     </div>
   );
 }
@@ -75,7 +96,7 @@ export function ProgressPage() {
         <p>Mọi số liệu được tính từ các hoạt động bạn đã thực sự hoàn thành trên thiết bị này.</p>
       </header>
       <section className="card">
-        <DailyGoal />
+        <DailyGoal showBest />
       </section>
       <StatCards />
 

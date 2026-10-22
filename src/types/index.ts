@@ -99,6 +99,8 @@ export interface Settings {
   provider: 'scripted' | 'local-ai';
   ollamaUrl: string;
   ollamaModel: string;
+  /** Name shown in the teacher's sheet; empty = progress is not sent. */
+  studentName: string;
 }
 
 export interface ProgressState {

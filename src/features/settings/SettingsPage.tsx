@@ -6,6 +6,7 @@ import { createLocalAIProvider } from '../../services/conversation/LocalAIConver
 import { detectSpeechCapabilities } from '../../services/speech/SpeechCapabilityDetector';
 import { queryMicPermission, requestMicAccess, type MicPermission, type MicRequestResult } from '../../services/speech/MicrophonePermissionManager';
 import { tts } from '../../services/speech/SpeechSynthesisService';
+import { readQueue, SHEET_URL } from '../../services/sync/teacherSync';
 
 const LANGS = [
   { id: 'en-US', name: 'English (US)' },
@@ -133,6 +134,8 @@ export function SettingsPage() {
         </label>
       </section>
 
+      {SHEET_URL && <TeacherSection />}
+
       <section className="card" aria-labelledby="s-ai">
         <h2 id="s-ai">Chế độ hội thoại</h2>
         <fieldset>
@@ -181,10 +184,51 @@ export function SettingsPage() {
             Tuy nhiên, chức năng nhận diện giọng nói là của trình duyệt. Một số trình duyệt (ví dụ Chrome) có thể gửi âm thanh tới dịch vụ trực tuyến của họ để
             xử lý. Không có đảm bảo âm thanh luôn được xử lý trên thiết bị.
           </li>
+          {SHEET_URL && (
+            <li>
+              Khi bạn đã nhập tên ở mục “Gửi tiến độ cho giáo viên”, mỗi hoạt động hoàn thành (loại bài, tình huống, điểm, thời gian) được gửi vào bảng
+              tính của giáo viên. Giọng nói và câu trả lời của bạn không được gửi.
+            </li>
+          )}
           <li>Ở chế độ AI cục bộ, câu trả lời của bạn được gửi tới địa chỉ Ollama bạn nhập ở trên (thường là máy của bạn).</li>
         </ul>
         <ResetDataButton />
       </section>
     </div>
+  );
+}
+
+function TeacherSection() {
+  const { state, updateSettings } = useProgress();
+  const saved = state.settings.studentName;
+  const [name, setName] = useState(saved);
+  const pending = readQueue(localStorage).length;
+  return (
+    <section className="card" aria-labelledby="s-teacher">
+      <h2 id="s-teacher">Gửi tiến độ cho giáo viên</h2>
+      <p className="muted">Nhập tên của bạn một lần. Sau đó mỗi bài bạn làm xong sẽ tự động được gửi cho giáo viên.</p>
+      <form
+        className="text-answer field"
+        onSubmit={(e) => {
+          e.preventDefault();
+          updateSettings({ studentName: name.trim().slice(0, 60) });
+        }}
+      >
+        <label className="sr-only" htmlFor="student-name">
+          Tên của bạn
+        </label>
+        <input id="student-name" value={name} maxLength={60} placeholder="Ví dụ: Lan Anh" autoComplete="name" onChange={(e) => setName(e.target.value)} />
+        <button type="submit" className="btn btn-primary" disabled={name.trim() === saved}>
+          Lưu
+        </button>
+      </form>
+      <p className="status" role="status">
+        {!saved
+          ? 'Chưa nhập tên: tiến độ chưa được gửi.'
+          : pending > 0
+            ? `Đang gửi dưới tên “${saved}”. Còn ${pending} hoạt động chờ gửi (sẽ gửi khi có Internet).`
+            : `Đang gửi dưới tên “${saved}”. Mọi hoạt động đã được gửi.`}
+      </p>
+    </section>
   );
 }

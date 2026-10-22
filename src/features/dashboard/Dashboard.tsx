@@ -2,6 +2,7 @@ import { useProgress } from '../../app/ProgressContext';
 import { scenarios } from '../../data/scenarios';
 import { detectSpeechCapabilities } from '../../services/speech/SpeechCapabilityDetector';
 import { isScenarioComplete, PASS_SPEAKING } from '../../services/storage/progress';
+import { SHEET_URL } from '../../services/sync/teacherSync';
 import type { PracticeRecord, Scenario } from '../../types';
 import { DailyGoal } from '../progress/ProgressPage';
 
@@ -47,6 +48,12 @@ export function Dashboard() {
         <h1>{isNew ? 'Chào bạn! Mình bắt đầu luyện nói nhé?' : 'Hôm nay mình luyện gì?'}</h1>
         <p>Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
       </header>
+
+      {SHEET_URL && !state.settings.studentName && (
+        <p className="notice notice-info">
+          Nhập tên của bạn để giáo viên theo dõi được tiến độ. <a href="#/settings">Nhập tên</a>
+        </p>
+      )}
 
       {issues.length > 0 && (
         <div className="notice notice-warn" role="status">

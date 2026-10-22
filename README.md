@@ -120,6 +120,10 @@ Nếu Ollama không chạy hoặc chưa có mô hình, trang luyện nói tự q
 
 Chưa được triển khai. Khi làm, cần một **backend riêng** giữ API key (xem `.env.example`), có giới hạn số lượt, xử lý timeout và rate limit. **Không bao giờ** đặt API key trong frontend hoặc trong biến `VITE_*`. Giao diện `ConversationProvider` (`src/services/conversation/ConversationProvider.ts`) đã sẵn sàng để thêm provider mới mà không phải sửa trang luyện nói.
 
+## Theo dõi tiến độ học sinh (tùy chọn)
+
+Giáo viên có thể nhận nhật ký hoạt động của học sinh vào một Google Sheet (miễn phí, không cần máy chủ). Xem hướng dẫn: [docs/teacher-sheet.md](docs/teacher-sheet.md). Khi chưa đặt biến `VITE_TEACHER_SHEET_URL`, tính năng này tắt và không gửi gì.
+
 ## Quyền riêng tư và dữ liệu lưu cục bộ
 
 - Tiến độ, từ vựng và cài đặt được lưu trong **LocalStorage của trình duyệt** trên thiết bị đang dùng (khóa `esc.progress`). Không có tài khoản, không đồng bộ giữa các máy.
