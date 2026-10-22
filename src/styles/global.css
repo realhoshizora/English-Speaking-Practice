@@ -803,6 +803,9 @@ input:not([type]) {
 .vocab-table li > div {
   flex: 1;
 }
+.vocab-table.card {
+  padding: 0.35rem 1.1rem;
+}
 .vocab-table li:last-child {
   border-bottom: 0;
 }
