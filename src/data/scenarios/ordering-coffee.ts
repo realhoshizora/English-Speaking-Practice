@@ -1,0 +1,120 @@
+import type { Scenario } from '../../types';
+
+export const orderingCoffee: Scenario = {
+  id: "ordering-coffee",
+  title: "Ordering Coffee",
+  titleVi: "Gọi đồ uống ở quán cà phê",
+  description: "Bạn vào quán cà phê và gọi đồ uống: chọn loại, chọn cỡ, có thể gọi thêm đồ ăn rồi thanh toán.",
+  level: "A1",
+  goals: ["Gọi đồ uống lịch sự", "Chọn cỡ (small / medium / large)", "Trả lời “Anything else?” và thanh toán"],
+  learnerRole: "Customer",
+  partnerRole: "Barista",
+  vocabulary: [
+    { word: "latte", meaning: "cà phê sữa kiểu Ý", example: "I'd like a latte, please." },
+    { word: "hot chocolate", meaning: "sô-cô-la nóng", example: "Can I have a hot chocolate?" },
+    { word: "size", meaning: "cỡ", example: "What size would you like?" },
+    { word: "medium", meaning: "cỡ vừa", example: "A medium, please." },
+    { word: "for here", meaning: "dùng tại quán", example: "For here, please." },
+    { word: "to go", meaning: "mang đi", example: "Can I get it to go?" },
+    { word: "muffin", meaning: "bánh muffin", example: "I'll have a blueberry muffin." },
+    { word: "that's all", meaning: "vậy thôi / thế là đủ", example: "No, that's all. Thank you." },
+  ],
+  phrases: [
+    { en: "I'd like a latte, please.", vi: "Cho tôi một ly latte." },
+    { en: "Can I have a hot chocolate?", vi: "Cho tôi một ly sô-cô-la nóng được không?" },
+    { en: "A medium, please.", vi: "Cỡ vừa nhé." },
+    { en: "To go, please.", vi: "Mang đi nhé." },
+    { en: "No, that's all. Thank you.", vi: "Không, vậy thôi. Cảm ơn." },
+  ],
+  dialogue: [
+    { speaker: "partner", text: "Hi! What can I get for you today?", vi: "Xin chào! Hôm nay tôi có thể phục vụ gì cho bạn?" },
+    { speaker: "learner", text: "I'd like a latte, please.", vi: "Cho tôi một ly latte." },
+    { speaker: "partner", text: "Sure! What size would you like?", vi: "Được ạ! Bạn muốn cỡ nào?" },
+    { speaker: "learner", text: "A medium, please.", vi: "Cỡ vừa nhé." },
+    { speaker: "partner", text: "For here or to go?", vi: "Dùng tại quán hay mang đi?" },
+    { speaker: "learner", text: "To go, please.", vi: "Mang đi nhé." },
+    { speaker: "partner", text: "Would you like anything else?", vi: "Bạn có muốn gọi thêm gì không?" },
+    { speaker: "learner", text: "No, that's all. Thank you.", vi: "Không, vậy thôi. Cảm ơn." },
+    { speaker: "partner", text: "That's four dollars, please.", vi: "Của bạn là bốn đô-la." },
+    { speaker: "learner", text: "Here you are.", vi: "Gửi bạn." },
+  ],
+  tasks: ["Order a drink.", "Choose a size.", "Say for here or to go.", "Answer “Anything else?”."],
+  listening: {
+    intro: "Một khách hàng đang gọi đồ uống ở quán cà phê. Hãy nghe và trả lời câu hỏi.",
+    questions: [
+      { type: "mcq", question: "What drink does the customer order?", options: ["A hot chocolate", "A latte", "A cup of tea"], answer: 1, explanation: "Khách nói “I'd like a latte, please.”" },
+      { type: "mcq", question: "Is the drink for here or to go?", options: ["For here", "To go"], answer: 1, explanation: "Khách nói “To go, please” – mang đi." },
+      { type: "fill", sentence: "A ___, please.", answer: "medium", explanation: "Khách chọn cỡ vừa – “medium”." },
+      { type: "fill", sentence: "That's ___ dollars, please.", answer: "four", accept: ["4"], explanation: "Barista nói “That's four dollars” – bốn đô-la." },
+    ],
+  },
+  roleplay: {
+    start: "order",
+    nodes: [
+      {
+        id: "order",
+        partner: "Hi! What can I get for you today?",
+        task: "Gọi một đồ uống.",
+        hint: "“I'd like a …, please.” hoặc “Can I have a …?” – latte, tea, hot chocolate, orange juice, water.",
+        example: "I'd like a latte, please.",
+        responses: [
+          { intent: "order_drink", label: "gọi đồ uống", anyOf: ["latte", "coffee", "tea", "hot chocolate", "chocolate", "juice", "water", "milk", "cappuccino", "smoothie", "milkshake", "drink"], next: "size", ack: "Sure!", better: "I'd like a latte, please." },
+          { intent: "polite_request", label: "yêu cầu lịch sự", anyOf: ["i'd like", "can i have", "could i have", "can i get", "i'll have"], next: "size", ack: "Sure!" },
+        ],
+      },
+      {
+        id: "size",
+        partner: "What size would you like?",
+        task: "Chọn cỡ: small, medium hoặc large.",
+        hint: "“A medium, please.”",
+        example: "A medium, please.",
+        responses: [
+          { intent: "choose_size", label: "chọn cỡ", anyOf: ["small", "medium", "large", "big", "regular"], next: "here", better: "A medium, please." },
+        ],
+      },
+      {
+        id: "here",
+        partner: "For here or to go?",
+        task: "Nói bạn dùng tại quán hay mang đi.",
+        hint: "“For here, please.” hoặc “To go, please.”",
+        example: "To go, please.",
+        responses: [
+          { intent: "for_here", label: "dùng tại quán", anyOf: ["for here", "here", "stay", "eat in", "drink here"], next: "else" },
+          { intent: "to_go", label: "mang đi", anyOf: ["to go", "take away", "takeaway", "take out", "go"], next: "else" },
+        ],
+      },
+      {
+        id: "else",
+        partner: "Would you like anything else?",
+        task: "Nói có/không. Nếu có, gọi thêm một món.",
+        hint: "“No, that's all. Thank you.” hoặc “Yes, can I have a muffin?”",
+        example: "No, that's all. Thank you.",
+        responses: [
+          { intent: "no_more", label: "không gọi thêm", anyOf: ["that's all", "no", "nothing", "i'm good", "i'm fine"], next: "pay" },
+          { intent: "add_food", label: "gọi thêm món ăn", anyOf: ["muffin", "cake", "cookie", "croissant", "sandwich", "yes", "also"], next: "food", ack: "Good choice!" },
+        ],
+      },
+      {
+        id: "food",
+        partner: "We have chocolate muffins and blueberry muffins. Which one would you like?",
+        task: "Chọn một loại bánh.",
+        hint: "“The chocolate one, please.” hoặc “A blueberry muffin, please.”",
+        example: "A blueberry muffin, please.",
+        responses: [
+          { intent: "choose_food", label: "chọn bánh", anyOf: ["chocolate", "blueberry", "the first", "the second", "one"], next: "pay" },
+        ],
+      },
+      {
+        id: "pay",
+        partner: "OK. That's four dollars, please.",
+        task: "Đưa tiền và nói một câu lịch sự.",
+        hint: "“Here you are.” hoặc “Can I pay by card?”",
+        example: "Here you are.",
+        responses: [
+          { intent: "pay_cash", label: "đưa tiền", anyOf: ["here you are", "here you go", "here", "cash", "thank"], next: null, ack: "Thank you! Your drink will be ready in a minute. Have a nice day!" },
+          { intent: "pay_card", label: "hỏi thanh toán bằng thẻ", anyOf: ["card", "credit", "phone", "pay"], next: null, ack: "Of course. Please tap your card here. Thank you and have a nice day!" },
+        ],
+      },
+    ],
+  },
+};

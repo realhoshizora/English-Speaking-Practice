@@ -1,0 +1,122 @@
+import type { Scenario } from '../../types';
+
+export const introducingYourself: Scenario = {
+  id: "introducing-yourself",
+  title: "Introducing Yourself",
+  titleVi: "Giới thiệu bản thân",
+  description: "Ngày đầu tiên ở lớp mới, cô giáo hỏi về bạn: tên, tuổi, quê quán và sở thích.",
+  level: "A1",
+  goals: ["Nói tên và tuổi của mình", "Nói mình đến từ đâu", "Kể một sở thích đơn giản"],
+  learnerRole: "New student",
+  partnerRole: "Ms. Brown (teacher)",
+  vocabulary: [
+    { word: "name", meaning: "tên", example: "My name is Minh." },
+    { word: "years old", meaning: "tuổi", example: "I'm thirteen years old." },
+    { word: "be from", meaning: "đến từ", example: "I'm from Da Nang." },
+    { word: "free time", meaning: "thời gian rảnh", example: "In my free time, I read comics." },
+    { word: "hobby", meaning: "sở thích", example: "My hobby is drawing." },
+    { word: "classmate", meaning: "bạn cùng lớp", example: "This is my classmate, Lan." },
+    { word: "welcome", meaning: "chào mừng", example: "Welcome to our class!" },
+    { word: "nice to meet you", meaning: "rất vui được gặp bạn", example: "Nice to meet you, Ms. Brown." },
+  ],
+  phrases: [
+    { en: "My name is Minh.", vi: "Tên mình là Minh." },
+    { en: "I'm thirteen years old.", vi: "Mình 13 tuổi." },
+    { en: "I'm from Hanoi, Vietnam.", vi: "Mình đến từ Hà Nội, Việt Nam." },
+    { en: "I like reading books.", vi: "Mình thích đọc sách." },
+    { en: "Nice to meet you too.", vi: "Mình cũng rất vui được gặp bạn." },
+  ],
+  dialogue: [
+    { speaker: "partner", text: "Hello! I'm Ms. Brown, your new English teacher. What's your name?", vi: "Xin chào! Cô là cô Brown, giáo viên tiếng Anh mới của em. Em tên là gì?" },
+    { speaker: "learner", text: "Hi, Ms. Brown. My name is Minh.", vi: "Chào cô Brown. Em tên là Minh." },
+    { speaker: "partner", text: "Nice to meet you, Minh. How old are you?", vi: "Rất vui được gặp em, Minh. Em bao nhiêu tuổi?" },
+    { speaker: "learner", text: "I'm thirteen years old.", vi: "Em 13 tuổi." },
+    { speaker: "partner", text: "Where are you from?", vi: "Em đến từ đâu?" },
+    { speaker: "learner", text: "I'm from Hanoi, Vietnam.", vi: "Em đến từ Hà Nội, Việt Nam." },
+    { speaker: "partner", text: "What do you like doing in your free time?", vi: "Lúc rảnh em thích làm gì?" },
+    { speaker: "learner", text: "I like reading books and playing football.", vi: "Em thích đọc sách và chơi bóng đá." },
+    { speaker: "partner", text: "That's great! Welcome to our class.", vi: "Tuyệt quá! Chào mừng em đến với lớp." },
+    { speaker: "learner", text: "Thank you. Nice to meet you too.", vi: "Em cảm ơn cô. Em cũng rất vui được gặp cô." },
+  ],
+  tasks: ["Say your name.", "Say how old you are.", "Say where you are from.", "Talk about one hobby."],
+  listening: {
+    intro: "Minh gặp cô giáo tiếng Anh mới vào ngày đầu tiên đến lớp. Hãy nghe và trả lời câu hỏi.",
+    questions: [
+      { type: "mcq", question: "How old is Minh?", options: ["Twelve", "Thirteen", "Fourteen"], answer: 1, explanation: "Minh nói “I'm thirteen years old” – 13 tuổi." },
+      { type: "mcq", question: "Where is Minh from?", options: ["Hanoi", "Hue", "Ho Chi Minh City"], answer: 0, explanation: "Minh nói “I'm from Hanoi, Vietnam.”" },
+      { type: "fill", sentence: "I like reading books and playing ___.", answer: "football", accept: ["soccer"], explanation: "Minh thích đọc sách và chơi bóng đá (football)." },
+      { type: "fill", sentence: "That's great! ___ to our class.", answer: "welcome", explanation: "“Welcome to our class” nghĩa là “Chào mừng đến với lớp chúng ta”." },
+    ],
+  },
+  roleplay: {
+    start: "name",
+    nodes: [
+      {
+        id: "name",
+        partner: "Hello! I'm Ms. Brown, your new English teacher. What's your name?",
+        task: "Chào cô và giới thiệu tên của bạn.",
+        hint: "Dùng mẫu: “My name is …” hoặc “I'm …”.",
+        example: "Hi, Ms. Brown. My name is Minh.",
+        responses: [
+          { intent: "give_name", label: "giới thiệu tên", anyOf: ["my name is", "my name's", "i'm", "call me", "name"], next: "age", ack: "Nice to meet you!" },
+          { intent: "name_only", label: "nói tên", anyOf: ["*"], next: "age", ack: "Nice to meet you!", better: "My name is … (nói cả câu sẽ tự nhiên hơn)." },
+        ],
+      },
+      {
+        id: "age",
+        partner: "How old are you?",
+        task: "Nói tuổi của bạn.",
+        hint: "Dùng mẫu: “I'm … years old.”",
+        example: "I'm thirteen years old.",
+        responses: [
+          { intent: "give_age", label: "nói tuổi", anyOf: ["years old", "year old", "years", "i'm"], next: "from" },
+          { intent: "age_only", label: "nói tuổi", anyOf: ["*"], next: "from", better: "I'm thirteen years old." },
+        ],
+      },
+      {
+        id: "from",
+        partner: "Where are you from?",
+        task: "Nói bạn đến từ đâu.",
+        hint: "Dùng mẫu: “I'm from …” hoặc “I live in …”.",
+        example: "I'm from Hanoi, Vietnam.",
+        responses: [
+          { intent: "give_origin", label: "nói nơi bạn đến từ", anyOf: ["from", "live in", "vietnam", "hanoi", "city", "town"], next: "hobby", ack: "Oh, nice!" },
+          { intent: "place_only", label: "nói tên nơi chốn", anyOf: ["*"], next: "hobby", ack: "Oh, nice!", better: "I'm from … (thêm “I'm from” cho đầy đủ)." },
+        ],
+      },
+      {
+        id: "hobby",
+        partner: "What do you like doing in your free time?",
+        task: "Kể một sở thích của bạn.",
+        hint: "Dùng: “I like + V-ing…”, ví dụ “I like drawing.”",
+        example: "I like reading books and playing football.",
+        responses: [
+          { intent: "sport_hobby", label: "kể sở thích thể thao", anyOf: ["football", "soccer", "badminton", "basketball", "swimming", "volleyball", "sport", "sports"], next: "team", ack: "Cool!" },
+          { intent: "give_hobby", label: "kể sở thích", anyOf: ["like", "love", "enjoy", "hobby", "reading", "drawing", "music", "games", "watching"], next: "end" },
+        ],
+      },
+      {
+        id: "team",
+        partner: "Do you play in a team at school?",
+        task: "Trả lời có hoặc không, và nói thêm một chút.",
+        hint: "“Yes, I do. I play for my school team.” hoặc “No, I don't. I play with my friends.”",
+        example: "No, I don't. I play with my friends after school.",
+        responses: [
+          { intent: "yes", label: "trả lời có", anyOf: ["yes", "yeah", "i do", "team"], next: "end" },
+          { intent: "no", label: "trả lời không", anyOf: ["no", "don't", "not", "friends"], next: "end" },
+        ],
+      },
+      {
+        id: "end",
+        partner: "That's great! Welcome to our class. Do you have any questions for me?",
+        task: "Cảm ơn cô hoặc hỏi cô một câu đơn giản.",
+        hint: "“Thank you. Nice to meet you too.” hoặc “Where are you from, Ms. Brown?”",
+        example: "Thank you. Nice to meet you too.",
+        responses: [
+          { intent: "ask_back", label: "hỏi lại cô giáo", anyOf: ["where are you from", "where're you from", "how old", "what do you like", "do you like"], next: null, ack: "Good question! I'm from Canada and I love cooking. See you in class!" },
+          { intent: "thanks", label: "cảm ơn và chào", anyOf: ["thank", "thanks", "nice to meet you", "no questions", "no"], next: null, ack: "You're welcome. See you in class!" },
+        ],
+      },
+    ],
+  },
+};

@@ -1,0 +1,121 @@
+import type { Scenario } from '../../types';
+
+export const shoppingForClothes: Scenario = {
+  id: "shopping-for-clothes",
+  title: "Shopping for Clothes",
+  titleVi: "Mua quần áo",
+  description: "Bạn vào cửa hàng quần áo để mua một chiếc áo phông. Bạn hỏi cỡ, màu, thử đồ và hỏi giá.",
+  level: "A2",
+  goals: ["Nói món đồ mình muốn tìm", "Hỏi cỡ và màu", "Hỏi giá và quyết định mua"],
+  learnerRole: "Customer",
+  partnerRole: "Shop assistant",
+  vocabulary: [
+    { word: "T-shirt", meaning: "áo phông", example: "I'm looking for a T-shirt." },
+    { word: "jacket", meaning: "áo khoác", example: "This jacket is warm." },
+    { word: "size", meaning: "cỡ", example: "Do you have this in a medium size?" },
+    { word: "try on", meaning: "mặc thử", example: "Can I try it on?" },
+    { word: "fitting room", meaning: "phòng thử đồ", example: "The fitting room is over there." },
+    { word: "too small", meaning: "quá nhỏ", example: "It's too small for me." },
+    { word: "how much", meaning: "bao nhiêu (tiền)", example: "How much is this T-shirt?" },
+    { word: "I'll take it", meaning: "tôi sẽ mua nó", example: "It looks good. I'll take it." },
+  ],
+  phrases: [
+    { en: "I'm looking for a T-shirt.", vi: "Tôi đang tìm một chiếc áo phông." },
+    { en: "Do you have it in blue?", vi: "Cái này có màu xanh dương không?" },
+    { en: "Can I try it on?", vi: "Tôi mặc thử được không?" },
+    { en: "How much is it?", vi: "Cái này bao nhiêu tiền?" },
+    { en: "I'll take it.", vi: "Tôi sẽ mua nó." },
+  ],
+  dialogue: [
+    { speaker: "partner", text: "Hello! Can I help you?", vi: "Xin chào! Tôi có thể giúp gì cho bạn?" },
+    { speaker: "learner", text: "Yes, please. I'm looking for a T-shirt.", vi: "Vâng. Tôi đang tìm một chiếc áo phông." },
+    { speaker: "partner", text: "What size do you wear?", vi: "Bạn mặc cỡ nào?" },
+    { speaker: "learner", text: "Medium, I think. Do you have it in blue?", vi: "Tôi nghĩ là cỡ vừa. Có màu xanh dương không?" },
+    { speaker: "partner", text: "Yes, here you are.", vi: "Có, của bạn đây." },
+    { speaker: "learner", text: "Can I try it on?", vi: "Tôi mặc thử được không?" },
+    { speaker: "partner", text: "Of course. The fitting room is over there.", vi: "Tất nhiên. Phòng thử đồ ở đằng kia." },
+    { speaker: "learner", text: "It fits well. How much is it?", vi: "Vừa lắm. Nó bao nhiêu tiền?" },
+    { speaker: "partner", text: "It's fifteen dollars.", vi: "Mười lăm đô-la." },
+    { speaker: "learner", text: "Great. I'll take it.", vi: "Tuyệt. Tôi sẽ mua nó." },
+  ],
+  tasks: ["Say what you are looking for.", "Ask for a size or color.", "Ask to try it on.", "Ask the price and decide."],
+  listening: {
+    intro: "Một khách hàng đang mua áo trong cửa hàng quần áo. Hãy nghe và trả lời.",
+    questions: [
+      { type: "mcq", question: "What is the customer looking for?", options: ["A jacket", "A T-shirt", "A pair of shoes"], answer: 1, explanation: "Khách nói “I'm looking for a T-shirt.”" },
+      { type: "mcq", question: "How much is it?", options: ["Five dollars", "Fifty dollars", "Fifteen dollars"], answer: 2, explanation: "Người bán nói “It's fifteen dollars” – 15 đô-la. Chú ý fifteen (15) khác fifty (50)." },
+      { type: "fill", sentence: "Do you have it in ___?", answer: "blue", explanation: "Khách hỏi màu xanh dương – “blue”." },
+      { type: "fill", sentence: "The ___ room is over there.", answer: "fitting", explanation: "“Fitting room” là phòng thử đồ." },
+    ],
+  },
+  roleplay: {
+    start: "help",
+    nodes: [
+      {
+        id: "help",
+        partner: "Hello! Can I help you?",
+        task: "Nói bạn đang tìm món đồ gì.",
+        hint: "“I'm looking for a T-shirt / a jacket / a dress / some jeans.”",
+        example: "Yes, please. I'm looking for a T-shirt.",
+        responses: [
+          { intent: "just_looking", label: "chỉ xem thôi", anyOf: ["just looking", "only looking", "just browsing"], next: "browse", ack: "No problem." },
+          { intent: "look_for", label: "nói món đồ cần tìm", anyOf: ["looking for", "t shirt", "tshirt", "shirt", "jacket", "dress", "jeans", "shoes", "hoodie", "skirt", "pants", "trousers", "i want", "i'd like", "i need"], next: "size" },
+        ],
+      },
+      {
+        id: "browse",
+        partner: "We have new T-shirts this week. They're on sale!",
+        task: "Hỏi thêm về áo phông giảm giá.",
+        hint: "“Really? Can I see them?” hoặc “How much are they?”",
+        example: "Really? Can I see them, please?",
+        responses: [
+          { intent: "interested", label: "quan tâm", anyOf: ["see", "show", "how much", "really", "yes", "ok", "where"], next: "size", ack: "Sure, they're right here." },
+        ],
+      },
+      {
+        id: "size",
+        partner: "What size do you wear?",
+        task: "Nói cỡ của bạn và hỏi về màu.",
+        hint: "“Medium, I think. Do you have it in blue?”",
+        example: "Medium, I think. Do you have it in blue?",
+        responses: [
+          { intent: "size_color", label: "nói cỡ và hỏi màu", anyOf: ["blue", "red", "black", "white", "green", "yellow", "pink", "grey", "gray", "color", "colour"], next: "try", ack: "Yes, we have that color. Here you are." },
+          { intent: "size_only", label: "nói cỡ", anyOf: ["small", "medium", "large", "extra", "s", "m", "l", "xl"], next: "try", ack: "Here you are.", better: "Medium, I think. Do you have it in blue?" },
+        ],
+      },
+      {
+        id: "try",
+        partner: "Would you like to try it on?",
+        task: "Trả lời và hỏi phòng thử đồ ở đâu.",
+        hint: "“Yes, please. Where is the fitting room?”",
+        example: "Yes, please. Where is the fitting room?",
+        responses: [
+          { intent: "try_on", label: "muốn mặc thử", anyOf: ["yes", "fitting room", "try", "sure", "ok", "okay"], next: "fit", ack: "The fitting room is over there." },
+          { intent: "no_try", label: "không cần thử", anyOf: ["no", "don't need", "it's ok", "it's fine"], next: "price" },
+        ],
+      },
+      {
+        id: "fit",
+        partner: "How is it?",
+        task: "Nói áo vừa hay không vừa.",
+        hint: "“It fits well.” hoặc “It's too small. Do you have a bigger size?”",
+        example: "It fits well. How much is it?",
+        responses: [
+          { intent: "too_small", label: "báo áo không vừa", anyOf: ["too small", "too big", "too large", "too tight", "bigger", "smaller", "doesn't fit"], next: "price", ack: "Let me get you another size. Here you go." },
+          { intent: "fits", label: "áo vừa", anyOf: ["fits", "good", "great", "nice", "perfect", "like it", "ok", "how much"], next: "price" },
+        ],
+      },
+      {
+        id: "price",
+        partner: "It's fifteen dollars. Would you like it?",
+        task: "Quyết định mua hoặc không.",
+        hint: "“Great. I'll take it.” hoặc “Hmm, it's a bit expensive. Thank you anyway.”",
+        example: "Great. I'll take it.",
+        responses: [
+          { intent: "buy", label: "quyết định mua", anyOf: ["i'll take", "take it", "buy", "yes", "ok", "okay", "great"], next: null, ack: "Thank you! You can pay at the counter. Have a great day!" },
+          { intent: "not_buy", label: "từ chối lịch sự", anyOf: ["expensive", "no thank", "think about", "maybe", "not today", "anyway"], next: null, ack: "No problem. Come back any time!" },
+        ],
+      },
+    ],
+  },
+};

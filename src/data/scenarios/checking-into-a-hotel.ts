@@ -1,0 +1,123 @@
+import type { Scenario } from '../../types';
+
+export const checkingIntoAHotel: Scenario = {
+  id: "checking-into-a-hotel",
+  title: "Checking Into a Hotel",
+  titleVi: "Nhận phòng khách sạn",
+  description: "Bạn đi du lịch cùng gia đình và làm thủ tục nhận phòng ở quầy lễ tân khách sạn.",
+  level: "B1",
+  goals: ["Nói bạn đã đặt phòng", "Đánh vần tên và trả lời thông tin", "Hỏi về bữa sáng, Wi-Fi và giờ trả phòng"],
+  learnerRole: "Guest",
+  partnerRole: "Receptionist",
+  vocabulary: [
+    { word: "reservation", meaning: "sự đặt phòng / đặt chỗ", example: "I have a reservation." },
+    { word: "check in", meaning: "nhận phòng", example: "I'd like to check in, please." },
+    { word: "check out", meaning: "trả phòng", example: "What time is check-out?" },
+    { word: "passport", meaning: "hộ chiếu", example: "Can I see your passport, please?" },
+    { word: "spell", meaning: "đánh vần", example: "Could you spell your last name?" },
+    { word: "breakfast", meaning: "bữa sáng", example: "Is breakfast included?" },
+    { word: "key card", meaning: "thẻ phòng", example: "Here is your key card." },
+    { word: "floor", meaning: "tầng", example: "Your room is on the fifth floor." },
+  ],
+  phrases: [
+    { en: "Hi, I have a reservation under the name Tran.", vi: "Chào, tôi đã đặt phòng dưới tên Trần." },
+    { en: "It's T-R-A-N.", vi: "Đánh vần là T-R-A-N." },
+    { en: "Is breakfast included?", vi: "Có bao gồm bữa sáng không?" },
+    { en: "What's the Wi-Fi password?", vi: "Mật khẩu Wi-Fi là gì?" },
+    { en: "What time is check-out?", vi: "Mấy giờ phải trả phòng?" },
+  ],
+  dialogue: [
+    { speaker: "partner", text: "Good afternoon! Welcome to Sunny Hotel. How can I help you?", vi: "Chào buổi chiều! Chào mừng đến khách sạn Sunny. Tôi có thể giúp gì?" },
+    { speaker: "learner", text: "Hi. I have a reservation under the name Tran.", vi: "Chào. Tôi đã đặt phòng dưới tên Trần." },
+    { speaker: "partner", text: "Could you spell that, please?", vi: "Bạn đánh vần giúp tôi được không?" },
+    { speaker: "learner", text: "Sure. T-R-A-N.", vi: "Vâng. T-R-A-N." },
+    { speaker: "partner", text: "Thank you. A family room for three nights. Can I see your passport?", vi: "Cảm ơn. Một phòng gia đình cho ba đêm. Cho tôi xem hộ chiếu được không?" },
+    { speaker: "learner", text: "Here you are. Is breakfast included?", vi: "Đây ạ. Có bao gồm bữa sáng không?" },
+    { speaker: "partner", text: "Yes, breakfast is from six to ten in the restaurant on the first floor.", vi: "Có, bữa sáng từ sáu đến mười giờ ở nhà hàng tầng một." },
+    { speaker: "learner", text: "Great. What time is check-out?", vi: "Tuyệt. Mấy giờ trả phòng?" },
+    { speaker: "partner", text: "Check-out is at twelve. Here is your key card. Your room is on the fifth floor.", vi: "Trả phòng lúc mười hai giờ. Đây là thẻ phòng. Phòng của bạn ở tầng năm." },
+    { speaker: "learner", text: "Thank you very much.", vi: "Cảm ơn bạn rất nhiều." },
+  ],
+  tasks: ["Say you have a reservation.", "Spell your name.", "Ask one question about the hotel.", "Ask about check-out time."],
+  listening: {
+    intro: "Một vị khách làm thủ tục nhận phòng ở khách sạn Sunny.",
+    questions: [
+      { type: "mcq", question: "How many nights will the guest stay?", options: ["Two nights", "Three nights", "Five nights"], answer: 1, explanation: "Lễ tân nói “a family room for three nights” – ba đêm." },
+      { type: "mcq", question: "Which floor is the room on?", options: ["The first floor", "The third floor", "The fifth floor"], answer: 2, explanation: "“Your room is on the fifth floor” – tầng năm. Tầng một là nhà hàng." },
+      { type: "fill", sentence: "Check-out is at ___.", answer: "twelve", accept: ["12", "noon"], explanation: "Trả phòng lúc 12 giờ – “twelve”." },
+      { type: "fill", sentence: "Is ___ included?", answer: "breakfast", explanation: "Khách hỏi có bao gồm bữa sáng – “breakfast” – không." },
+    ],
+  },
+  roleplay: {
+    start: "welcome",
+    nodes: [
+      {
+        id: "welcome",
+        partner: "Good afternoon! Welcome to Sunny Hotel. How can I help you?",
+        task: "Nói bạn đã đặt phòng hoặc muốn nhận phòng.",
+        hint: "“Hi. I have a reservation under the name …” hoặc “I'd like to check in, please.”",
+        example: "Hi. I have a reservation under the name Tran.",
+        responses: [
+          { intent: "no_booking", label: "hỏi phòng trống (chưa đặt)", anyOf: ["available", "free room", "any rooms", "don't have a reservation", "no reservation", "need a room"], next: "walkin" },
+          { intent: "reservation", label: "nói đã đặt phòng", anyOf: ["reservation", "booking", "booked", "check in", "reserved", "under the name", "my name"], next: "spell" },
+        ],
+      },
+      {
+        id: "walkin",
+        partner: "Let me check... Yes, we have one family room. It's eighty dollars a night. Would you like it?",
+        task: "Đồng ý thuê phòng và nói tên của bạn.",
+        hint: "“Yes, please. My name is Tran.”",
+        example: "Yes, please. My name is Tran.",
+        responses: [
+          { intent: "accept_room", label: "đồng ý thuê phòng", anyOf: ["yes", "ok", "okay", "sure", "i'll take", "great", "please"], next: "spell" },
+          { intent: "too_expensive", label: "hỏi phòng rẻ hơn", anyOf: ["expensive", "cheaper", "discount", "too much"], next: "spell", ack: "Sorry, that is our cheapest room, but breakfast is free." },
+        ],
+      },
+      {
+        id: "spell",
+        partner: "Could you spell your last name, please?",
+        task: "Đánh vần họ của bạn.",
+        hint: "Đọc từng chữ cái: T-R-A-N. Mẹo: “It's T-R-A-N.”",
+        example: "Sure. It's T-R-A-N.",
+        responses: [
+          { intent: "spell", label: "đánh vần tên", anyOf: ["*"], next: "passport", better: "Sure. It's T-R-A-N." },
+        ],
+      },
+      {
+        id: "passport",
+        partner: "Thank you. Can I see your passport, please?",
+        task: "Đưa hộ chiếu và hỏi một câu về khách sạn.",
+        hint: "“Here you are. Is breakfast included?” hoặc “What's the Wi-Fi password?”",
+        example: "Here you are. Is breakfast included?",
+        responses: [
+          { intent: "ask_breakfast", label: "hỏi về bữa sáng", anyOf: ["breakfast"], next: "checkout", ack: "Thank you. Yes, breakfast is from six to ten on the first floor." },
+          { intent: "ask_wifi", label: "hỏi về Wi-Fi", anyOf: ["wifi", "wi fi", "internet", "password"], next: "checkout", ack: "The Wi-Fi password is SUNNY2024. It's on your key card too." },
+          { intent: "ask_pool", label: "hỏi về tiện ích", anyOf: ["pool", "gym", "swimming", "parking", "restaurant"], next: "checkout", ack: "Yes, the pool is on the top floor. It's open until nine." },
+          { intent: "give_passport", label: "đưa hộ chiếu", anyOf: ["here you are", "here you go", "here it is", "here", "sure", "passport"], next: "checkout", ack: "Thank you." },
+        ],
+      },
+      {
+        id: "checkout",
+        partner: "Here is your key card. Your room is on the fifth floor. Do you have any other questions?",
+        task: "Hỏi giờ trả phòng hoặc cảm ơn.",
+        hint: "“What time is check-out?”",
+        example: "What time is check-out?",
+        responses: [
+          { intent: "ask_checkout", label: "hỏi giờ trả phòng", anyOf: ["check out", "checkout", "what time", "leave"], next: "thanks", ack: "Check-out is at twelve o'clock." },
+          { intent: "ask_lift", label: "hỏi thang máy", anyOf: ["elevator", "lift", "stairs", "where is", "where's"], next: "thanks", ack: "The elevator is on your right." },
+          { intent: "no_more", label: "không còn câu hỏi", anyOf: ["no", "that's all", "thank", "nothing"], next: null, ack: "Enjoy your stay! Check-out is at twelve, by the way." },
+        ],
+      },
+      {
+        id: "thanks",
+        partner: "Is there anything else I can help you with?",
+        task: "Cảm ơn lễ tân.",
+        hint: "“No, that's all. Thank you very much.”",
+        example: "No, that's all. Thank you very much.",
+        responses: [
+          { intent: "thank", label: "cảm ơn", anyOf: ["thank", "thanks", "that's all", "no", "great"], next: null, ack: "You're welcome. Enjoy your stay!" },
+        ],
+      },
+    ],
+  },
+};

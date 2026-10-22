@@ -1,0 +1,120 @@
+import type { Scenario } from '../../types';
+
+export const orderingFood: Scenario = {
+  id: "ordering-food",
+  title: "Ordering Food at a Restaurant",
+  titleVi: "Gọi món ở nhà hàng",
+  description: "Bạn đi ăn tối cùng gia đình. Bạn nói số người, gọi món chính, đồ uống và xin hóa đơn.",
+  level: "A2",
+  goals: ["Nói số người và xin bàn", "Gọi món chính và đồ uống", "Hỏi về món ăn và xin hóa đơn"],
+  learnerRole: "Customer",
+  partnerRole: "Waiter",
+  vocabulary: [
+    { word: "table for two", meaning: "bàn cho hai người", example: "A table for two, please." },
+    { word: "menu", meaning: "thực đơn", example: "Can I see the menu, please?" },
+    { word: "order", meaning: "gọi món", example: "Are you ready to order?" },
+    { word: "main course", meaning: "món chính", example: "For the main course, I'll have the chicken." },
+    { word: "spicy", meaning: "cay", example: "Is the soup spicy?" },
+    { word: "vegetarian", meaning: "món chay / người ăn chay", example: "Do you have vegetarian food?" },
+    { word: "bill", meaning: "hóa đơn", example: "Can we have the bill, please?" },
+    { word: "delicious", meaning: "ngon", example: "The pasta was delicious." },
+  ],
+  phrases: [
+    { en: "A table for three, please.", vi: "Cho một bàn ba người." },
+    { en: "I'll have the chicken rice, please.", vi: "Tôi sẽ lấy cơm gà." },
+    { en: "Is it spicy?", vi: "Món này có cay không?" },
+    { en: "Can I have a glass of water?", vi: "Cho tôi một ly nước được không?" },
+    { en: "Can we have the bill, please?", vi: "Cho chúng tôi xin hóa đơn." },
+  ],
+  dialogue: [
+    { speaker: "partner", text: "Good evening! How many people?", vi: "Chào buổi tối! Quý khách đi mấy người?" },
+    { speaker: "learner", text: "A table for three, please.", vi: "Cho một bàn ba người." },
+    { speaker: "partner", text: "Here's the menu. Are you ready to order?", vi: "Đây là thực đơn. Quý khách sẵn sàng gọi món chưa?" },
+    { speaker: "learner", text: "Yes. Is the tomato soup spicy?", vi: "Rồi. Súp cà chua có cay không?" },
+    { speaker: "partner", text: "No, it isn't. It's very mild.", vi: "Không ạ. Nó rất nhẹ." },
+    { speaker: "learner", text: "Great. I'll have the tomato soup and the chicken rice, please.", vi: "Tuyệt. Tôi lấy súp cà chua và cơm gà." },
+    { speaker: "partner", text: "And what would you like to drink?", vi: "Còn đồ uống thì quý khách dùng gì?" },
+    { speaker: "learner", text: "An orange juice, please.", vi: "Một ly nước cam nhé." },
+    { speaker: "partner", text: "How was everything?", vi: "Mọi thứ thế nào ạ?" },
+    { speaker: "learner", text: "It was delicious, thank you. Can we have the bill, please?", vi: "Rất ngon, cảm ơn. Cho chúng tôi xin hóa đơn." },
+  ],
+  tasks: ["Ask for a table.", "Ask a question about the food.", "Order a main course and a drink.", "Ask for the bill."],
+  listening: {
+    intro: "Một gia đình đi ăn tối ở nhà hàng. Hãy nghe người con gọi món.",
+    questions: [
+      { type: "mcq", question: "How many people are there?", options: ["Two", "Three", "Four"], answer: 1, explanation: "Khách nói “A table for three” – bàn cho ba người." },
+      { type: "mcq", question: "Is the tomato soup spicy?", options: ["Yes, very spicy", "No, it's mild", "A little spicy"], answer: 1, explanation: "Người phục vụ nói “No, it isn't. It's very mild.” – không cay, rất nhẹ." },
+      { type: "fill", sentence: "An ___ juice, please.", answer: "orange", explanation: "Khách gọi nước cam – “orange juice”." },
+      { type: "fill", sentence: "Can we have the ___, please?", answer: "bill", accept: ["check"], explanation: "“Bill” là hóa đơn. Người Mỹ cũng nói “check”." },
+    ],
+  },
+  roleplay: {
+    start: "people",
+    nodes: [
+      {
+        id: "people",
+        partner: "Good evening! How many people?",
+        task: "Nói số người và xin bàn.",
+        hint: "“A table for three, please.”",
+        example: "A table for three, please.",
+        responses: [
+          { intent: "table", label: "xin bàn theo số người", anyOf: ["table for", "table", "people", "two", "three", "four", "five", "six", "just me", "one"], next: "ready", ack: "This way, please. Here's the menu." },
+        ],
+      },
+      {
+        id: "ready",
+        partner: "Are you ready to order?",
+        task: "Gọi món ngay, hoặc hỏi về một món ăn trước.",
+        hint: "“I'll have the chicken rice, please.” hoặc “Is the tomato soup spicy?”",
+        example: "I'll have the chicken rice, please.",
+        responses: [
+          { intent: "ask_food", label: "hỏi về món ăn", anyOf: ["spicy", "vegetarian", "what is", "what's", "recommend", "is the", "is it"], next: "answer", ack: "Good question." },
+          { intent: "order_food", label: "gọi món", anyOf: ["i'll have", "i'd like", "can i have", "chicken", "rice", "soup", "pasta", "pizza", "beef", "fish", "noodles", "salad", "burger"], next: "drink", ack: "Great choice." },
+          { intent: "need_time", label: "xin thêm thời gian", anyOf: ["minute", "not yet", "more time", "not ready"], next: "ready", ack: "No problem. Take your time." },
+        ],
+      },
+      {
+        id: "answer",
+        partner: "The tomato soup is not spicy. The beef noodles are a little spicy. What would you like?",
+        task: "Gọi món sau khi nghe câu trả lời.",
+        hint: "“OK, I'll have the tomato soup, please.”",
+        example: "OK, I'll have the tomato soup, please.",
+        responses: [
+          { intent: "order_food", label: "gọi món", anyOf: ["i'll have", "i'd like", "can i have", "soup", "noodles", "beef", "tomato", "chicken", "rice"], next: "drink", ack: "Great choice." },
+        ],
+      },
+      {
+        id: "drink",
+        partner: "And what would you like to drink?",
+        task: "Gọi đồ uống.",
+        hint: "“An orange juice, please.” hoặc “Just water, please.”",
+        example: "An orange juice, please.",
+        responses: [
+          { intent: "order_drink", label: "gọi đồ uống", anyOf: ["juice", "water", "tea", "milk", "lemonade", "soda", "coke", "smoothie", "coffee", "drink", "nothing"], next: "bill", ack: "OK, your food will be ready soon." },
+        ],
+      },
+      {
+        id: "bill",
+        partner: "How was everything?",
+        task: "Khen món ăn và xin hóa đơn.",
+        hint: "“It was delicious, thank you. Can we have the bill, please?”",
+        example: "It was delicious, thank you. Can we have the bill, please?",
+        responses: [
+          { intent: "bill", label: "xin hóa đơn", anyOf: ["bill", "check", "pay"], next: null, ack: "Of course. Here you are. Thank you for coming!" },
+          { intent: "compliment", label: "khen món ăn", anyOf: ["delicious", "good", "great", "nice", "tasty", "lovely", "thank"], next: "askbill", ack: "I'm glad you liked it!" },
+        ],
+      },
+      {
+        id: "askbill",
+        partner: "Would you like some dessert?",
+        task: "Từ chối hoặc gọi tráng miệng, rồi xin hóa đơn.",
+        hint: "“No, thank you. Can we have the bill, please?”",
+        example: "No, thank you. Can we have the bill, please?",
+        responses: [
+          { intent: "bill", label: "xin hóa đơn", anyOf: ["bill", "check", "pay", "no thank", "no"], next: null, ack: "Of course. Here's your bill. Thank you for coming!" },
+          { intent: "dessert", label: "gọi tráng miệng", anyOf: ["ice cream", "cake", "dessert", "yes", "fruit"], next: null, ack: "Sure, I'll bring it right away. Enjoy!" },
+        ],
+      },
+    ],
+  },
+};
