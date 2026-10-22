@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-22T00:00:00.000Z",
+  "title": "Design System: English Speaking Coach",
+  "extensions": {
+    "colorMeta": {
+      "coach-blue": { "role": "primary", "displayName": "Coach Blue", "canonical": "oklch(49.1% 0.181 262)", "tonalRamp": ["#05004e", "#000576", "#01309d", "#2154c1", "#4379ea", "#66a0ff", "#8cc7ff", "#b4edff"] },
+      "coach-blue-soft": { "role": "primary", "displayName": "Coach Blue Mist", "tonalRamp": ["#05004e", "#000576", "#01309d", "#2154c1", "#4379ea", "#66a0ff", "#8cc7ff", "#b4edff"] },
+      "heard-green": { "role": "secondary", "displayName": "Heard Green", "canonical": "oklch(48.2% 0.116 152)", "tonalRamp": ["#001500", "#003200", "#00501e", "#16703c", "#42945d", "#68b981", "#8ee1a6", "#b2ffc9"] },
+      "heard-green-soft": { "role": "secondary", "displayName": "Heard Green Tint", "tonalRamp": ["#001500", "#003200", "#00501e", "#16703c", "#42945d", "#68b981", "#8ee1a6", "#b2ffc9"] },
+      "missing-amber": { "role": "secondary", "displayName": "Missing Amber", "canonical": "oklch(49.4% 0.109 66)", "tonalRamp": ["#250000", "#441200", "#643000", "#864f00", "#ab722f", "#d29755", "#fbbd7b", "#ffe19e"] },
+      "missing-amber-soft": { "role": "secondary", "displayName": "Missing Amber Tint", "tonalRamp": ["#250000", "#441200", "#643000", "#864f00", "#ab722f", "#d29755", "#fbbd7b", "#ffe19e"] },
+      "stop-red": { "role": "secondary", "displayName": "Stop Red", "canonical": "oklch(50.1% 0.178 28)", "tonalRamp": ["#370000", "#5f0000", "#860000", "#ac1d17", "#d64a3d", "#ff7161", "#ff9a87", "#ffc3b0"] },
+      "stop-red-soft": { "role": "secondary", "displayName": "Stop Red Tint", "tonalRamp": ["#370000", "#5f0000", "#860000", "#ac1d17", "#d64a3d", "#ff7161", "#ff9a87", "#ffc3b0"] },
+      "ai-violet": { "role": "tertiary", "displayName": "AI Violet", "canonical": "oklch(48.4% 0.178 296)", "tonalRamp": ["#190045", "#32006b", "#4d1790", "#6a3eb4", "#8c63dc", "#b089ff", "#d6b0ff", "#f9d7ff"] },
+      "ai-violet-soft": { "role": "tertiary", "displayName": "AI Violet Tint", "tonalRamp": ["#190045", "#32006b", "#4d1790", "#6a3eb4", "#8c63dc", "#b089ff", "#d6b0ff", "#f9d7ff"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(25.6% 0.033 263)", "tonalRamp": ["#050b19", "#1c2434", "#374051", "#545e70", "#768094", "#9aa5ba", "#c0cbe0", "#e3efff"] },
+      "slate-muted": { "role": "neutral", "displayName": "Slate Muted", "canonical": "oklch(50.2% 0.034 264)", "tonalRamp": ["#050b19", "#1c2434", "#374051", "#545e70", "#768094", "#9aa5ba", "#c0cbe0", "#e3efff"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "tonalRamp": ["#050b19", "#1c2434", "#374051", "#545e70", "#768094", "#9aa5ba", "#c0cbe0", "#e3efff"] },
+      "paper": { "role": "neutral", "displayName": "Paper", "tonalRamp": ["#0a0b0e", "#232427", "#3e4043", "#5c5e61", "#7e8084", "#a3a5a8", "#c9cace", "#eceef2"] },
+      "morning-mist": { "role": "neutral", "displayName": "Morning Mist", "canonical": "oklch(97.6% 0.006 264)", "tonalRamp": ["#0a0b0e", "#232427", "#3e4043", "#5c5e61", "#7e8084", "#a3a5a8", "#c9cace", "#eceef2"] },
+      "on-coach-blue": { "role": "neutral", "displayName": "On Coach Blue", "tonalRamp": ["#0a0b0e", "#232427", "#3e4043", "#5c5e61", "#7e8084", "#a3a5a8", "#c9cace", "#eceef2"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page titles (h1) only." },
+      "headline": { "displayName": "Headline", "purpose": "The target sentence to say in Listen and Repeat." },
+      "title": { "displayName": "Title", "purpose": "Card and section headings." },
+      "body": { "displayName": "Body", "purpose": "Guidance and Vietnamese explanations." },
+      "practice": { "displayName": "Practice", "purpose": "English lines in chat bubbles and dialogues; always larger than surrounding Vietnamese." },
+      "label": { "displayName": "Label", "purpose": "Speaker names, pills, stat labels, eyebrows." }
+    },
+    "shadows": [
+      { "name": "paper-lift", "value": "0 1px 2px rgb(16 24 40 / 6%), 0 2px 8px rgb(16 24 40 / 5%)", "purpose": "All cards." },
+      { "name": "mic-glow", "value": "0 4px 14px rgb(36 87 197 / 35%)", "purpose": "Idle mic button only." },
+      { "name": "listening-halo", "value": "0 0 0 8px color-mix(in srgb, var(--error) 25%, transparent)", "purpose": "Mic while listening; pulses to 14px at 10% over 1.4s when motion is allowed." },
+      { "name": "current-ring", "value": "0 0 0 2px var(--primary)", "purpose": "Dialogue line currently playing." }
+    ],
+    "motion": [
+      { "name": "mic-pulse", "value": "pulse 1.4s ease-in-out infinite", "purpose": "Listening halo; only under prefers-reduced-motion: no-preference." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "640px" },
+      { "name": "content-max", "value": "1040px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action on a screen; at most one per view besides the mic.",
+      "html": "<button class=\"ds-btn-primary\">Bắt đầu luyện</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-height:44px;padding:.5rem 1rem;border-radius:10px;border:1px solid var(--primary,#2457c5);background:var(--primary,#2457c5);color:var(--primary-text,#fff);font:inherit;font-weight:600;cursor:pointer}.ds-btn-primary:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}.ds-btn-primary:disabled{opacity:.55;cursor:not-allowed}"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Secondary actions: replay, next, show hint.",
+      "html": "<button class=\"ds-btn\">🔊 Nghe lại</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.35rem;min-height:44px;padding:.5rem 1rem;border-radius:10px;border:1px solid var(--border,#dfe4ee);background:var(--surface,#fff);color:var(--text,#1b2333);font:inherit;font-weight:600;cursor:pointer}.ds-btn:hover{border-color:var(--primary,#2457c5)}.ds-btn:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Level/topic filters; active fills blue.",
+      "html": "<button class=\"ds-chip\">A1</button> <button class=\"ds-chip ds-chip-on\">A2</button>",
+      "css": ".ds-chip{border:1px solid var(--border,#dfe4ee);background:var(--surface,#fff);color:var(--text,#1b2333);padding:.35rem .9rem;border-radius:999px;font:inherit;cursor:pointer;min-height:36px}.ds-chip:hover{border-color:var(--primary,#2457c5)}.ds-chip:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}.ds-chip-on{background:var(--primary,#2457c5);border-color:var(--primary,#2457c5);color:var(--primary-text,#fff)}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Typed-answer fallback and settings fields.",
+      "html": "<input class=\"ds-input\" placeholder=\"Gõ câu trả lời…\">",
+      "css": ".ds-input{font:inherit;padding:.5rem .65rem;border-radius:8px;border:1px solid var(--border,#dfe4ee);background:var(--surface,#fff);color:var(--text,#1b2333);min-height:44px}.ds-input:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}"
+    },
+    {
+      "name": "Nav Pills",
+      "kind": "nav",
+      "refersTo": "nav-link-active",
+      "description": "Sticky top navigation; current page filled blue.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">🏠 Home</a><a href=\"#\">🎤 Speaking</a><a href=\"#\">🎧 Listening</a></nav>",
+      "css": ".ds-nav{display:flex;gap:.25rem;background:var(--surface,#fff);border-bottom:1px solid var(--border,#dfe4ee);padding:.5rem 1rem}.ds-nav a{padding:.45rem .7rem;border-radius:999px;text-decoration:none;color:var(--muted,#5a6478);font-weight:500;white-space:nowrap}.ds-nav a:hover{background:var(--primary-soft,#e8eefc);color:var(--text,#1b2333)}.ds-nav a:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}.ds-nav a[aria-current=page]{background:var(--primary,#2457c5);color:var(--primary-text,#fff)}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "One idea per card on a misty background.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-pill\">A1</span><h3>Ordering coffee</h3><p>Gọi đồ uống tại quán cà phê.</p></article>",
+      "css": ".ds-card{background:var(--surface,#fff);border:1px solid var(--border,#dfe4ee);border-radius:14px;padding:1rem 1.1rem;box-shadow:0 1px 2px rgb(16 24 40/6%),0 2px 8px rgb(16 24 40/5%);color:var(--text,#1b2333)}.ds-card h3{margin:.5rem 0 .25rem;font-size:1.1rem}.ds-card p{margin:0;color:var(--muted,#5a6478)}.ds-pill{display:inline-block;font-size:.78rem;font-weight:600;padding:.1rem .55rem;border-radius:999px;background:var(--primary-soft,#e8eefc);color:var(--primary,#2457c5)}"
+    },
+    {
+      "name": "Mic Button",
+      "kind": "custom",
+      "refersTo": "mic-button",
+      "description": "Hero object of speaking screens; turns red and pulses while listening.",
+      "html": "<button class=\"ds-mic\">🎤<span>Bấm để nói</span></button> <button class=\"ds-mic ds-mic-on\">⏺<span>Đang nghe…</span></button>",
+      "css": ".ds-mic{width:112px;height:112px;border-radius:50%;border:0;background:var(--primary,#2457c5);color:var(--primary-text,#fff);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgb(36 87 197/35%)}.ds-mic:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:4px}.ds-mic-on{background:var(--error,#b3261e);color:#fff;box-shadow:0 0 0 8px color-mix(in srgb,var(--error,#b3261e) 25%,transparent)}"
+    },
+    {
+      "name": "Word Diff",
+      "kind": "custom",
+      "description": "What the browser heard vs the target; never a pronunciation grade.",
+      "html": "<p class=\"ds-diff\"><span class=\"ds-w ds-ok\">Can</span> <span class=\"ds-w ds-ok\">I</span> <span class=\"ds-w ds-miss\">have</span> <span class=\"ds-w ds-ok\">a</span> <span class=\"ds-w ds-ok\">latte</span></p>",
+      "css": ".ds-diff{font-size:1.2rem;line-height:2;margin:0}.ds-w{padding:.05rem .2rem;border-radius:6px}.ds-ok{background:var(--ok-soft,#e4f5ea);color:var(--ok,#17703c)}.ds-miss{background:var(--warn-soft,#fff3dc);color:var(--warn,#8a5300);text-decoration:underline wavy;text-underline-offset:4px}"
+    },
+    {
+      "name": "Notice",
+      "kind": "custom",
+      "description": "Honest state message in a soft tint (info/warn/error/AI).",
+      "html": "<p class=\"ds-notice\"><strong>Chế độ hội thoại: theo kịch bản.</strong> Không dùng AI.</p>",
+      "css": ".ds-notice{border-radius:10px;padding:.65rem .9rem;margin:0;background:var(--primary-soft,#e8eefc);border:1px solid color-mix(in srgb,var(--primary,#2457c5) 25%,transparent);color:var(--text,#1b2333)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Practice Room",
+    "overview": "A quiet, well-lit room where a student rehearses alone and nobody is judging. The surfaces are calm and pale, so the English sentence, the microphone, and the feedback are the only things that ask for attention. Warmth comes from the tone and the softness, not from decoration: rounded cards, gentle shadows, friendly pill shapes, and encouraging Vietnamese guidance next to the English being practiced.\n\nThe system is a single-column-first web app (max 1040px), comfortable on a phone and a laptop alike. Density is moderate: generous 44px touch targets, 1rem gaps, cards that hold one idea each. Color carries meaning before mood: blue is \"your turn / the coach\", green is \"the browser heard this\", amber is \"missing / try again\", red is \"stop / listening / danger\", violet is \"AI is active\". Light and dark themes are both first-class and switch with the OS.",
+    "keyCharacteristics": [
+      "One accent (Coach Blue) for action and current state; semantic colors for everything else.",
+      "System font stack: native, fast, renders Vietnamese diacritics everywhere.",
+      "Soft, approachable components: 10–14px corners, pill navigation and chips, whisper-light shadows.",
+      "The microphone is the hero object of any speaking screen.",
+      "Every voice action has a visible text fallback next to it."
+    ],
+    "rules": [
+      { "name": "The Meaning-First Rule", "section": "colors", "body": "Green, amber, red and violet are reserved for their meaning. Never use them as decoration or to make a section \"pop\"." },
+      { "name": "The Soft-Tint Pair Rule", "section": "colors", "body": "Every semantic color appears as a pair: the strong color for text/borders, its `-soft` tint for the background. Notices add a 25–35% `color-mix` border of the strong color." },
+      { "name": "The One Accent Rule", "section": "colors", "body": "Coach Blue is the only accent. A screen should have at most one filled-blue primary action competing for the eye (the mic counts as one)." },
+      { "name": "The English-Is-Bigger Rule", "section": "typography", "body": "English practice text is always set larger than the Vietnamese guidance around it. Translations sit below in Slate Muted at ~0.92rem." },
+      { "name": "The Only-The-Mic-Glows Rule", "section": "elevation", "body": "Strong, colored shadows belong to the microphone alone. Other components stay at paper lift or flat." }
+    ],
+    "dos": [
+      "**Do** use the CSS custom properties in `src/styles/global.css` (`--primary`, `--ok-soft`, `--radius`…) rather than raw hex, so dark mode keeps working.",
+      "**Do** keep every tappable control at least 44px tall (36px for small buttons and chips).",
+      "**Do** pair every semantic color with its `-soft` tint, as notices, pills and word chips already do.",
+      "**Do** put a text fallback next to every voice interaction.",
+      "**Do** gate motion behind `prefers-reduced-motion: no-preference`, as the mic pulse does."
+    ],
+    "donts": [
+      "**Don't** introduce a second accent color or a second typeface.",
+      "**Don't** use green/amber/red/violet decoratively; they always mean heard / missing / stop / AI.",
+      "**Don't** give anything other than the mic a colored or heavy shadow.",
+      "**Don't** style transcript match like a score or grade; it is not pronunciation assessment.",
+      "**Don't** hard-code light-only colors (e.g. `#fff` text) on new surfaces without checking the dark theme."
+    ]
+  }
+}

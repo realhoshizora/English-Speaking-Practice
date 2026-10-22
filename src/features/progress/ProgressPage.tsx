@@ -27,7 +27,12 @@ export function DailyGoal() {
     <div className="goal">
       <p>
         <strong>Mục tiêu hôm nay:</strong> {Math.min(s.todayActivities, goal)}/{goal} hoạt động
-        {s.todayActivities >= goal && ' 🎉 Hoàn thành!'}
+        {s.todayActivities >= goal && (
+          <>
+            {' '}
+            <span aria-hidden="true">🎉</span> Hoàn thành!
+          </>
+        )}
       </p>
       <div className="bar" role="progressbar" aria-valuemin={0} aria-valuemax={goal} aria-valuenow={Math.min(s.todayActivities, goal)} aria-label="Mục tiêu hôm nay">
         <span style={{ width: `${pct}%` }} />

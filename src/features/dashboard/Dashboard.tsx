@@ -1,92 +1,153 @@
 import { useProgress } from '../../app/ProgressContext';
 import { scenarios } from '../../data/scenarios';
 import { detectSpeechCapabilities } from '../../services/speech/SpeechCapabilityDetector';
-import { isScenarioComplete } from '../../services/storage/progress';
-import { DailyGoal, StatCards } from '../progress/ProgressPage';
+import { isScenarioComplete, PASS_SPEAKING } from '../../services/storage/progress';
+import type { PracticeRecord, Scenario } from '../../types';
+import { DailyGoal } from '../progress/ProgressPage';
+
+const SPEAKING = ['repeat', 'guided', 'roleplay'];
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** Resume the scenario the learner touched last; otherwise the first unfinished one. */
+function pickScenario(records: PracticeRecord[]): Scenario | undefined {
+  const open = (id: string | null) => !!id && !isScenarioComplete(records, id);
+  const last = [...records].reverse().find((r) => open(r.scenarioId));
+  return scenarios.find((s) => s.id === last?.scenarioId) ?? scenarios.find((s) => open(s.id));
+}
+
+/** The next step that moves this scenario toward "complete" (speaking pass + listening pass). */
+function nextStep(records: PracticeRecord[], s: Scenario) {
+  const mine = records.filter((r) => r.scenarioId === s.id);
+  if (!mine.some((r) => SPEAKING.includes(r.type)))
+    return { href: `#/speaking/${s.id}/repeat`, label: 'Bắt đầu luyện nói', hint: 'Bắt đầu bằng Nghe và nhắc lại – bước dễ nhất.' };
+  if (!mine.some((r) => (r.type === 'guided' || r.type === 'roleplay') && r.score !== null && r.score >= PASS_SPEAKING))
+    return { href: `#/speaking/${s.id}/guided`, label: 'Luyện hội thoại', hint: 'Tiếp theo: trả lời từng lượt, có gợi ý và câu mẫu.' };
+  return { href: `#/listening/${s.id}`, label: 'Làm bài nghe', hint: 'Còn bài nghe nữa là xong tình huống này.' };
+}
 
 export function Dashboard() {
   const { state } = useProgress();
   const caps = detectSpeechCapabilities();
-  const next = scenarios.find((s) => !isScenarioComplete(state.records, s.id));
   const isNew = state.records.length === 0;
+  const scenario = pickScenario(state.records);
+  const step = scenario && nextStep(state.records, scenario);
+  const spokeThisWeek = state.records.filter((r) => SPEAKING.includes(r.type) && Date.now() - new Date(r.date).getTime() < WEEK_MS).length;
+  const retryCount = Object.keys(state.retry).length;
+  const ai = state.settings.provider !== 'scripted';
+
+  const issues: { text: string; link?: [string, string] }[] = [];
+  if (!caps.secureContext) issues.push({ text: 'Micro chỉ hoạt động khi trang mở bằng https hoặc localhost.' });
+  if (!caps.recognition) issues.push({ text: 'Trình duyệt này không nhận diện được giọng nói. Bạn vẫn luyện được bằng cách gõ câu trả lời, hoặc mở bằng Chrome/Edge.' });
+  else if (!caps.mediaDevices) issues.push({ text: 'Không tìm thấy micro trên thiết bị này.', link: ['#/settings', 'Kiểm tra micro'] });
+  if (!caps.synthesis) issues.push({ text: 'Trình duyệt này không đọc được câu mẫu thành tiếng.', link: ['#/settings', 'Chọn giọng đọc'] });
 
   return (
     <div className="page">
-      <header className="page-head hero">
-        <h1>English Speaking Coach</h1>
-        <p>Luyện nói tiếng Anh giao tiếp qua các tình huống thực tế, trình độ A1–B1. Hãy nghe, nói và tự tin hơn mỗi ngày!</p>
+      <header className="page-head">
+        <h1>{isNew ? 'Chào bạn! Mình bắt đầu luyện nói nhé?' : 'Hôm nay mình luyện gì?'}</h1>
+        <p>Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
       </header>
 
-      <p className={`notice ${state.settings.provider === 'scripted' ? 'notice-info' : 'notice-ai'}`}>
-        {state.settings.provider === 'scripted' ? (
-          <>
-            <strong>Chế độ hội thoại: theo kịch bản (scripted).</strong> Không cần Internet cho phần hội thoại, không dùng AI. Có thể bật AI cục bộ trong{' '}
-            <a href="#/settings">Cài đặt</a>.
-          </>
-        ) : (
-          <>
-            <strong>Chế độ hội thoại: AI cục bộ (Ollama).</strong> Nếu không kết nối được, ứng dụng tự quay về chế độ kịch bản.
-          </>
-        )}
-      </p>
+      {issues.length > 0 && (
+        <div className="notice notice-warn" role="status">
+          <ul className="notice-list">
+            {issues.map((i) => (
+              <li key={i.text}>
+                {i.text} {i.link && <a href={i.link[0]}>{i.link[1]}</a>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      {(!caps.recognition || !caps.synthesis) && (
-        <p className="notice notice-warn">
-          {!caps.recognition && 'Trình duyệt này không hỗ trợ nhận diện giọng nói – bạn vẫn có thể luyện bằng cách gõ câu trả lời. '}
-          {!caps.synthesis && 'Trình duyệt này không hỗ trợ đọc văn bản thành giọng nói. '}
-          Nên dùng Chrome hoặc Edge bản mới. <a href="#/settings">Kiểm tra micro</a>
+      {scenario && step ? (
+        <section className="card today" aria-labelledby="today-title">
+          <div className="today-meta">
+            <span className="pill" title="Trình độ theo khung CEFR: A1 là mới bắt đầu, B1 là trung cấp">
+              Trình độ {scenario.level}
+            </span>
+            <a className={`pill ${ai ? 'pill-ai' : 'pill-quiet'}`} href="#/settings">
+              {ai ? 'AI cục bộ đang bật' : 'Hội thoại mẫu · không phải AI'}
+            </a>
+          </div>
+          <h2 id="today-title" className="today-title" lang="en">
+            {scenario.title}
+          </h2>
+          <p className="today-vi">{scenario.titleVi}</p>
+          <p className="today-story">{scenario.description}</p>
+          <div className="actions">
+            <a className="btn btn-primary btn-lg" href={step.href}>
+              {step.label}
+            </a>
+            <a className="btn btn-ghost" href={`#/scenarios/${scenario.id}`}>
+              Xem từ vựng và hội thoại mẫu
+            </a>
+          </div>
+          <p className="muted small">{step.hint}</p>
+          <div className="today-goal">
+            <DailyGoal />
+            <p className="muted small">Mỗi bài nói, bài nghe hoặc lượt ôn từ vựng tính là 1 hoạt động.</p>
+          </div>
+        </section>
+      ) : (
+        <section className="card today">
+          <h2 className="today-title">Bạn đã hoàn thành cả {scenarios.length} tình huống!</h2>
+          <p className="today-story">Giữ phong độ bằng cách luyện lại những câu còn khó, hoặc thử nhập vai không có gợi ý.</p>
+          <div className="actions">
+            <a className="btn btn-primary btn-lg" href={retryCount > 0 ? '#/progress' : '#/speaking'}>
+              {retryCount > 0 ? `Luyện lại ${retryCount} câu khó` : 'Thử nhập vai'}
+            </a>
+          </div>
+          <div className="today-goal">
+            <DailyGoal />
+          </div>
+        </section>
+      )}
+
+      {isNew ? (
+        <section aria-labelledby="how-title">
+          <h2 id="how-title" className="section-title">
+            Một buổi luyện diễn ra thế nào
+          </h2>
+          <ol className="steps">
+            <li>
+              <strong>Nghe mẫu</strong>
+              <span className="muted">Bấm nghe câu tiếng Anh, chậm bao nhiêu cũng được.</span>
+            </li>
+            <li>
+              <strong>Nói to</strong>
+              <span className="muted">Bấm micro rồi nói lại. Không tiện nói thì gõ câu trả lời.</span>
+            </li>
+            <li>
+              <strong>Xem máy nghe được gì</strong>
+              <span className="muted">Từ nào máy nghe rõ hiện màu xanh. Đây không phải điểm phát âm.</span>
+            </li>
+          </ol>
+          <p className="muted small">Một tình huống hoàn thành khi bạn đạt phần hội thoại và bài nghe của nó.</p>
+        </section>
+      ) : (
+        <p className="week-line">
+          {spokeThisWeek > 0
+            ? `Tuần này bạn đã luyện nói ${spokeThisWeek} lần. Giỏi lắm!`
+            : 'Tuần này bạn chưa luyện nói. Một bài ngắn hôm nay là đủ.'}{' '}
+          <a href="#/progress">Xem tiến độ</a>
         </p>
       )}
 
-      <section className="card">
-        <DailyGoal />
-        {next ? (
-          <p>
-            {isNew ? 'Bắt đầu với' : 'Tiếp tục với'}: <strong>{next.title}</strong> ({next.level}){' '}
-            <a className="btn btn-primary btn-sm" href={`#/scenarios/${next.id}`}>
-              Học ngay
-            </a>
-          </p>
-        ) : (
-          <p className="status status-ok">🎉 Bạn đã hoàn thành tất cả tình huống!</p>
-        )}
-      </section>
-
-      {isNew ? (
-        <p className="card empty">Bạn chưa có hoạt động nào. Số liệu bên dưới sẽ tăng khi bạn hoàn thành bài nói, bài nghe hoặc ôn từ vựng.</p>
-      ) : null}
-      <StatCards />
-
-      <ul className="grid quick">
-        <li className="card">
-          <h2>🎤 Speaking Practice</h2>
-          <p className="muted">Nghe và nhắc lại, hội thoại có hướng dẫn, nhập vai.</p>
-          <a className="btn btn-primary btn-sm" href="#/speaking">
-            Luyện nói
-          </a>
-        </li>
-        <li className="card">
-          <h2>🎧 Listening Practice</h2>
-          <p className="muted">Nghe hội thoại, trả lời câu hỏi, xem giải thích.</p>
-          <a className="btn btn-sm" href="#/listening">
-            Luyện nghe
-          </a>
-        </li>
-        <li className="card">
-          <h2>📚 Vocabulary</h2>
-          <p className="muted">Flashcards, nối từ, điền từ.</p>
-          <a className="btn btn-sm" href="#/vocabulary">
-            Ôn từ vựng
-          </a>
-        </li>
-        <li className="card">
-          <h2>🗺️ Real-Life Scenarios</h2>
-          <p className="muted">{scenarios.length} tình huống với hội thoại mẫu và mẫu câu.</p>
-          <a className="btn btn-sm" href="#/scenarios">
-            Xem tình huống
-          </a>
-        </li>
-      </ul>
+      <nav className="more" aria-label="Luyện thêm">
+        <h2 className="section-title">Luyện thêm</h2>
+        <ul>
+          <li>
+            <a className="btn btn-ghost" href="#/listening">Luyện nghe</a>
+          </li>
+          <li>
+            <a className="btn btn-ghost" href="#/vocabulary">Ôn từ vựng</a>
+          </li>
+          <li>
+            <a className="btn btn-ghost" href="#/scenarios">Tất cả {scenarios.length} tình huống</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }

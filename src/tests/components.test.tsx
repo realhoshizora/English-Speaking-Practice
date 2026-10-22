@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { ProgressProvider } from '../app/ProgressContext';
 import { getScenario } from '../data/scenarios';
 import { ListeningQuiz } from '../features/listening/ListeningQuiz';
+import { Dashboard } from '../features/dashboard/Dashboard';
 import { ProgressPage } from '../features/progress/ProgressPage';
 import { ConversationPractice } from '../features/speaking/ConversationPractice';
 import { RepeatPractice } from '../features/speaking/RepeatPractice';
@@ -165,5 +166,28 @@ describe('Progress dashboard', () => {
     await user.click(screen.getByRole('button', { name: /Xóa dữ liệu học tập/ }));
     await user.click(screen.getByRole('button', { name: 'Xóa vĩnh viễn' }));
     await waitFor(() => expect(stored().records).toHaveLength(0));
+  });
+});
+
+describe('Home dashboard', () => {
+  const seed = (records: object[]) =>
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, records, vocab: {}, retry: {}, settings: {} }));
+  const now = () => new Date().toISOString();
+
+  it('sends a new learner to Listen and Repeat of the first scenario, with how-to steps', () => {
+    renderApp(<Dashboard />);
+    expect(screen.getByRole('link', { name: 'Bắt đầu luyện nói' })).toHaveAttribute('href', expect.stringMatching(/\/repeat$/));
+    expect(screen.getByText('Một buổi luyện diễn ra thế nào')).toBeInTheDocument();
+  });
+
+  it('resumes the last scenario at the next missing step', () => {
+    seed([
+      { id: '1', type: 'repeat', scenarioId: 'ordering-coffee', date: now(), score: 0.9 },
+      { id: '2', type: 'guided', scenarioId: 'ordering-coffee', date: now(), score: 0.8 },
+    ]);
+    renderApp(<Dashboard />);
+    expect(screen.getByRole('heading', { name: coffee.title })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Làm bài nghe' })).toHaveAttribute('href', '#/listening/ordering-coffee');
+    expect(screen.getByText(/Tuần này bạn đã luyện nói 2 lần/)).toBeInTheDocument();
   });
 });
