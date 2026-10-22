@@ -2,7 +2,6 @@ import { useProgress } from '../../app/ProgressContext';
 import { ResetDataButton } from '../../components/ResetDataButton';
 import { SpeakButton } from '../../components/SpeakButton';
 import { getScenario, scenarioIds, scenarios } from '../../data/scenarios';
-import { vocabulary } from '../../data/vocabulary';
 import { computeStats, computeStreak } from '../../services/storage/progress';
 import type { ActivityType, PracticeRecord } from '../../types';
 
@@ -62,14 +61,18 @@ export function DailyGoal({ showBest = false }: { showBest?: boolean }) {
   );
 }
 
+/** Course targets shown on the stat tiles (the app still has all scenarios and words). */
+export const TARGET_SCENARIOS = 3;
+export const TARGET_VOCAB = 40;
+
 export function StatCards() {
   const { state } = useProgress();
   const s = computeStats(state, scenarioIds);
-  const items = [
-    { label: 'Tình huống hoàn thành', value: `${s.completedScenarios.length}/${scenarios.length}` },
+  const items: { label: string; value: string | number; done?: boolean }[] = [
+    { label: 'Tình huống hoàn thành', value: `${s.completedScenarios.length}/${TARGET_SCENARIOS}`, done: s.completedScenarios.length >= TARGET_SCENARIOS },
     { label: 'Phiên luyện nói', value: s.speakingSessions },
     { label: 'Bài nghe đã làm', value: s.listeningDone },
-    { label: 'Từ vựng đã học', value: `${s.vocabLearned}/${vocabulary.length}` },
+    { label: 'Từ vựng đã học', value: `${s.vocabLearned}/${TARGET_VOCAB}`, done: s.vocabLearned >= TARGET_VOCAB },
   ];
   return (
     <dl className="stats">
@@ -77,6 +80,7 @@ export function StatCards() {
         <div key={i.label} className="card stat">
           <dt>{i.label}</dt>
           <dd>{i.value}</dd>
+          {i.done && <dd className="pill pill-ok">Đạt mục tiêu</dd>}
         </div>
       ))}
     </dl>

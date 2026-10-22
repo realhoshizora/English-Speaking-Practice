@@ -723,6 +723,10 @@ input:not([type]) {
   font-size: 1.6rem;
   font-weight: 700;
 }
+.stat dd.pill {
+  font-size: 0.78rem;
+  margin-top: 0.35rem;
+}
 
 /* ---------- Dialogue ---------- */
 .toolbar {

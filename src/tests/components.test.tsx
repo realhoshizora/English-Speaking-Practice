@@ -156,7 +156,7 @@ describe('Progress dashboard', () => {
     const user = userEvent.setup();
     renderApp(<ProgressPage />);
     const completed = screen.getByText('Tình huống hoàn thành').closest('div')!;
-    expect(within(completed).getByText('1/10')).toBeInTheDocument();
+    expect(within(completed).getByText('1/3')).toBeInTheDocument();
     expect(screen.getByText('A medium, please.')).toBeInTheDocument();
     expect(screen.getByText(/Mục tiêu hôm nay:/).closest('p')).toHaveTextContent('2/3 hoạt động');
 
