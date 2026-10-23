@@ -1,4 +1,5 @@
 import { useProgress } from '../../app/ProgressContext';
+import { Mascot } from '../../components/mascot/Mascot';
 import { scenarios } from '../../data/scenarios';
 import { detectSpeechCapabilities } from '../../services/speech/SpeechCapabilityDetector';
 import { isScenarioComplete, PASS_SPEAKING } from '../../services/storage/progress';
@@ -44,9 +45,12 @@ export function Dashboard() {
 
   return (
     <div className="page">
-      <header className="page-head">
-        <h1>{isNew ? 'Chào bạn! Mình bắt đầu luyện nói nhé?' : 'Hôm nay mình luyện gì?'}</h1>
-        <p>Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
+      <header className="page-head home-head">
+        <Mascot mood="wave" size={96} />
+        <div>
+          <h1>{isNew ? 'Chào bạn, mình là Quạc! Mình bắt đầu luyện nói nhé?' : 'Hôm nay mình luyện gì?'}</h1>
+          <p>Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
+        </div>
       </header>
 
       {SHEET_URL && !state.settings.studentName && (

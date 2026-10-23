@@ -85,6 +85,28 @@ describe('ScriptedConversationSession', () => {
     expect((await s.respond('Here you are')).tips).toEqual([]);
   });
 
+  it('reports lesson progress, growing the total when a branch adds a turn', async () => {
+    const s = new ScriptedConversationSession(coffee);
+    expect(s.progress()).toEqual({ done: 0, total: 5 });
+    await s.respond("I'd like a latte");
+    expect(s.progress()).toEqual({ done: 1, total: 5 }); // counts as soon as the answer is accepted
+    await s.advance();
+    expect(s.progress()).toEqual({ done: 1, total: 5 });
+    for (const a of ['Medium', 'To go']) {
+      await s.respond(a);
+      await s.advance();
+    }
+    await s.respond('Yes, a muffin'); // branch: one extra turn to choose the muffin
+    expect(s.progress()).toEqual({ done: 4, total: 6 });
+    for (const a of ['Chocolate', 'Here you are']) {
+      await s.advance();
+      await s.respond(a);
+    }
+    await s.advance();
+    expect(s.isFinished()).toBe(true);
+    expect(s.progress()).toEqual({ done: 6, total: 6 });
+  });
+
   it('does not advance before an answer is accepted', async () => {
     const s = new ScriptedConversationSession(coffee);
     expect((await s.advance())?.text).toContain('What can I get');

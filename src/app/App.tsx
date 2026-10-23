@@ -56,7 +56,7 @@ export function App() {
       </a>
       <header className="topbar">
         <a className="brand" href="#/">
-          <img src="/favicon.svg" alt="" width="28" height="28" /> English Speaking Coach
+          <img src="/favicon.svg" alt="" width="32" height="32" /> English Speaking Coach
         </a>
         <nav aria-label="Điều hướng chính">
           <ul>

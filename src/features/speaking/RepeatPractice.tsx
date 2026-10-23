@@ -1,10 +1,15 @@
 // Mode A: Listen and Repeat. Compares the speech-to-text transcript with the model sentence.
 // This measures how closely the transcript matches, NOT pronunciation quality.
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState, type CSSProperties } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { AnswerInput } from '../../components/AnswerInput';
+import { LessonBar } from '../../components/LessonBar';
+import { Celebrate } from '../../components/mascot/Celebrate';
+import { MascotSays, type MascotMood } from '../../components/mascot/Mascot';
 import { SpeakButton } from '../../components/SpeakButton';
+import { useSound } from '../../hooks/useSound';
 import { getRecognitionCtor } from '../../services/speech/SpeechCapabilityDetector';
+import type { RecognitionStatus } from '../../services/speech/SpeechRecognitionService';
 import type { Scenario } from '../../types';
 import { compareTranscript, type Comparison } from '../../utils/text';
 
@@ -24,6 +29,18 @@ export function repeatSentences(s: Scenario): string[] {
   return [...new Set(all)];
 }
 
+/** Quạc's one-line reaction; the full explanation stays in the result card. */
+function headline(r: Comparison): string {
+  if (r.exact) return 'Khớp hoàn toàn!';
+  if (r.matchRatio >= 0.9) return 'Gần như hoàn hảo!';
+  if (r.matchRatio >= 0.6) return 'Gần đúng rồi!';
+  return 'Nghe lại rồi thử lần nữa nhé!';
+}
+
+function moodFor(r: Comparison): MascotMood {
+  return r.matchRatio >= 0.9 ? 'happy' : r.matchRatio >= 0.6 ? 'idle' : 'confused';
+}
+
 function verdict(r: Comparison): string {
   if (r.exact) return 'Rất tốt! Transcript khớp hoàn toàn với câu mẫu.';
   if (r.matchRatio >= 0.9) return 'Rất tốt! Gần như khớp hoàn toàn.';
@@ -33,6 +50,9 @@ function verdict(r: Comparison): string {
 
 export function RepeatPractice({ scenario }: { scenario: Scenario }) {
   const { addRecord, updateRetry } = useProgress();
+  const play = useSound();
+  const [mic, setMic] = useState<RecognitionStatus>('idle');
+  const [tries, setTries] = useState(0);
   const sentences = useMemo(() => repeatSentences(scenario), [scenario]);
   const [index, setIndex] = useState(0);
   const [attempt, setAttempt] = useState<Attempt | null>(null);
@@ -45,6 +65,8 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
   const onAnswer = (transcript: string, via: 'speech' | 'text') => {
     const result = compareTranscript(target, transcript);
     setAttempt({ transcript, via, result });
+    setTries((t) => t + 1);
+    play(result.matchRatio >= 0.9 ? 'correct' : result.matchRatio >= 0.6 ? 'pop' : 'retry');
     setResults((r) => {
       const prev = r[index];
       const best = Math.max(prev?.best ?? 0, result.matchRatio);
@@ -79,8 +101,11 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
 
   if (finished) {
     const done = Object.entries(results);
+    const measured = done.map(([, r]) => r.best).filter((b): b is number => b !== null);
+    const avg = measured.length ? measured.reduce((a, b) => a + b, 0) / measured.length : 1;
     return (
-      <section className="card" aria-labelledby="repeat-summary">
+      <section className="card summary" aria-labelledby="repeat-summary">
+        {done.length > 0 && <Celebrate win={avg >= 0.6} />}
         <h2 id="repeat-summary">Tổng kết Listen and Repeat</h2>
         {done.length === 0 ? (
           <p>Bạn chưa luyện câu nào nên phiên này không được lưu.</p>
@@ -121,10 +146,8 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
   const r = attempt?.result;
   return (
     <section className="workspace" aria-label="Listen and Repeat">
+      <LessonBar value={Object.keys(results).length / sentences.length} label={`Câu ${index + 1}/${sentences.length}`} />
       <div className="card target-card">
-        <p className="eyebrow">
-          Câu {index + 1}/{sentences.length}
-        </p>
         <p className={`target ${hideText ? 'is-hidden' : ''}`} aria-hidden={hideText}>
           {hideText ? '• • • • •' : target}
         </p>
@@ -137,7 +160,20 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
       </div>
 
       <div className="card">
-        <AnswerInput onAnswer={onAnswer} />
+        <MascotSays
+          mood={r ? moodFor(r) : ['requesting', 'listening', 'processing'].includes(mic) ? 'listen' : 'idle'}
+          bump={tries}
+          tone={r ? (r.matchRatio >= 0.9 ? 'ok' : 'warn') : undefined}
+        >
+          {r ? (
+            <span className="say">{headline(r)}</span>
+          ) : canRecognize ? (
+            <p>Nghe câu mẫu, rồi bấm micro và nói lại.</p>
+          ) : (
+            <p>Nghe câu mẫu, đọc to, rồi đánh dấu là đã luyện.</p>
+          )}
+        </MascotSays>
+        <AnswerInput onAnswer={onAnswer} onStatus={setMic} />
         {!canRecognize && (
           <button type="button" className="btn" onClick={markSelfPractised}>
             ✓ Tôi đã tự đọc câu này {results[index] ? `(${results[index].attempts} lần)` : ''}
@@ -146,16 +182,18 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
       </div>
 
       {attempt && r && (
-        <div className="card feedback" role="region" aria-label="Kết quả so sánh">
+        <div className={`card feedback ${r.matchRatio >= 0.9 ? 'is-ok' : 'is-warn'}`} role="region" aria-label="Kết quả so sánh">
           <p>
             <strong>{attempt.via === 'speech' ? 'Máy nghe được:' : 'Bạn đã gõ:'}</strong> “{attempt.transcript}”
           </p>
           <p className="diff" aria-label="So sánh từng từ">
             {r.words.map((w, i) => (
-              <span key={i} className={`word word-${w.status}`}>
-                {w.display}
-                {w.status === 'missing' && <span className="sr-only"> (thiếu hoặc khác)</span>}{' '}
-              </span>
+              <Fragment key={`${tries}-${i}`}>
+                <span className={`word word-${w.status}`} style={{ '--i': i } as CSSProperties}>
+                  {w.display}
+                  {w.status === 'missing' && <span className="sr-only"> (thiếu hoặc khác)</span>}
+                </span>{' '}
+              </Fragment>
             ))}
           </p>
           {r.extra.length > 0 && <p className="muted">Từ thêm / khác: {r.extra.join(', ')}</p>}

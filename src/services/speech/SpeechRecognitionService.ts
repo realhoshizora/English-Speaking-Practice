@@ -22,6 +22,10 @@ export interface RecognitionSnapshot {
 
 const IDLE: RecognitionSnapshot = { status: 'idle', interim: '', transcript: '' };
 
+// Sessions currently holding the microphone, app-wide (sound effects stay silent while any is open).
+const active = new Set<SpeechRecognitionService>();
+export const isRecognitionActive = () => active.size > 0;
+
 const ERROR_STATUS: Record<string, RecognitionStatus> = {
   'not-allowed': 'denied',
   'service-not-allowed': 'denied',
@@ -87,10 +91,12 @@ export class SpeechRecognitionService {
     };
     rec.onerror = (e) => {
       failed = true;
+      active.delete(this);
       this.set({ status: ERROR_STATUS[e.error] ?? 'error', error: e.error, interim: '' });
     };
     rec.onend = () => {
       this.rec = null;
+      active.delete(this);
       if (failed) return;
       // Some browsers end without marking the last chunk final; keep what was heard.
       const text = (finalText || interim).trim();
@@ -98,11 +104,13 @@ export class SpeechRecognitionService {
     };
 
     this.rec = rec;
+    active.add(this);
     this.set({ status: 'requesting', interim: '', transcript: '', error: undefined });
     try {
       rec.start();
     } catch (err) {
       this.rec = null;
+      active.delete(this);
       this.set({ status: 'error', error: String(err) });
       return false;
     }
@@ -120,6 +128,7 @@ export class SpeechRecognitionService {
     if (rec) {
       rec.onstart = rec.onresult = rec.onspeechend = rec.onerror = rec.onend = null;
       this.rec = null;
+      active.delete(this);
       try {
         rec.abort();
       } catch {

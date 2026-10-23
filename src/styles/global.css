@@ -15,6 +15,9 @@
   --error-soft: #fdeceb;
   --ai: #6b3fb5;
   --ai-soft: #f1eafc;
+  --lip: #cdd5e2;
+  --primary-lip: #173b8f;
+  --error-lip: #7d1a14;
   --radius: 14px;
   --shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 2px 8px rgb(16 24 40 / 5%);
   color-scheme: light;
@@ -42,6 +45,9 @@
     --error-soft: #3d1a18;
     --ai: #c3a3ff;
     --ai-soft: #2a2140;
+    --lip: #0b0f16;
+    --primary-lip: #3f63c9;
+    --error-lip: #c4574f;
     color-scheme: dark;
   }
 }
@@ -381,44 +387,69 @@ a.pill:hover {
   gap: 0.25rem;
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons ----------
+   Press buttons: each sits on a darker lip and sinks into it when pressed (the Duolingo feel). */
 .btn {
+  --lip-h: 4px;
+  --btn-lip: var(--lip);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
   min-height: 44px;
   padding: 0.5rem 1rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  border-radius: 12px;
+  border: 2px solid var(--border);
   background: var(--surface);
   color: var(--text);
   font: inherit;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
+  box-shadow: 0 var(--lip-h) 0 var(--btn-lip);
+  transition:
+    transform 90ms cubic-bezier(0.3, 0.7, 0.4, 1),
+    box-shadow 90ms cubic-bezier(0.3, 0.7, 0.4, 1),
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
 }
 .btn:hover:not(:disabled) {
   border-color: var(--primary);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(var(--lip-h));
+  box-shadow: 0 0 0 var(--btn-lip);
 }
 .btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 .btn-primary {
+  --btn-lip: var(--primary-lip);
   background: var(--primary);
   border-color: var(--primary);
   color: var(--primary-text);
 }
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary) 88%, #fff);
+  border-color: color-mix(in srgb, var(--primary) 88%, #fff);
+}
 .btn-ghost {
   background: transparent;
+  box-shadow: none;
+}
+.btn-ghost:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
 }
 .btn-sm {
+  --lip-h: 3px;
   min-height: 36px;
   padding: 0.3rem 0.7rem;
   font-size: 0.9rem;
 }
 .btn-lg {
+  --lip-h: 5px;
   min-height: 52px;
   padding: 0.7rem 1.5rem;
   font-size: 1.05rem;
@@ -427,10 +458,12 @@ a.pill:hover {
   background: var(--primary-soft);
 }
 .btn.is-active {
+  --btn-lip: color-mix(in srgb, var(--primary) 55%, var(--lip));
   background: var(--primary-soft);
   border-color: var(--primary);
 }
 .btn-danger {
+  --btn-lip: var(--error-lip);
   background: var(--error);
   border-color: var(--error);
   color: #fff;
@@ -581,6 +614,12 @@ input:not([type]) {
   opacity: 0.6;
   cursor: wait;
 }
+.mic-btn {
+  transition: transform 120ms cubic-bezier(0.3, 0.7, 0.4, 1), background-color 150ms ease-out;
+}
+.mic-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
 .mic-listening {
   background: var(--error);
   color: #fff;
@@ -645,15 +684,23 @@ input:not([type]) {
   text-underline-offset: 4px;
 }
 .feedback.is-ok {
-  border-left: 4px solid var(--ok);
+  background: var(--ok-soft);
+  border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
 }
 .feedback.is-warn {
-  border-left: 4px solid var(--warn);
+  background: var(--warn-soft);
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+}
+.feedback .tip {
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+}
+/* the panel is already amber-tinted, so missing-word chips need their own contrast */
+.feedback .word-missing {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
 }
 .turn-card .feedback {
-  background: var(--bg);
-  padding: 0.75rem;
-  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
   margin-top: 0.75rem;
 }
 .tip,
@@ -879,11 +926,23 @@ input:not([type]) {
   display: flex;
   gap: 0.25rem;
 }
+.result-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+}
+.result-banner > div:not(.celebrate) {
+  flex: 1;
+  min-width: 200px;
+}
 .result-banner.is-ok {
-  border-left: 5px solid var(--ok);
+  background: var(--ok-soft);
+  border-color: color-mix(in srgb, var(--ok) 30%, transparent);
 }
 .result-banner.is-warn {
-  border-left: 5px solid var(--warn);
+  background: var(--warn-soft);
+  border-color: color-mix(in srgb, var(--warn) 30%, transparent);
 }
 .result-list {
   list-style: none;
@@ -956,25 +1015,40 @@ input:not([type]) {
   gap: 0.5rem;
 }
 .match-item {
+  --btn-lip: var(--lip);
   font: inherit;
+  font-weight: 600;
   min-height: 48px;
   padding: 0.5rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  border-radius: 12px;
+  border: 2px solid var(--border);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
+  box-shadow: 0 3px 0 var(--btn-lip);
+  transition:
+    transform 90ms cubic-bezier(0.3, 0.7, 0.4, 1),
+    box-shadow 90ms cubic-bezier(0.3, 0.7, 0.4, 1),
+    background-color 150ms ease-out,
+    border-color 150ms ease-out;
+}
+.match-item:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 var(--btn-lip);
 }
 .match-item.is-active {
+  --btn-lip: color-mix(in srgb, var(--primary) 55%, var(--lip));
   border-color: var(--primary);
   background: var(--primary-soft);
 }
 .match-item.is-done {
+  --btn-lip: color-mix(in srgb, var(--ok) 45%, var(--lip));
   background: var(--ok-soft);
   border-color: var(--ok);
   color: var(--ok);
 }
 .match-item.is-wrong {
+  --btn-lip: color-mix(in srgb, var(--error) 45%, var(--lip));
   background: var(--error-soft);
   border-color: var(--error);
 }
@@ -1050,8 +1124,9 @@ input:not([type]) {
 }
 .sub {
   margin-top: 0.5rem;
-  padding-left: 1rem;
-  border-left: 3px solid var(--border);
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: var(--bg);
 }
 fieldset {
   border: 0;
@@ -1090,5 +1165,511 @@ fieldset {
   }
   .bubble {
     max-width: 95%;
+  }
+}
+
+/* ---------- Quạc, the mascot ----------
+   Pixel sprite sheets drawn from src/components/mascot/sprites.ts. Movement snaps to whole sprite
+   pixels (--px) so the art stays crisp. Every animation lives behind prefers-reduced-motion. */
+.mascot {
+  --px: calc(var(--size) / 32);
+  position: relative;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+}
+.mascot-body,
+.mascot-question,
+.mascot-spark {
+  position: absolute;
+  background-repeat: no-repeat;
+}
+.mascot-body {
+  inset: 0;
+  background-size: calc(var(--frames) * 100%) 100%;
+  transform-origin: 50% 100%;
+}
+.mascot-question {
+  width: calc(var(--px) * 9);
+  height: calc(var(--px) * 10);
+  top: calc(var(--px) * -6);
+  right: calc(var(--px) * -1);
+  background-size: 100% 100%;
+}
+.mascot-spark {
+  width: calc(var(--px) * 5);
+  height: calc(var(--px) * 5);
+  background-size: 100% 100%;
+}
+.spark-1 {
+  top: calc(var(--px) * 3);
+  left: calc(var(--px) * -3);
+}
+.spark-2 {
+  top: calc(var(--px) * -4);
+  right: calc(var(--px) * 5);
+}
+.spark-3 {
+  top: calc(var(--px) * 15);
+  right: calc(var(--px) * -5);
+}
+.mascot-waves {
+  position: absolute;
+  top: calc(var(--px) * 9);
+  left: calc(var(--px) * -5);
+  display: flex;
+  align-items: center;
+  gap: var(--px);
+}
+.mascot-waves i {
+  width: var(--px);
+  height: calc(var(--px) * 3);
+  background: var(--primary);
+}
+.mascot-waves i:nth-child(2) {
+  height: calc(var(--px) * 6);
+}
+
+/* Quạc next to the exercise, talking in a bubble */
+.coach {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+.coach-bubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-width: 52ch;
+  padding: 0.65rem 0.9rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.coach-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  background: inherit;
+  border-left: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  transform: rotate(45deg);
+}
+.coach-bubble.is-ok,
+.coach-bubble.is-ok::before {
+  border-color: color-mix(in srgb, var(--ok) 45%, var(--border));
+}
+.coach-bubble.is-warn,
+.coach-bubble.is-warn::before {
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+}
+.coach-bubble p {
+  margin: 0;
+}
+.coach-bubble .say {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.coach-bubble.is-ok .say {
+  color: var(--ok);
+}
+.coach-bubble.is-warn .say {
+  color: var(--warn);
+}
+.coach-bubble .task {
+  font-weight: 500;
+}
+
+/* End-of-lesson moment */
+.celebrate {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-top: 0.25rem;
+}
+.confetti {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.confetti i {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+}
+.summary {
+  display: grid;
+  gap: 0.5rem;
+}
+.summary > h2 {
+  text-align: center;
+}
+.summary-say {
+  margin: 0;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Lesson progress bar (top of a lesson, Duolingo style) */
+.lesson-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lesson-track {
+  flex: 1;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+.lesson-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--ok) 70%, #fff) 0 30%, var(--ok) 30%);
+  transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lesson-count {
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.goal .bar span {
+  transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Numbers that count up (CSS only; the real value is also in the text) */
+@property --count {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+.count-up {
+  --count: var(--to);
+  counter-reset: count var(--count);
+  font-variant-numeric: tabular-nums;
+}
+.count-up::after {
+  content: counter(count) attr(data-suffix);
+}
+
+/* Daily streak flame */
+.flame {
+  display: inline-block;
+  width: 18px;
+  height: 22px;
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  vertical-align: -3px;
+}
+.streak:not(.is-on) .flame {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.home-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.home-head > div {
+  min-width: 0;
+}
+
+.mascot.is-paused,
+.mascot.is-paused * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mascot-idle .mascot-body {
+    animation:
+      mascot-blink 4.2s steps(1, end) infinite,
+      mascot-bob 2.4s steps(1, end) infinite;
+  }
+  .mascot-listen .mascot-body {
+    animation: mascot-bob 1.2s steps(1, end) infinite;
+  }
+  .mascot-happy .mascot-body {
+    animation: mascot-hop 640ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  }
+  .mascot-cheer .mascot-body {
+    animation: mascot-hop 640ms cubic-bezier(0.2, 0.8, 0.3, 1) 3 both;
+  }
+  .mascot-confused .mascot-body {
+    animation: mascot-shake 520ms steps(1, end) both;
+  }
+  .mascot-wave .mascot-body {
+    animation: mascot-wave 700ms steps(1, end) 4;
+  }
+  .mascot-question {
+    animation:
+      pop-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      mascot-bob 1.2s steps(1, end) 360ms 4;
+  }
+  .mascot-spark {
+    animation: sparkle 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .spark-2 {
+    animation-delay: 110ms;
+  }
+  .spark-3 {
+    animation-delay: 220ms;
+  }
+  .mascot-waves i {
+    animation: wave-bar 540ms steps(2, end) infinite alternate;
+  }
+  .mascot-waves i:nth-child(2) {
+    animation-delay: -180ms;
+  }
+  .mascot-waves i:nth-child(3) {
+    animation-delay: -360ms;
+  }
+  .coach-bubble {
+    transform-origin: 0 50%;
+    animation: bubble-pop 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .confetti i {
+    animation: confetti 1300ms cubic-bezier(0.2, 0.7, 0.4, 1) var(--d) both;
+  }
+  .count-up {
+    animation: count-up 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .bubble-partner {
+    transform-origin: 0 100%;
+    animation: in-left 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .bubble-learner {
+    transform-origin: 100% 100%;
+    animation: in-right 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .feedback,
+  .result-banner {
+    animation: rise-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .feedback.is-warn {
+    animation:
+      rise-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      nudge 380ms ease-in-out 300ms;
+  }
+  .diff .word {
+    display: inline-block;
+    animation: chip-pop 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(min(var(--i, 0), 12) * 45ms);
+  }
+  .mark {
+    display: inline-block;
+    animation: chip-pop 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .match-item.is-done {
+    animation: tile-pop 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .match-item.is-wrong,
+  .shake {
+    animation: nudge 380ms ease-in-out;
+  }
+  .flashcard {
+    animation: in-right 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .flash-back {
+    animation: flip-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .lesson-track span,
+  .goal .bar span {
+    animation: bar-grow 800ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  .streak.is-on .flame {
+    animation: flame 480ms steps(1, end) 8;
+  }
+}
+
+@keyframes mascot-blink {
+  0%,
+  94%,
+  100% {
+    background-position: 0 0;
+  }
+  95%,
+  99% {
+    background-position: 100% 0;
+  }
+}
+@keyframes mascot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(var(--px) * -1));
+  }
+}
+@keyframes mascot-hop {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  15% {
+    transform: translateY(0) scale(1.08, 0.9);
+  }
+  45% {
+    transform: translateY(calc(var(--px) * -6)) scale(0.95, 1.06);
+  }
+  70% {
+    transform: translateY(0) scale(1.06, 0.94);
+  }
+  85% {
+    transform: translateY(0) scale(0.98, 1.02);
+  }
+}
+@keyframes mascot-shake {
+  0%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  15%,
+  45% {
+    transform: translateX(calc(var(--px) * -1));
+  }
+  30%,
+  60% {
+    transform: translateX(var(--px));
+  }
+}
+@keyframes mascot-wave {
+  0%,
+  100% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+}
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(var(--px) * -3)) scale(0.8);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.6);
+  }
+}
+@keyframes wave-bar {
+  from {
+    transform: scaleY(0.4);
+  }
+  to {
+    transform: scaleY(1.2);
+  }
+}
+@keyframes bubble-pop {
+  from {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.92);
+  }
+}
+@keyframes confetti {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(calc(var(--x) * 0.8), var(--y)) rotate(calc(var(--r) * 0.5));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), calc(var(--y) + 140px)) rotate(var(--r));
+  }
+}
+@keyframes count-up {
+  from {
+    --count: 0;
+  }
+}
+@keyframes in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px) scale(0.96);
+  }
+}
+@keyframes in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px) scale(0.96);
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes nudge {
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+@keyframes chip-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.85);
+  }
+}
+@keyframes tile-pop {
+  45% {
+    transform: scale(1.06);
+  }
+}
+@keyframes flip-in {
+  from {
+    opacity: 0;
+    transform: perspective(700px) rotateX(-75deg);
+  }
+}
+@keyframes bar-grow {
+  from {
+    width: 0;
+  }
+}
+@keyframes flame {
+  50% {
+    background-position: 100% 0;
   }
 }

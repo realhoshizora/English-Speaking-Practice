@@ -58,6 +58,14 @@ describe('progress storage', () => {
     expect(state.settings.rate).toBe(0.9);
     expect(state.settings.dailyGoal).toBe(5);
     expect(state.settings.provider).toBe('scripted');
+    expect(state.settings.soundEffects).toBe(true); // missing → default on
+  });
+
+  it('keeps the sound setting only when it is a real boolean', () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, records: [], settings: { soundEffects: false } }));
+    expect(loadState(localStorage).state.settings.soundEffects).toBe(false);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, records: [], settings: { soundEffects: 'no' } }));
+    expect(loadState(localStorage).state.settings.soundEffects).toBe(true);
   });
 
   it('survives blocked storage', () => {

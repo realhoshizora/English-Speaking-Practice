@@ -33,10 +33,16 @@
       { "name": "paper-lift", "value": "0 1px 2px rgb(16 24 40 / 6%), 0 2px 8px rgb(16 24 40 / 5%)", "purpose": "All cards." },
       { "name": "mic-glow", "value": "0 4px 14px rgb(36 87 197 / 35%)", "purpose": "Idle mic button only." },
       { "name": "listening-halo", "value": "0 0 0 8px color-mix(in srgb, var(--error) 25%, transparent)", "purpose": "Mic while listening; pulses to 14px at 10% over 1.4s when motion is allowed." },
-      { "name": "current-ring", "value": "0 0 0 2px var(--primary)", "purpose": "Dialogue line currently playing." }
+      { "name": "current-ring", "value": "0 0 0 2px var(--primary)", "purpose": "Dialogue line currently playing." },
+      { "name": "press-lip", "value": "0 var(--lip-h) 0 var(--btn-lip)", "purpose": "Solid edge under buttons and tiles (4px; 3px small/tiles; 5px large). Goes to 0 while pressed." }
     ],
     "motion": [
-      { "name": "mic-pulse", "value": "pulse 1.4s ease-in-out infinite", "purpose": "Listening halo; only under prefers-reduced-motion: no-preference." }
+      { "name": "mic-pulse", "value": "pulse 1.4s ease-in-out infinite", "purpose": "Listening halo; only under prefers-reduced-motion: no-preference." },
+      { "name": "press", "value": "transform 90ms cubic-bezier(0.3, 0.7, 0.4, 1)", "purpose": "Button or tile sinks into its lip on :active." },
+      { "name": "mascot-moods", "value": "steps() sprite frames; hop 640ms; shake 520ms; wave 700ms x4", "purpose": "Quạc reacts to listening, heard, not understood and finished." },
+      { "name": "bubble-pop", "value": "280ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Coach bubble appears when Quạc speaks." },
+      { "name": "rise-in / nudge", "value": "rise-in 320ms; nudge 380ms", "purpose": "Feedback panels arrive; a try-again panel or wrong tile shakes once." },
+      { "name": "celebrate", "value": "confetti 1300ms x28 pieces; count-up 900ms", "purpose": "End of a passed lesson, quiz or round. The one authored moment." }
     ],
     "breakpoints": [
       { "name": "phone", "value": "640px" },

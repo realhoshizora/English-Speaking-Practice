@@ -3,7 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { AnswerInput } from '../../components/AnswerInput';
+import { CountUp, LessonBar } from '../../components/LessonBar';
+import { Celebrate } from '../../components/mascot/Celebrate';
+import { MascotSays, type MascotMood } from '../../components/mascot/Mascot';
 import { SpeakButton } from '../../components/SpeakButton';
+import { useSound } from '../../hooks/useSound';
 import { useTts } from '../../hooks/useTts';
 import {
   getProvider,
@@ -14,6 +18,8 @@ import {
   type SessionSummary,
   type TurnFeedback,
 } from '../../services/conversation';
+import type { RecognitionStatus } from '../../services/speech/SpeechRecognitionService';
+import { PASS_SPEAKING } from '../../services/storage/progress';
 import type { Scenario } from '../../types';
 
 type Mode = 'guided' | 'roleplay';
@@ -28,15 +34,21 @@ interface Props {
   mode: Mode;
 }
 
+const PRAISE = ['Chuẩn rồi!', 'Tuyệt vời!', 'Giỏi quá!', 'Hay lắm!', 'Đúng ý rồi!'];
+const LISTENING: RecognitionStatus[] = ['requesting', 'listening', 'processing'];
+
 export function ConversationPractice({ scenario, mode }: Props) {
   const { state, addRecord } = useProgress();
   const tts = useTts();
+  const play = useSound();
   const [provider, setProvider] = useState<ConversationProvider | null>(null);
   const [providerNote, setProviderNote] = useState<string | null>(null);
   const [session, setSession] = useState<ConversationSession | null>(null);
+  const [run, setRun] = useState(0);
   const [partner, setPartner] = useState<PartnerMessage | null>(null);
   const [log, setLog] = useState<LogItem[]>([]);
   const [feedback, setFeedback] = useState<(TurnFeedback & { transcript: string }) | null>(null);
+  const [mic, setMic] = useState<RecognitionStatus>('idle');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showTask, setShowTask] = useState(mode === 'guided');
@@ -88,6 +100,7 @@ export function ConversationPractice({ scenario, mode }: Props) {
       answered.current = false;
       saved.current = false;
       setSession(s);
+      setRun((r) => r + 1);
       setLog([]);
       setSummary(null);
       setError(null);
@@ -125,6 +138,7 @@ export function ConversationPractice({ scenario, mode }: Props) {
     try {
       const fb = await session.respond(text);
       setFeedback({ ...fb, transcript: text });
+      play(fb.accepted ? 'correct' : 'retry');
     } catch (e) {
       setError(`AI không phản hồi: ${(e as Error).message}`);
     } finally {
@@ -153,9 +167,14 @@ export function ConversationPractice({ scenario, mode }: Props) {
   }
 
   const ended = partner?.final || summary !== null;
+  const progress = session.progress?.();
+  const answers = log.filter((m) => m.who === 'learner').length;
+  const mood: MascotMood = feedback ? (feedback.accepted ? 'happy' : 'confused') : LISTENING.includes(mic) ? 'listen' : 'idle';
 
   return (
     <section className="workspace" aria-label={mode === 'guided' ? 'Guided Speaking' : 'Free Role-play'}>
+      {progress && <LessonBar key={run} value={summary ? 1 : progress.total ? progress.done / progress.total : 0} />}
+
       <p className={`notice ${provider.generative ? 'notice-ai' : 'notice-info'}`}>
         {provider.generative
           ? `Đang dùng ${provider.label}. Câu trả lời do mô hình AI tạo ra và có thể chưa chính xác.`
@@ -186,21 +205,28 @@ export function ConversationPractice({ scenario, mode }: Props) {
 
       {!ended && partner && (
         <div className="card turn-card">
+          <MascotSays mood={mood} bump={answers} tone={feedback ? (feedback.accepted ? 'ok' : 'warn') : undefined}>
+            {feedback ? (
+              <span className="say">{feedback.accepted ? PRAISE[(answers - 1) % PRAISE.length] : 'Quạc chưa hiểu ý bạn.'}</span>
+            ) : partner.task && showTask ? (
+              <p className="task">
+                <strong>Nhiệm vụ:</strong> {partner.task}
+              </p>
+            ) : (
+              <p>Đến lượt bạn nói!</p>
+            )}
+          </MascotSays>
+
           <div className="actions">
             <SpeakButton text={partner.text} label="Nghe lại" />
-            {partner.task &&
-              (showTask ? (
-                <p className="task">
-                  <strong>Nhiệm vụ:</strong> {partner.task}
-                </p>
-              ) : (
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setShowTask(true)}>
-                  Hiện nhiệm vụ
-                </button>
-              ))}
+            {partner.task && !showTask && (
+              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setShowTask(true)}>
+                Hiện nhiệm vụ
+              </button>
+            )}
           </div>
 
-          {!feedback?.accepted && <AnswerInput onAnswer={(t) => void onAnswer(t)} disabled={busy} />}
+          {!feedback?.accepted && <AnswerInput onAnswer={(t) => void onAnswer(t)} disabled={busy} onStatus={setMic} />}
           {busy && <p role="status">Đang xử lý…</p>}
 
           {feedback && (
@@ -295,17 +321,26 @@ export function ConversationPractice({ scenario, mode }: Props) {
 }
 
 function SummaryCard({ summary, saved, onRestart }: { summary: SessionSummary; saved: boolean; onRestart(): void }) {
+  const win = saved && summary.score >= PASS_SPEAKING;
   return (
     <section className="card summary" aria-labelledby="conv-summary">
+      <Celebrate win={win} />
       <h2 id="conv-summary">Tổng kết phiên luyện nói</h2>
+      <p className="summary-say">
+        {win ? 'Xong bài rồi! Quạc tự hào về bạn.' : 'Bạn đã cố gắng rồi! Luyện lại một lần nữa để nói trôi chảy hơn nhé.'}
+      </p>
       <dl className="stats-inline">
         <div>
-          <dt>Lượt hội thoại</dt>
-          <dd>{summary.turns}</dd>
+          <dt>Hoàn thành nhiệm vụ</dt>
+          <dd>
+            <CountUp value={Math.round(summary.score * 100)} suffix="%" />
+          </dd>
         </div>
         <div>
           <dt>Trả lời phù hợp</dt>
-          <dd>{summary.accepted}</dd>
+          <dd>
+            {summary.accepted}/{summary.turns}
+          </dd>
         </div>
         <div>
           <dt>Bỏ qua</dt>
@@ -316,10 +351,7 @@ function SummaryCard({ summary, saved, onRestart }: { summary: SessionSummary; s
           <dd>{summary.hintsUsed}</dd>
         </div>
       </dl>
-      <p>
-        <strong>Điểm hoàn thành nhiệm vụ: {Math.round(summary.score * 100)}%</strong>{' '}
-        <span className="muted small">(tỉ lệ lượt trả lời đúng yêu cầu, không phải điểm phát âm)</span>
-      </p>
+      <p className="muted small">“Hoàn thành nhiệm vụ” là tỉ lệ lượt trả lời đúng yêu cầu, không phải điểm phát âm.</p>
       {summary.aiSummary && <p className="notice notice-ai">🤖 {summary.aiSummary}</p>}
       {summary.review.length > 0 && (
         <>

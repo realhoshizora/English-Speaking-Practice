@@ -42,6 +42,8 @@ export interface ConversationSession {
   useHint(): void;
   isFinished(): boolean;
   summary(): Promise<SessionSummary>;
+  /** Turns done and expected so far, when the provider can tell (scripted can, open AI chat cannot). */
+  progress?(): { done: number; total: number };
 }
 
 export interface Availability {

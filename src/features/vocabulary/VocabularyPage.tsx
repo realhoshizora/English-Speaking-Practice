@@ -1,6 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
+import { LessonBar } from '../../components/LessonBar';
+import { Celebrate } from '../../components/mascot/Celebrate';
+import { MascotSays } from '../../components/mascot/Mascot';
 import { SpeakButton } from '../../components/SpeakButton';
+import { useSound } from '../../hooks/useSound';
 import { scenarios } from '../../data/scenarios';
 import { vocabulary, type VocabEntry } from '../../data/vocabulary';
 import { isDifficult, isDue, isLearned } from '../../services/storage/progress';
@@ -105,15 +109,19 @@ function useRound(label: string) {
 }
 
 function RoundDone({ correct, total, onNext }: { correct: number; total: number; onNext(): void }) {
+  const win = total > 0 && correct / total >= 0.6;
   return (
-    <div className="card result-banner is-ok" role="status">
-      <h2>
-        Hoàn thành vòng: {correct}/{total} đúng
-      </h2>
-      <p>Kết quả đã được lưu.</p>
-      <button type="button" className="btn btn-primary" onClick={onNext}>
-        Vòng mới
-      </button>
+    <div className={`card result-banner ${win ? 'is-ok' : 'is-warn'}`} role="status">
+      <Celebrate win={win} size={96} />
+      <div>
+        <h2>
+          Hoàn thành vòng: {correct}/{total} đúng
+        </h2>
+        <p>{win ? 'Nhớ từ giỏi quá!' : 'Những từ chưa nhớ sẽ được ôn lại ở vòng sau.'} Kết quả đã được lưu.</p>
+        <button type="button" className="btn btn-primary" onClick={onNext}>
+          Vòng mới
+        </button>
+      </div>
     </div>
   );
 }
@@ -148,6 +156,7 @@ function WordList({ words }: { words: VocabEntry[] }) {
 
 function Flashcards({ words }: { words: VocabEntry[] }) {
   const { reviewVocab } = useProgress();
+  const play = useSound();
   const r = useRound('Flashcards');
   const pool = usePool(words, 8, r.round);
   const [i, setI] = useState(0);
@@ -168,43 +177,52 @@ function Flashcards({ words }: { words: VocabEntry[] }) {
   const rate = (ok: boolean) => {
     reviewVocab(w.id, ok);
     r.answer(ok);
+    if (ok) play('correct');
     if (i === pool.length - 1) r.finish(r.score.correct + (ok ? 1 : 0), r.score.total + 1);
     setFlipped(false);
     setI(i + 1);
   };
   return (
-    <div className="card flashcard">
-      <p className="eyebrow">
-        Thẻ {i + 1}/{pool.length}
-      </p>
-      <p className="flash-word">{w.word}</p>
-      <SpeakButton text={w.word} />
-      {flipped ? (
-        <>
-          <p className="flash-meaning">{w.meaning}</p>
-          <p className="muted">
-            {w.example} <SpeakButton text={w.example} label="Nghe câu" />
-          </p>
-          <div className="actions">
-            <button type="button" className="btn btn-primary" onClick={() => rate(true)}>
-              ✓ Đã nhớ
-            </button>
-            <button type="button" className="btn" onClick={() => rate(false)}>
-              ✗ Cần ôn lại
-            </button>
+    <>
+      <LessonBar key={r.round} value={i / pool.length} label={`Thẻ ${i + 1}/${pool.length}`} />
+      <div key={w.id} className="card flashcard">
+        <p className="flash-word">{w.word}</p>
+        <SpeakButton text={w.word} />
+        {flipped ? (
+          <div className="flash-back">
+            <p className="flash-meaning">{w.meaning}</p>
+            <p className="muted">
+              {w.example} <SpeakButton text={w.example} label="Nghe câu" />
+            </p>
+            <div className="actions">
+              <button type="button" className="btn btn-primary" onClick={() => rate(true)}>
+                ✓ Đã nhớ
+              </button>
+              <button type="button" className="btn" onClick={() => rate(false)}>
+                ✗ Cần ôn lại
+              </button>
+            </div>
           </div>
-        </>
-      ) : (
-        <button type="button" className="btn btn-primary" onClick={() => setFlipped(true)}>
-          Lật thẻ – xem nghĩa
-        </button>
-      )}
-    </div>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => {
+              setFlipped(true);
+              play('pop');
+            }}
+          >
+            Lật thẻ – xem nghĩa
+          </button>
+        )}
+      </div>
+    </>
   );
 }
 
 function MatchGame({ words }: { words: VocabEntry[] }) {
   const { reviewVocab } = useProgress();
+  const play = useSound();
   const r = useRound('Match');
   const pool = usePool(words, 4, r.round);
   const meanings = useMemo(() => shuffle(pool, r.round + 3), [pool, r.round]);
@@ -212,6 +230,12 @@ function MatchGame({ words }: { words: VocabEntry[] }) {
   const [matched, setMatched] = useState<string[]>([]);
   const [wrong, setWrong] = useState<string[]>([]);
   const [msg, setMsg] = useState('');
+  const [miss, setMiss] = useState<{ word: string; meaning: string; n: number } | null>(null);
+  useEffect(() => {
+    if (!miss) return;
+    const t = setTimeout(() => setMiss(null), 450); // red shake, then back to normal
+    return () => clearTimeout(t);
+  }, [miss]);
   if (pool.length < 2) return <Empty />;
   const done = matched.length === pool.length;
 
@@ -224,24 +248,38 @@ function MatchGame({ words }: { words: VocabEntry[] }) {
       const m = [...matched, picked];
       setMatched(m);
       setMsg('Đúng rồi!');
+      play('correct');
       if (m.length === pool.length) r.finish(pool.length - wrong.length, pool.length);
     } else {
       if (firstTry) setWrong([...wrong, picked]);
       setMsg('Chưa đúng, thử lại nhé.');
+      setMiss((x) => ({ word: picked, meaning: meaningId, n: (x?.n ?? 0) + 1 }));
+      play('retry');
     }
     setPicked(null);
   };
 
   return (
     <div className="card">
-      <p className="muted">Chọn một từ tiếng Anh, sau đó chọn nghĩa tiếng Việt tương ứng.</p>
+      <MascotSays
+        mood={msg === 'Đúng rồi!' ? 'happy' : msg ? 'confused' : 'idle'}
+        bump={matched.length * 10 + (miss?.n ?? 0)}
+        tone={msg ? (msg === 'Đúng rồi!' ? 'ok' : 'warn') : undefined}
+        live
+      >
+        {msg ? (
+          <span className="say">{msg}</span>
+        ) : (
+          <p>Chọn một từ tiếng Anh, sau đó chọn nghĩa tiếng Việt tương ứng.</p>
+        )}
+      </MascotSays>
       <div className="match">
         <div role="group" aria-label="Từ tiếng Anh">
           {pool.map((w) => (
             <button
               key={w.id}
               type="button"
-              className={`match-item ${picked === w.id ? 'is-active' : ''} ${matched.includes(w.id) ? 'is-done' : ''}`}
+              className={`match-item ${picked === w.id ? 'is-active' : ''} ${matched.includes(w.id) ? 'is-done' : ''} ${miss?.word === w.id ? 'is-wrong' : ''}`}
               aria-pressed={picked === w.id}
               disabled={matched.includes(w.id)}
               onClick={() => setPicked(w.id)}
@@ -255,7 +293,7 @@ function MatchGame({ words }: { words: VocabEntry[] }) {
             <button
               key={w.id}
               type="button"
-              className={`match-item ${matched.includes(w.id) ? 'is-done' : ''}`}
+              className={`match-item ${matched.includes(w.id) ? 'is-done' : ''} ${miss?.meaning === w.id ? 'is-wrong' : ''}`}
               disabled={matched.includes(w.id) || !picked}
               onClick={() => choose(w.id)}
             >
@@ -264,7 +302,6 @@ function MatchGame({ words }: { words: VocabEntry[] }) {
           ))}
         </div>
       </div>
-      <p role="status">{msg}</p>
       {done && (
         <RoundDone
           correct={pool.length - wrong.length}
@@ -283,6 +320,7 @@ function MatchGame({ words }: { words: VocabEntry[] }) {
 
 function TypeQuiz({ words }: { words: VocabEntry[] }) {
   const { reviewVocab } = useProgress();
+  const play = useSound();
   const r = useRound('Fill in the blank');
   const pool = usePool(words, 5, r.round);
   const [i, setI] = useState(0);
@@ -304,6 +342,7 @@ function TypeQuiz({ words }: { words: VocabEntry[] }) {
   const check = () => {
     const ok = normalize(value) === normalize(w.word);
     setResult(ok);
+    play(ok ? 'correct' : 'retry');
     reviewVocab(w.id, ok);
     r.answer(ok);
     if (i === pool.length - 1) r.finish(r.score.correct + (ok ? 1 : 0), r.score.total + 1);
@@ -322,10 +361,8 @@ function TypeQuiz({ words }: { words: VocabEntry[] }) {
         }
       }}
     >
-      <p className="eyebrow">
-        Câu {i + 1}/{pool.length}
-      </p>
-      <label className="fill">
+      <LessonBar key={r.round} value={(i + (result === null ? 0 : 1)) / pool.length} label={`Câu ${i + 1}/${pool.length}`} />
+      <label className={`fill ${result === false ? 'shake' : ''}`}>
         <span>
           Viết từ tiếng Anh có nghĩa: <strong>{w.meaning}</strong>
         </span>
@@ -350,6 +387,7 @@ function blankOut(w: VocabEntry): string | null {
 
 function CompleteSentence({ words }: { words: VocabEntry[] }) {
   const { reviewVocab } = useProgress();
+  const play = useSound();
   const usable = useMemo(() => words.filter((w) => blankOut(w) !== null), [words]);
   const r = useRound('Complete the sentence');
   const pool = usePool(usable, 5, r.round);
@@ -379,15 +417,14 @@ function CompleteSentence({ words }: { words: VocabEntry[] }) {
   const pick = (id: string) => {
     const ok = id === w.id;
     setChosen(id);
+    play(ok ? 'correct' : 'retry');
     reviewVocab(w.id, ok);
     r.answer(ok);
     if (i === pool.length - 1) r.finish(r.score.correct + (ok ? 1 : 0), r.score.total + 1);
   };
   return (
     <div className="card">
-      <p className="eyebrow">
-        Câu {i + 1}/{pool.length}
-      </p>
+      <LessonBar key={r.round} value={(i + (chosen ? 1 : 0)) / pool.length} label={`Câu ${i + 1}/${pool.length}`} />
       <p className="flash-meaning">{blankOut(w)}</p>
       <div className="options" role="group" aria-label="Chọn từ đúng">
         {options.map((o) => (

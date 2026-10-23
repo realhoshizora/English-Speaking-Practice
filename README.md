@@ -13,7 +13,10 @@
 | Real-Life Scenarios | 10 tình huống đầy đủ (từ vựng, mẫu câu, hội thoại mẫu có bản dịch, nhiệm vụ, tiêu chí hoàn thành) |
 | Vocabulary | 80 từ/cụm từ: danh sách, Flashcards, Match, Fill in the blank, Complete the sentence, Từ khó |
 | My Progress | Tình huống đã hoàn thành, phiên luyện nói, bài nghe, từ đã học, câu cần luyện lại, lịch sử, xóa dữ liệu |
-| Settings | Giọng đọc, tốc độ, ngôn ngữ nhận diện, kiểm tra micro, mục tiêu ngày, chọn chế độ hội thoại (kịch bản / Ollama) |
+| Settings | Giọng đọc, tốc độ, ngôn ngữ nhận diện, kiểm tra micro, mục tiêu ngày, bật/tắt âm thanh hiệu ứng, chọn chế độ hội thoại (kịch bản / Ollama) |
+| Linh vật Quạc | Vịt pixel-art đeo tai nghe, phản ứng theo từng câu trả lời: đang nghe, vui khi máy nghe được, bối rối khi máy chưa hiểu, ăn mừng (pháo giấy) khi xong bài. Kèm thanh tiến độ bài, nút bấm kiểu Duolingo và âm thanh 8-bit (tạo bằng code, không tải file, không phát khi micro đang nghe). Người dùng chọn “giảm chuyển động” trong hệ điều hành thì app không chạy animation |
+
+Muốn vẽ lại Quạc: sửa các lưới chữ cái trong `src/components/mascot/sprites.ts` (mỗi chữ là một màu, `.` là trong suốt).
 
 ## Yêu cầu môi trường
 

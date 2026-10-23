@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { ResetDataButton } from '../../components/ResetDataButton';
 import { remoteProvider } from '../../services/conversation';
+import { playSound } from '../../services/sound/sfx';
 import { createLocalAIProvider } from '../../services/conversation/LocalAIConversationProvider';
 import { detectSpeechCapabilities } from '../../services/speech/SpeechCapabilityDetector';
 import { queryMicPermission, requestMicAccess, type MicPermission, type MicRequestResult } from '../../services/speech/MicrophonePermissionManager';
@@ -132,6 +133,16 @@ export function SettingsPage() {
           <input type="checkbox" checked={st.showTranslation} onChange={(e) => updateSettings({ showTranslation: e.target.checked })} /> Mặc định hiện bản dịch
           tiếng Việt trong hội thoại mẫu
         </label>
+        <div className="row">
+          <label className="toggle">
+            <input type="checkbox" checked={st.soundEffects} onChange={(e) => updateSettings({ soundEffects: e.target.checked })} /> Âm thanh hiệu ứng
+            (“ting” khi trả lời đúng, nhạc ngắn khi xong bài)
+          </label>
+          <button type="button" className="btn btn-sm" onClick={() => playSound('complete')}>
+            Nghe thử âm thanh
+          </button>
+        </div>
+        <p className="muted small">Âm thanh không bao giờ phát khi micro đang nghe, nên không lẫn vào câu bạn nói.</p>
       </section>
 
       {SHEET_URL && <TeacherSection />}

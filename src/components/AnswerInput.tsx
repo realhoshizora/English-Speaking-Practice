@@ -1,6 +1,7 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useProgress } from '../app/ProgressContext';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
+import type { RecognitionStatus } from '../services/speech/SpeechRecognitionService';
 import { MicButton, isBusy, statusMessage } from './MicButton';
 
 // Remembered for the whole visit, so learners who type don't have to reopen the box every turn.
@@ -9,10 +10,12 @@ let preferText = false;
 interface Props {
   onAnswer(text: string, via: 'speech' | 'text'): void;
   disabled?: boolean;
+  /** Lets the page react to the microphone (the mascot listens while it is on). */
+  onStatus?(status: RecognitionStatus): void;
 }
 
 /** Microphone answer with a typed fallback. Never pretends to recognise speech when the API is missing. */
-export function AnswerInput({ onAnswer, disabled }: Props) {
+export function AnswerInput({ onAnswer, disabled, onStatus }: Props) {
   const { state } = useProgress();
   const rec = useSpeechRecognition((t) => onAnswer(t, 'speech'));
   const [text, setText] = useState('');
@@ -22,6 +25,13 @@ export function AnswerInput({ onAnswer, disabled }: Props) {
   useEffect(() => {
     if (micFailed) preferText = true; // the next turn opens with the text box already shown
   }, [micFailed]);
+  const status = rec.snap.status;
+  const statusCb = useRef(onStatus);
+  statusCb.current = onStatus;
+  useEffect(() => {
+    statusCb.current?.(status);
+  }, [status]);
+  useEffect(() => () => statusCb.current?.('idle'), []);
   const msg = statusMessage(rec.snap);
   const live = rec.snap.interim || rec.snap.transcript;
 

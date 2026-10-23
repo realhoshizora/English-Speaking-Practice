@@ -15,6 +15,7 @@ export const DEFAULT_SETTINGS: Settings = {
   ollamaUrl: 'http://localhost:11434',
   ollamaModel: 'llama3.2',
   studentName: '',
+  soundEffects: true,
 };
 
 export function defaultState(): ProgressState {
@@ -51,6 +52,7 @@ function cleanSettings(s: unknown): Settings {
   if (isStr(s.ollamaUrl)) out.ollamaUrl = s.ollamaUrl;
   if (isStr(s.ollamaModel)) out.ollamaModel = s.ollamaModel;
   if (isStr(s.studentName)) out.studentName = s.studentName.slice(0, 60);
+  if (typeof s.soundEffects === 'boolean') out.soundEffects = s.soundEffects;
   return out;
 }
 

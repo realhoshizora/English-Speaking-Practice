@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { DialogueViewer } from '../../components/DialogueViewer';
+import { Celebrate } from '../../components/mascot/Celebrate';
 import { SpeakButton } from '../../components/SpeakButton';
 import type { Scenario } from '../../types';
 import { gradeListening, initialOrder, ORDER_COUNT, type Grade } from './grading';
@@ -44,13 +45,16 @@ export function ListeningQuiz({ scenario }: { scenario: Scenario }) {
     <div className="listening">
       {grade && (
         <div className={`card result-banner ${grade.score >= 0.6 ? 'is-ok' : 'is-warn'}`} role="status">
-          <h2>
-            Kết quả: {grade.correct}/{grade.total} câu đúng ({Math.round(grade.score * 100)}%)
-          </h2>
-          <p>{grade.score >= 0.6 ? 'Làm tốt lắm! Kết quả đã được lưu.' : 'Hãy nghe lại và thử thêm lần nữa nhé. Kết quả đã được lưu.'}</p>
-          <button type="button" className="btn btn-primary" onClick={reset}>
-            Làm lại
-          </button>
+          <Celebrate win={grade.score >= 0.6} size={96} />
+          <div>
+            <h2>
+              Kết quả: {grade.correct}/{grade.total} câu đúng ({Math.round(grade.score * 100)}%)
+            </h2>
+            <p>{grade.score >= 0.6 ? 'Làm tốt lắm! Kết quả đã được lưu.' : 'Hãy nghe lại và thử thêm lần nữa nhé. Kết quả đã được lưu.'}</p>
+            <button type="button" className="btn btn-primary" onClick={reset}>
+              Làm lại
+            </button>
+          </div>
         </div>
       )}
 

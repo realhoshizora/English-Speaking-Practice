@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createLocalAIProvider } from '../services/conversation/LocalAIConversationProvider';
 import { getScenario } from '../data/scenarios';
-import { SpeechRecognitionService } from '../services/speech/SpeechRecognitionService';
+import { SpeechRecognitionService, isRecognitionActive } from '../services/speech/SpeechRecognitionService';
 import { FakeRecognition } from './fakes';
 
 const make = () => {
@@ -27,6 +27,22 @@ describe('SpeechRecognitionService', () => {
     svc.start();
     expect(svc.start()).toBe(false);
     expect(FakeRecognition.instances).toHaveLength(1);
+    svc.abort();
+  });
+
+  it('knows app-wide when a microphone session is open (sound effects stay silent then)', () => {
+    const svc = make();
+    expect(isRecognitionActive()).toBe(false);
+    svc.start();
+    expect(isRecognitionActive()).toBe(true);
+    FakeRecognition.last.say('hello');
+    expect(isRecognitionActive()).toBe(false);
+    svc.start();
+    FakeRecognition.last.fail('not-allowed');
+    expect(isRecognitionActive()).toBe(false);
+    svc.start();
+    svc.abort();
+    expect(isRecognitionActive()).toBe(false);
   });
 
   it('maps errors to clear states', () => {

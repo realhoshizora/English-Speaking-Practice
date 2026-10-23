@@ -1,4 +1,5 @@
 import { useProgress } from '../../app/ProgressContext';
+import { Flame } from '../../components/mascot/Mascot';
 import { ResetDataButton } from '../../components/ResetDataButton';
 import { SpeakButton } from '../../components/SpeakButton';
 import { getScenario, scenarioIds, scenarios } from '../../data/scenarios';
@@ -47,6 +48,7 @@ export function DailyGoal({ showBest = false }: { showBest?: boolean }) {
           )}
         </p>
         <p className={`streak ${streak.current > 0 ? 'is-on' : ''}`}>
+          <Flame />
           <span className="streak-num">{streak.current}</span> ngày liên tiếp
         </p>
       </div>

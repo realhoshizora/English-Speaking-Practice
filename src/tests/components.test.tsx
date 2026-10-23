@@ -33,12 +33,14 @@ describe('Speaking workspace – guided scripted conversation (typed fallback)',
 
     await answer('I like dogs');
     expect(screen.getByText(/chưa nhận ra ý/)).toBeInTheDocument();
+    expect(screen.getByText('Quạc chưa hiểu ý bạn.')).toBeInTheDocument(); // the mascot is confused, not the learner wrong
     await user.click(screen.getByRole('button', { name: /Gợi ý/ }));
     expect(screen.getByText(/I'd like a …, please/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Thử lại/ }));
 
     await answer('I want a latte');
     expect(screen.getByText(/Câu trả lời phù hợp/)).toBeInTheDocument();
+    expect(screen.getByText('Tuyệt vời!')).toBeInTheDocument();
     expect(screen.getByText(/lịch sự hơn/)).toBeInTheDocument(); // grammar tip for "I want"
     await user.click(screen.getByRole('button', { name: /Tiếp tục/ }));
     expect(screen.getByText(/What size would you like/)).toBeInTheDocument();
@@ -48,7 +50,9 @@ describe('Speaking workspace – guided scripted conversation (typed fallback)',
       await user.click(screen.getByRole('button', { name: /Tiếp tục/ }));
     }
     expect(await screen.findByText('Tổng kết phiên luyện nói')).toBeInTheDocument();
-    expect(screen.getByText(/Điểm hoàn thành nhiệm vụ: 100%/)).toBeInTheDocument();
+    expect(within(screen.getByText('Hoàn thành nhiệm vụ').closest('div')!).getByText('100%')).toBeInTheDocument();
+    expect(screen.getByText(/không phải điểm phát âm/)).toBeInTheDocument();
+    expect(document.querySelector('.mascot-cheer')).not.toBeNull(); // celebration at the end
     await waitFor(() => expect(stored().records).toMatchObject([{ type: 'guided', scenarioId: 'ordering-coffee', score: 1 }]));
   });
 

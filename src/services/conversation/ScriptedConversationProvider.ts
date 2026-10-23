@@ -118,6 +118,19 @@ export class ScriptedConversationSession implements ConversationSession {
     return this.moveTo(this.node.responses[0]); // main path
   }
 
+  /** Done = answered turns; total adds the main path still ahead (branches can make it longer). */
+  progress() {
+    const done = this.finished ? this.stats.length : this.stats.length - 1 + (this.pending ? 1 : 0);
+    let node = this.finished ? undefined : this.pending ? (this.pending.next ? this.nodes.get(this.pending.next) : undefined) : (this.node ?? undefined);
+    const seen = new Set<string>();
+    while (node && !seen.has(node.id)) {
+      seen.add(node.id);
+      const next = node.responses[0]?.next;
+      node = next ? this.nodes.get(next) : undefined;
+    }
+    return { done, total: done + seen.size };
+  }
+
   useHint() {
     if (this.turn) this.turn.hint = true;
   }

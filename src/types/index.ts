@@ -101,6 +101,8 @@ export interface Settings {
   ollamaModel: string;
   /** Name shown in the teacher's sheet; empty = progress is not sent. */
   studentName: string;
+  /** Short 8-bit effects on answers and lesson completion. */
+  soundEffects: boolean;
 }
 
 export interface ProgressState {
