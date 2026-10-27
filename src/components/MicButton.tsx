@@ -1,4 +1,4 @@
-import type { RecognitionSnapshot, RecognitionStatus } from '../services/speech/SpeechRecognitionService';
+import { DEFAULT_TIMING, type RecognitionSnapshot, type RecognitionStatus } from '../services/speech/SpeechRecognitionService';
 
 const BUSY: RecognitionStatus[] = ['requesting', 'listening', 'processing'];
 
@@ -15,13 +15,13 @@ interface MicButtonProps {
 
 export function MicButton({ status, onStart, onStop, disabled }: MicButtonProps) {
   const busy = isBusy(status);
-  const label = status === 'listening' ? 'Dừng và chấm' : busy ? 'Đang chờ…' : 'Bấm để nói';
+  const label = status === 'listening' ? 'Nói xong' : busy ? 'Đang chờ…' : 'Bấm để nói';
   return (
     <button
       type="button"
       className={`mic-btn mic-${status}`}
       aria-pressed={busy}
-      aria-label={busy ? 'Dừng nghe' : 'Bắt đầu nói bằng micro'}
+      aria-label={busy ? 'Nói xong, dừng nghe' : 'Bắt đầu nói bằng micro'}
       disabled={disabled || status === 'processing'}
       onClick={busy ? onStop : onStart}
     >
@@ -43,7 +43,10 @@ export function statusMessage(snap: RecognitionSnapshot): { text: string; tone: 
     case 'requesting':
       return { text: 'Đang bật micro… Nếu trình duyệt hỏi quyền, hãy chọn “Cho phép”.', tone: 'info' };
     case 'listening':
-      return { text: 'Đang nghe… Hãy nói ngay bây giờ.', tone: 'info' };
+      return {
+        text: `Đang nghe… Cứ nói từ từ. Nói xong thì bấm “Nói xong”, hoặc im lặng ${DEFAULT_TIMING.silenceMs / 1000} giây.`,
+        tone: 'info',
+      };
     case 'processing':
       return { text: 'Đang xử lý lời nói…', tone: 'info' };
     case 'recognized':

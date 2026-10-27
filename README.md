@@ -72,7 +72,7 @@ src/
 
 1. Vào **Speaking Practice**, chọn một tình huống và chế độ.
 2. Bấm nút micro tròn lớn. Lần đầu trình duyệt sẽ hỏi quyền → chọn **Cho phép (Allow)**.
-3. Nói câu tiếng Anh. Khi bạn ngừng nói, ứng dụng hiện transcript (những gì máy nghe được) và phản hồi.
+3. Nói câu tiếng Anh, cứ từ từ: ngừng giữa câu để nghĩ cũng không sao. Nói xong thì bấm **“Nói xong”**, hoặc im lặng 5 giây, ứng dụng sẽ tự dừng và hiện transcript (những gì máy nghe được) cùng phản hồi. Bạn có 10 giây để nghĩ trước khi bắt đầu nói, mỗi lần nói tối đa 45 giây (đổi các số này ở `DEFAULT_TIMING` trong `src/services/speech/SpeechRecognitionService.ts`).
 4. Nếu không muốn nói hoặc micro lỗi, bấm **“Gõ câu trả lời thay vì nói”**.
 
 Có thể kiểm tra micro trước ở **Settings → Kiểm tra micro**.

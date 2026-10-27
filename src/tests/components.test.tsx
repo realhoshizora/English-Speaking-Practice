@@ -75,7 +75,7 @@ describe('Microphone states (mocked SpeechRecognition)', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Đang bật micro');
     act(() => FakeRecognition.last.onstart?.());
     expect(screen.getByRole('status')).toHaveTextContent('Đang nghe');
-    expect(screen.getByRole('button', { name: 'Dừng nghe' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: /Nói xong/ })).toHaveAttribute('aria-pressed', 'true');
 
     act(() => FakeRecognition.last.say('I would like latte'));
     expect(screen.getByText(/Máy nghe được/)).toBeInTheDocument();

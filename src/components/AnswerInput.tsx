@@ -33,7 +33,7 @@ export function AnswerInput({ onAnswer, disabled, onStatus }: Props) {
   }, [status]);
   useEffect(() => () => statusCb.current?.('idle'), []);
   const msg = statusMessage(rec.snap);
-  const live = rec.snap.interim || rec.snap.transcript;
+  const live = [rec.snap.transcript, rec.snap.interim].filter(Boolean).join(' ');
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
