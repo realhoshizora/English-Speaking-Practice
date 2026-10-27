@@ -12,14 +12,14 @@ export class FakeRecognition implements RecognitionLike {
   onspeechend: (() => void) | null = null;
   onerror: ((e: { error: string }) => void) | null = null;
   onend: (() => void) | null = null;
-  started = false;
+  starts = 0;
   aborted = false;
 
   constructor() {
     FakeRecognition.instances.push(this);
   }
   start() {
-    this.started = true;
+    this.starts++;
   }
   stop() {
     this.onend?.();
@@ -29,11 +29,10 @@ export class FakeRecognition implements RecognitionLike {
   }
 
   // --- helpers to drive the fake from tests ---
+  /** The learner speaks. Like a real continuous session, it keeps listening until stop(). */
   say(text: string, isFinal = true) {
     this.onstart?.();
     this.onresult?.({ resultIndex: 0, results: [{ isFinal, 0: { transcript: text } }] });
-    this.onspeechend?.();
-    this.onend?.();
   }
   fail(error: string) {
     this.onerror?.({ error });

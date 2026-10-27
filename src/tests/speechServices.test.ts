@@ -10,16 +10,17 @@ const make = () => {
 };
 
 describe('SpeechRecognitionService', () => {
-  it('goes requesting → listening → recognized with the final transcript', () => {
+  it('goes requesting → listening → recognized when the learner presses "Nói xong"', () => {
     const svc = make();
     const states: string[] = [];
     svc.subscribe(() => states.push(svc.getSnapshot().status));
     expect(svc.start('en-GB')).toBe(true);
     expect(FakeRecognition.last.lang).toBe('en-GB');
+    expect(FakeRecognition.last.continuous).toBe(true);
     FakeRecognition.last.say('Hello there');
+    svc.stop();
     expect(svc.getSnapshot()).toMatchObject({ status: 'recognized', transcript: 'Hello there' });
-    expect(states).toEqual(['requesting', 'listening', 'listening', 'recognized']);
-    expect(FakeRecognition.last.continuous).toBe(true); // keeps listening through pauses
+    expect(states).toEqual(['requesting', 'listening', 'listening', 'processing', 'recognized']);
     expect(svc.isActive()).toBe(false);
   });
 
@@ -37,6 +38,8 @@ describe('SpeechRecognitionService', () => {
     svc.start();
     expect(isRecognitionActive()).toBe(true);
     FakeRecognition.last.say('hello');
+    expect(isRecognitionActive()).toBe(true); // still listening
+    svc.stop();
     expect(isRecognitionActive()).toBe(false);
     svc.start();
     FakeRecognition.last.fail('not-allowed');
@@ -49,7 +52,6 @@ describe('SpeechRecognitionService', () => {
   it('maps errors to clear states', () => {
     const cases: [string, string][] = [
       ['not-allowed', 'denied'],
-      ['no-speech', 'no-speech'],
       ['network', 'network'],
       ['audio-capture', 'error'],
     ];
@@ -62,22 +64,21 @@ describe('SpeechRecognitionService', () => {
     }
   });
 
-  it('reports no-speech when the session ends silently', () => {
+  it('reports no-speech when the learner presses "Nói xong" without saying anything', () => {
     const svc = make();
     svc.start();
     FakeRecognition.last.onstart?.();
-    FakeRecognition.last.onend?.();
+    svc.stop();
     expect(svc.getSnapshot().status).toBe('no-speech');
   });
 
-  describe('slow speakers (continuous listening)', () => {
-    const timing = { silenceMs: 5000, startMs: 10000, maxMs: 45000 };
-    // Results accumulate in one session, like Chrome's continuous mode.
+  describe('only "Nói xong" ends listening', () => {
+    // Results accumulate in one browser session, like Chrome's continuous mode.
     const heard = (rec: FakeRecognition, pieces: [string, boolean][]) =>
       rec.onresult?.({ resultIndex: 0, results: pieces.map(([t, isFinal]) => ({ isFinal, 0: { transcript: t } })) });
-    const start = () => {
+    const start = (maxMs?: number) => {
       FakeRecognition.instances = [];
-      const svc = new SpeechRecognitionService(() => FakeRecognition, timing);
+      const svc = new SpeechRecognitionService(() => FakeRecognition, maxMs);
       svc.start();
       const rec = FakeRecognition.last;
       rec.onstart?.();
@@ -86,53 +87,46 @@ describe('SpeechRecognitionService', () => {
     beforeEach(() => vi.useFakeTimers());
     afterEach(() => vi.useRealTimers());
 
-    it('waits through pauses and stops after 5 s of silence with the whole sentence', () => {
+    it('never stops on silence, however long the learner thinks', () => {
       const { svc, rec } = start();
+      vi.advanceTimersByTime(30000); // thinking before the first word
       heard(rec, [['I would like', true]]);
-      vi.advanceTimersByTime(4000); // learner stops to think
+      vi.advanceTimersByTime(60000); // long pause mid-sentence
       expect(svc.getSnapshot()).toMatchObject({ status: 'listening', transcript: 'I would like' });
       heard(rec, [['I would like', true], [' a latte', false]]);
       expect(svc.getSnapshot().interim).toBe('a latte');
-      heard(rec, [['I would like', true], [' a latte please', true]]);
-      vi.advanceTimersByTime(4999);
-      expect(svc.getSnapshot().status).toBe('listening');
-      vi.advanceTimersByTime(1);
+      svc.stop();
+      expect(svc.getSnapshot()).toMatchObject({ status: 'recognized', transcript: 'I would like a latte' });
+    });
+
+    it('listens again when the browser ends on its own, keeping the words', () => {
+      const { svc, rec } = start();
+      heard(rec, [['I would like', true]]);
+      vi.advanceTimersByTime(5000);
+      rec.onerror?.({ error: 'no-speech' }); // the browser's own silence timeout is not an error for us
+      rec.onend?.();
+      expect(rec.starts).toBe(2);
+      expect(svc.getSnapshot()).toMatchObject({ status: 'listening', transcript: 'I would like' });
+      heard(rec, [[' a latte please', true]]); // the new browser session starts its own result list
+      svc.stop();
       expect(svc.getSnapshot()).toMatchObject({ status: 'recognized', transcript: 'I would like a latte please' });
+    });
+
+    it('gives up if the browser keeps ending instantly without hearing anything', () => {
+      const { svc, rec } = start();
+      for (let i = 0; i < 3; i++) rec.onend?.();
+      expect(rec.starts).toBe(3);
+      expect(svc.getSnapshot().status).toBe('no-speech');
       expect(svc.isActive()).toBe(false);
     });
 
-    it('gives 10 s of thinking time before the first word', () => {
-      const { svc } = start();
-      vi.advanceTimersByTime(9999);
+    it('closes a forgotten microphone after the safety cap', () => {
+      const { svc, rec } = start(180000);
+      heard(rec, [['hello', true]]);
+      vi.advanceTimersByTime(179999);
       expect(svc.getSnapshot().status).toBe('listening');
       vi.advanceTimersByTime(1);
-      expect(svc.getSnapshot().status).toBe('no-speech');
-    });
-
-    it('"Nói xong" stops at once and keeps the words', () => {
-      const { svc, rec } = start();
-      heard(rec, [['Here you are', false]]);
-      svc.stop();
-      expect(svc.getSnapshot()).toMatchObject({ status: 'recognized', transcript: 'Here you are' });
-    });
-
-    it('caps one answer at 45 s even if the learner keeps talking', () => {
-      const { svc, rec } = start();
-      for (let t = 0; t < 44000; t += 4000) {
-        heard(rec, [['one two three', false]]);
-        vi.advanceTimersByTime(4000);
-      }
-      expect(svc.getSnapshot().status).toBe('listening');
-      vi.advanceTimersByTime(1000);
-      expect(svc.getSnapshot().status).toBe('recognized');
-    });
-
-    it('keeps the words when the browser reports silence after the learner spoke', () => {
-      const { svc, rec } = start();
-      heard(rec, [['To go please', true]]);
-      rec.onerror?.({ error: 'no-speech' });
-      rec.onend?.();
-      expect(svc.getSnapshot()).toMatchObject({ status: 'recognized', transcript: 'To go please' });
+      expect(svc.getSnapshot()).toMatchObject({ status: 'recognized', transcript: 'hello' });
     });
   });
 

@@ -1,6 +1,6 @@
 // Wraps one browser speech-recognition session at a time. UI subscribes to snapshots.
-// The session listens continuously: it ends when the learner presses "Nói xong", stays silent for a
-// while, or hits the time cap. Browsers' own one-sentence mode cut off learners who pause to think.
+// Listening only ends when the learner presses "Nói xong". Browsers end sessions on their own
+// (after silence or their own time limit); we start listening again and keep the words.
 import { getRecognitionCtor, type RecognitionCtor, type RecognitionLike, type RecognitionResultEvent } from './SpeechCapabilityDetector';
 
 export type RecognitionStatus =
@@ -22,16 +22,11 @@ export interface RecognitionSnapshot {
   error?: string;
 }
 
-export interface ListenTiming {
-  /** Stop after this long without new words, once the learner has started speaking. */
-  silenceMs: number;
-  /** Give up if nothing at all is heard for this long (thinking time before the first word). */
-  startMs: number;
-  /** Hard cap for one answer. */
-  maxMs: number;
-}
-
-export const DEFAULT_TIMING: ListenTiming = { silenceMs: 5000, startMs: 10000, maxMs: 45000 };
+/** Safety cap so a forgotten microphone does not stay open forever. */
+export const MAX_LISTEN_MS = 3 * 60 * 1000;
+// A browser session that ends this fast with nothing heard is a failure, not a pause: give up after a few.
+const QUICK_END_MS = 1000;
+const MAX_QUICK_ENDS = 3;
 
 const IDLE: RecognitionSnapshot = { status: 'idle', interim: '', transcript: '' };
 
@@ -42,7 +37,6 @@ export const isRecognitionActive = () => active.size > 0;
 const ERROR_STATUS: Record<string, RecognitionStatus> = {
   'not-allowed': 'denied',
   'service-not-allowed': 'denied',
-  'no-speech': 'no-speech',
   network: 'network',
   aborted: 'idle',
 };
@@ -73,12 +67,12 @@ export class SpeechRecognitionService {
   private rec: RecognitionLike | null = null;
   private snapshot: RecognitionSnapshot = IDLE;
   private listeners = new Set<() => void>();
-  private quietTimer: ReturnType<typeof setTimeout> | undefined;
   private capTimer: ReturnType<typeof setTimeout> | undefined;
+  private stopping = false;
 
   constructor(
     private getCtor: () => RecognitionCtor | null = getRecognitionCtor,
-    private timing: ListenTiming = DEFAULT_TIMING,
+    private maxMs = MAX_LISTEN_MS,
   ) {}
 
   subscribe = (fn: () => void) => {
@@ -99,15 +93,10 @@ export class SpeechRecognitionService {
     this.listeners.forEach((fn) => fn());
   }
 
-  private clearTimers() {
-    clearTimeout(this.quietTimer);
+  private release() {
     clearTimeout(this.capTimer);
-  }
-
-  /** (Re)starts the "no new words" countdown. */
-  private waitQuiet(ms: number) {
-    clearTimeout(this.quietTimer);
-    this.quietTimer = setTimeout(() => this.stop(), ms);
+    this.rec = null;
+    active.delete(this);
   }
 
   /** Starts listening. Returns false if a session is already running or the API is missing. */
@@ -123,69 +112,85 @@ export class SpeechRecognitionService {
     rec.interimResults = true;
     rec.continuous = true;
     rec.maxAlternatives = 1;
+    let committed = ''; // words from earlier browser sessions of this same answer
     let final = '';
     let interim = '';
     let failed = false;
+    let heard = false;
+    let startedAt = 0;
+    let quickEnds = 0;
+    this.stopping = false;
+
+    const begin = () => {
+      startedAt = Date.now();
+      heard = false;
+      rec.start();
+    };
 
     rec.onstart = () => {
+      if (this.snapshot.status !== 'requesting') return; // a silent restart: nothing changes for the learner
       this.set({ status: 'listening' });
-      this.waitQuiet(this.timing.startMs);
-      this.capTimer = setTimeout(() => this.stop(), this.timing.maxMs);
+      this.capTimer = setTimeout(() => this.stop(), this.maxMs);
     };
     rec.onresult = (e) => {
+      heard = true;
       ({ final, interim } = collect(e));
-      const stopping = this.snapshot.status === 'processing';
-      this.set({ status: stopping ? 'processing' : 'listening', interim, transcript: final });
-      if (!stopping) this.waitQuiet(this.timing.silenceMs);
+      this.set({ status: this.stopping ? 'processing' : 'listening', interim, transcript: appendSegment(committed, final) });
     };
     rec.onerror = (e) => {
-      if (e.error === 'no-speech' && (final || interim)) return; // went quiet after speaking: onend keeps the words
+      if (e.error === 'no-speech') return; // silence is fine: keep listening until "Nói xong"
       failed = true;
-      this.clearTimers();
-      active.delete(this);
+      this.release();
       this.set({ status: ERROR_STATUS[e.error] ?? 'error', error: e.error, interim: '' });
     };
     rec.onend = () => {
-      this.clearTimers();
-      this.rec = null;
-      active.delete(this);
       if (failed) return;
       // Some browsers end without marking the last piece final; keep what was heard.
-      const text = appendSegment(final, interim);
-      this.set(text ? { status: 'recognized', transcript: text, interim: '' } : { status: 'no-speech', interim: '' });
+      committed = appendSegment(committed, appendSegment(final, interim));
+      final = interim = '';
+      quickEnds = !heard && Date.now() - startedAt < QUICK_END_MS ? quickEnds + 1 : 0;
+      if (!this.stopping && quickEnds < MAX_QUICK_ENDS) {
+        try {
+          begin(); // the browser stopped on its own: listen again
+          return;
+        } catch {
+          /* cannot restart: finish with what we have */
+        }
+      }
+      this.release();
+      this.set(committed ? { status: 'recognized', transcript: committed, interim: '' } : { status: 'no-speech', interim: '' });
     };
 
     this.rec = rec;
     active.add(this);
     this.set({ status: 'requesting', interim: '', transcript: '', error: undefined });
     try {
-      rec.start();
+      begin();
     } catch (err) {
-      this.rec = null;
-      active.delete(this);
+      this.release();
       this.set({ status: 'error', error: String(err) });
       return false;
     }
     return true;
   }
 
-  /** Stops listening and keeps whatever was recognised ("Nói xong", silence or time cap). */
+  /** "Nói xong": stops listening and keeps whatever was recognised. */
   stop() {
     const rec = this.rec;
     if (!rec) return;
-    this.clearTimers();
+    this.stopping = true;
+    clearTimeout(this.capTimer);
     if (this.snapshot.status === 'listening') this.set({ status: 'processing' });
     rec.stop();
   }
 
   /** Cancels the session without a result and detaches handlers (used on unmount or reset). */
   abort() {
-    this.clearTimers();
     const rec = this.rec;
     if (rec) {
       rec.onstart = rec.onresult = rec.onspeechend = rec.onerror = rec.onend = null;
-      this.rec = null;
-      active.delete(this);
+      this.stopping = true;
+      this.release();
       try {
         rec.abort();
       } catch {

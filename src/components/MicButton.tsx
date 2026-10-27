@@ -1,4 +1,4 @@
-import { DEFAULT_TIMING, type RecognitionSnapshot, type RecognitionStatus } from '../services/speech/SpeechRecognitionService';
+import type { RecognitionSnapshot, RecognitionStatus } from '../services/speech/SpeechRecognitionService';
 
 const BUSY: RecognitionStatus[] = ['requesting', 'listening', 'processing'];
 
@@ -44,7 +44,7 @@ export function statusMessage(snap: RecognitionSnapshot): { text: string; tone: 
       return { text: 'Đang bật micro… Nếu trình duyệt hỏi quyền, hãy chọn “Cho phép”.', tone: 'info' };
     case 'listening':
       return {
-        text: `Đang nghe… Cứ nói từ từ. Nói xong thì bấm “Nói xong”, hoặc im lặng ${DEFAULT_TIMING.silenceMs / 1000} giây.`,
+        text: 'Đang nghe… Cứ nói từ từ, ngừng để nghĩ cũng được. Nói xong thì bấm “Nói xong”.',
         tone: 'info',
       };
     case 'processing':

@@ -78,6 +78,8 @@ describe('Microphone states (mocked SpeechRecognition)', () => {
     expect(screen.getByRole('button', { name: /Nói xong/ })).toHaveAttribute('aria-pressed', 'true');
 
     act(() => FakeRecognition.last.say('I would like latte'));
+    expect(screen.queryByText(/Máy nghe được/)).not.toBeInTheDocument(); // still listening until "Nói xong"
+    await user.click(screen.getByRole('button', { name: /Nói xong/ }));
     expect(screen.getByText(/Máy nghe được/)).toBeInTheDocument();
     expect(screen.getByText(/Mức khớp transcript: 60%/)).toBeInTheDocument();
     expect(screen.getByText(/không phải điểm\s+phát âm/)).toBeInTheDocument();
