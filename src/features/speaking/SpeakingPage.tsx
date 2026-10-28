@@ -1,3 +1,5 @@
+import { Icon } from '../../components/Icon';
+import { LessonHead } from '../../components/LessonHead';
 import { getScenario, scenarios } from '../../data/scenarios';
 import { ConversationPractice } from './ConversationPractice';
 import { RepeatPractice } from './RepeatPractice';
@@ -18,13 +20,9 @@ export function SpeakingPage({ scenarioId, mode }: { scenarioId?: string; mode?:
   return (
     <div className="page">
       <a className="back" href="#/speaking">
-        ← Luyện nói
+        <Icon name="arrow-left" /> Luyện nói
       </a>
-      <header className="page-head">
-        <p className="eyebrow">
-          {m.name} · {m.vi}
-        </p>
-        <h1>{scenario.title}</h1>
+      <LessonHead scenario={scenario} meta={`${m.name} · ${m.vi}`}>
         <dl className="roles">
           <div>
             <dt>Mục tiêu</dt>
@@ -39,7 +37,7 @@ export function SpeakingPage({ scenarioId, mode }: { scenarioId?: string; mode?:
             <dd>{scenario.partnerRole}</dd>
           </div>
         </dl>
-      </header>
+      </LessonHead>
       {mode === 'repeat' ? (
         <RepeatPractice key={scenario.id} scenario={scenario} />
       ) : (
@@ -56,32 +54,39 @@ function SpeakingHome() {
         <h1>Speaking Practice</h1>
         <p>Chọn một tình huống và một chế độ luyện nói. Nên bắt đầu với “Nghe và nhắc lại”, sau đó “Hội thoại có hướng dẫn”.</p>
       </header>
-      <div className="mode-legend">
-        {Object.entries(MODES).map(([id, m]) => (
-          <div key={id} className="card mode-card">
+      <ol className="panels" aria-label="Ba chế độ luyện nói, theo thứ tự nên học">
+        {Object.entries(MODES).map(([id, m], i) => (
+          <li key={id} className="card panel">
+            <span className="panel-no" aria-hidden="true">
+              {i + 1}
+            </span>
             <h2>{m.name}</h2>
             <p className="muted">
               {m.vi}: {m.desc}
             </p>
-          </div>
+          </li>
         ))}
-      </div>
-      <ul className="grid">
-        {scenarios.map((s) => (
-          <li key={s.id} className="card scenario-card">
-            <span className="pill">{s.level}</span>
-            <h2>{s.title}</h2>
-            <p className="muted">{s.titleVi}</p>
-            <div className="actions">
-              {Object.entries(MODES).map(([id, m]) => (
-                <a key={id} className={`btn btn-sm ${id === 'guided' ? 'btn-primary' : ''}`} href={`#/speaking/${s.id}/${id}`}>
-                  {m.name}
-                </a>
-              ))}
+      </ol>
+      <ol className="route" aria-label="Tình huống">
+        {scenarios.map((s, i) => (
+          <li key={s.id} className="route-stop">
+            <span className="route-no">{i + 1}</span>
+            <div className="route-body">
+              <h2 className="route-title">{s.title}</h2>
+              <p className="route-sum">
+                <b>{s.titleVi}</b> · {s.level}
+              </p>
+              <div className="actions">
+                {Object.entries(MODES).map(([id, m]) => (
+                  <a key={id} className="btn btn-sm" href={`#/speaking/${s.id}/${id}`}>
+                    {m.name}
+                  </a>
+                ))}
+              </div>
             </div>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   );
 }

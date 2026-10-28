@@ -1,4 +1,5 @@
 import { useProgress } from '../../app/ProgressContext';
+import { Icon } from '../../components/Icon';
 import { Flame } from '../../components/mascot/Mascot';
 import { ResetDataButton } from '../../components/ResetDataButton';
 import { SpeakButton } from '../../components/SpeakButton';
@@ -43,7 +44,10 @@ export function DailyGoal({ showBest = false }: { showBest?: boolean }) {
           {s.todayActivities >= goal && (
             <>
               {' '}
-              <span aria-hidden="true">🎉</span> Hoàn thành!
+              <span className="status status-ok">
+                <Icon name="check" />
+                Hoàn thành!
+              </span>
             </>
           )}
         </p>
@@ -113,7 +117,13 @@ export function ProgressPage() {
             <li key={sc.id}>
               <a href={`#/scenarios/${sc.id}`}>{sc.title}</a>
               <span className={`pill ${s.completedScenarios.includes(sc.id) ? 'pill-ok' : ''}`}>
-                {s.completedScenarios.includes(sc.id) ? '✓ Hoàn thành' : 'Chưa hoàn thành'}
+                {s.completedScenarios.includes(sc.id) ? (
+                  <>
+                    <Icon name="check" /> Hoàn thành
+                  </>
+                ) : (
+                  'Chưa hoàn thành'
+                )}
               </span>
             </li>
           ))}
@@ -129,7 +139,7 @@ export function ProgressPage() {
             {retry.map(([text, r]) => (
               <li key={text}>
                 <span>{text}</span>
-                <span className="pill pill-warn">Khớp {Math.round(r.score * 100)}%</span>
+                <span className="muted small">Khớp {Math.round(r.score * 100)}%</span>
                 <SpeakButton text={text} />
                 <a className="btn btn-sm" href={`#/speaking/${r.scenarioId}/repeat`}>
                   Luyện

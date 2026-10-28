@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
+import { Icon } from '../../components/Icon';
 import { LessonBar } from '../../components/LessonBar';
 import { Celebrate } from '../../components/mascot/Celebrate';
 import { MascotSays } from '../../components/mascot/Mascot';
@@ -196,10 +197,10 @@ function Flashcards({ words }: { words: VocabEntry[] }) {
             </p>
             <div className="actions">
               <button type="button" className="btn btn-primary" onClick={() => rate(true)}>
-                ✓ Đã nhớ
+                <Icon name="check" /> Đã nhớ
               </button>
               <button type="button" className="btn" onClick={() => rate(false)}>
-                ✗ Cần ôn lại
+                <Icon name="retry" /> Cần ôn lại
               </button>
             </div>
           </div>
@@ -370,7 +371,8 @@ function TypeQuiz({ words }: { words: VocabEntry[] }) {
       </label>
       {result !== null && (
         <p className={`status ${result ? 'status-ok' : 'status-warn'}`} role="status">
-          {result ? '✓ Chính xác!' : `✗ Đáp án: ${w.word}`} – {w.example} <SpeakButton text={w.word} />
+          <Icon name={result ? 'check' : 'cross'} />
+          {result ? 'Chính xác!' : `Đáp án: ${w.word}`} – {w.example} <SpeakButton text={w.word} />
         </p>
       )}
       <button type="submit" className="btn btn-primary" disabled={result === null && !value.trim()}>
@@ -442,7 +444,8 @@ function CompleteSentence({ words }: { words: VocabEntry[] }) {
       {chosen && (
         <>
           <p className={`status ${chosen === w.id ? 'status-ok' : 'status-warn'}`} role="status">
-            {chosen === w.id ? '✓ Chính xác!' : `✗ Đáp án đúng: ${w.word} (${w.meaning})`}
+            <Icon name={chosen === w.id ? 'check' : 'cross'} />
+            {chosen === w.id ? 'Chính xác!' : `Đáp án đúng: ${w.word} (${w.meaning})`}
           </p>
           <button
             type="button"

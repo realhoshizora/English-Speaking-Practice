@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { DialogueViewer } from '../../components/DialogueViewer';
+import { Icon } from '../../components/Icon';
 import { Celebrate } from '../../components/mascot/Celebrate';
 import { SpeakButton } from '../../components/SpeakButton';
 import type { Scenario } from '../../types';
@@ -38,7 +39,10 @@ export function ListeningQuiz({ scenario }: { scenario: Scenario }) {
   };
 
   const mark = (ok: boolean) => (
-    <span className={`mark ${ok ? 'mark-ok' : 'mark-bad'}`}>{ok ? '✓ Đúng' : '✗ Chưa đúng'}</span>
+    <span className={`mark ${ok ? 'mark-ok' : 'mark-bad'}`}>
+      <Icon name={ok ? 'check' : 'cross'} />
+      {ok ? 'Đúng' : 'Chưa đúng'}
+    </span>
   );
 
   return (
@@ -86,8 +90,13 @@ export function ListeningQuiz({ scenario }: { scenario: Scenario }) {
                 <fieldset disabled={!!grade}>
                   <legend>{q.question}</legend>
                   {q.options.map((o, j) => (
-                    <label key={j} className="option">
-                      <input type="radio" name={`q${i}`} checked={choices[i] === j} onChange={() => setChoices({ ...choices, [i]: j })} /> {o}
+                    <label
+                      key={j}
+                      className={`option${grade && j === q.answer ? ' is-answer' : grade && choices[i] === j ? ' is-picked' : ''}`}
+                    >
+                      <input type="radio" name={`q${i}`} checked={choices[i] === j} onChange={() => setChoices({ ...choices, [i]: j })} />
+                      <span className="opt-key" aria-hidden="true" />
+                      <span>{o}</span>
                     </label>
                   ))}
                 </fieldset>
@@ -130,7 +139,7 @@ export function ListeningQuiz({ scenario }: { scenario: Scenario }) {
                   <span>{scenario.dialogue[lineIdx].text}</span>
                   <span className="order-btns">
                     <button type="button" className="btn btn-sm" aria-label="Chuyển lên" disabled={!!grade || pos === 0} onClick={() => move(pos, -1)}>
-                      ↑
+                      <Icon name="arrow-up" />
                     </button>
                     <button
                       type="button"
@@ -139,7 +148,7 @@ export function ListeningQuiz({ scenario }: { scenario: Scenario }) {
                       disabled={!!grade || pos === order.length - 1}
                       onClick={() => move(pos, 1)}
                     >
-                      ↓
+                      <Icon name="arrow-down" />
                     </button>
                   </span>
                 </li>

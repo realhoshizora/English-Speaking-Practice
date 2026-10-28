@@ -3,6 +3,7 @@
 import { Fragment, useMemo, useState, type CSSProperties } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { AnswerInput } from '../../components/AnswerInput';
+import { Icon } from '../../components/Icon';
 import { LessonBar } from '../../components/LessonBar';
 import { Celebrate } from '../../components/mascot/Celebrate';
 import { MascotSays, type MascotMood } from '../../components/mascot/Mascot';
@@ -116,7 +117,7 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
               {done.map(([i, r]) => (
                 <li key={i}>
                   <span>{sentences[Number(i)]}</span>
-                  <span className="pill">{r.best === null ? 'Tự luyện' : `Khớp ${Math.round(r.best * 100)}%`}</span>
+                  <span className="muted small">{r.best === null ? 'Tự luyện' : `Khớp ${Math.round(r.best * 100)}%`}</span>
                 </li>
               ))}
             </ul>
@@ -176,7 +177,7 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
         <AnswerInput onAnswer={onAnswer} onStatus={setMic} />
         {!canRecognize && (
           <button type="button" className="btn" onClick={markSelfPractised}>
-            ✓ Tôi đã tự đọc câu này {results[index] ? `(${results[index].attempts} lần)` : ''}
+            <Icon name="check" /> Tôi đã tự đọc câu này {results[index] ? `(${results[index].attempts} lần)` : ''}
           </button>
         )}
       </div>
@@ -197,12 +198,10 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
             ))}
           </p>
           {r.extra.length > 0 && <p className="muted">Từ thêm / khác: {r.extra.join(', ')}</p>}
-          <p className={`status ${r.matchRatio >= 0.9 ? 'status-ok' : 'status-warn'}`}>
-            {verdict(r)} <span className="pill">Mức khớp transcript: {Math.round(r.matchRatio * 100)}%</span>
-          </p>
+          <p className={`status ${r.matchRatio >= 0.9 ? 'status-ok' : 'status-warn'}`}>{verdict(r)}</p>
           <p className="muted small">
-            Chữ hoa và dấu câu không được tính. Đây là mức khớp giữa câu mẫu và những gì máy nghe được, không phải điểm
-            phát âm, trọng âm hay ngữ điệu.
+            Mức khớp transcript: {Math.round(r.matchRatio * 100)}%. Chữ hoa và dấu câu không được tính. Đây là mức khớp
+            giữa câu mẫu và những gì máy nghe được, không phải điểm phát âm, trọng âm hay ngữ điệu.
           </p>
         </div>
       )}
@@ -210,15 +209,15 @@ export function RepeatPractice({ scenario }: { scenario: Scenario }) {
       <div className="actions sticky-actions">
         {attempt && (
           <button type="button" className="btn" onClick={() => setAttempt(null)}>
-            ↺ Thử lại
+            <Icon name="retry" /> Thử lại
           </button>
         )}
         <button type="button" className="btn" disabled={index === 0} onClick={() => go(index - 1)}>
-          ← Câu trước
+          <Icon name="arrow-left" /> Câu trước
         </button>
         {index < sentences.length - 1 ? (
           <button type="button" className="btn btn-primary" onClick={() => go(index + 1)}>
-            Câu tiếp theo →
+            Câu tiếp theo <Icon name="arrow-right" />
           </button>
         ) : null}
         <button type="button" className="btn btn-danger-ghost" onClick={finish}>

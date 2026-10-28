@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useProgress } from '../app/ProgressContext';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 import type { RecognitionStatus } from '../services/speech/SpeechRecognitionService';
+import { Icon } from './Icon';
 import { MicButton, isBusy, statusMessage } from './MicButton';
 
 // Remembered for the whole visit, so learners who type don't have to reopen the box every turn.
@@ -81,7 +82,7 @@ export function AnswerInput({ onAnswer, disabled, onStatus }: Props) {
             setShowText(preferText);
           }}
         >
-          ⌨️ {showText ? 'Ẩn ô gõ chữ' : 'Gõ câu trả lời thay vì nói'}
+          <Icon name="keyboard" /> {showText ? 'Ẩn ô gõ chữ' : 'Gõ câu trả lời thay vì nói'}
         </button>
       )}
       {textVisible && (

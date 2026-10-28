@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useProgress } from '../app/ProgressContext';
 import { useTts } from '../hooks/useTts';
 import type { Scenario } from '../types';
+import { Icon } from './Icon';
 
 interface Props {
   scenario: Scenario;
@@ -24,22 +25,22 @@ export function DialogueViewer({ scenario, hideText = false }: Props) {
         {!t.supported && <p className="notice notice-warn">Trình duyệt không hỗ trợ đọc văn bản. Bạn vẫn có thể đọc hội thoại.</p>}
         {t.supported && !playingAll && (
           <button type="button" className="btn btn-primary" onClick={() => t.speak(lines.map((l) => l.text), 'all')}>
-            ▶ Phát cả hội thoại
+            <Icon name="play" /> Phát cả hội thoại
           </button>
         )}
         {playingAll && t.status === 'speaking' && (
           <button type="button" className="btn" onClick={t.pause}>
-            ⏸ Tạm dừng
+            <Icon name="pause" /> Tạm dừng
           </button>
         )}
         {playingAll && t.status === 'paused' && (
           <button type="button" className="btn" onClick={t.resume}>
-            ▶ Tiếp tục
+            <Icon name="play" /> Tiếp tục
           </button>
         )}
         {playingAll && (
           <button type="button" className="btn" onClick={t.stop}>
-            ⏹ Dừng
+            <Icon name="stop" /> Dừng
           </button>
         )}
         {!hideText && (
@@ -48,7 +49,7 @@ export function DialogueViewer({ scenario, hideText = false }: Props) {
           </label>
         )}
       </div>
-      <ol className="lines">
+      <ol className={`lines${hideText ? ' lines-compact' : ''}`}>
         {lines.map((l, i) => {
           const current = playingAll && t.index === i;
           return (
@@ -63,7 +64,7 @@ export function DialogueViewer({ scenario, hideText = false }: Props) {
                   aria-label={`Nghe câu ${i + 1}`}
                   onClick={() => t.speak(l.text, 'all-line')}
                 >
-                  🔊
+                  <Icon name="speaker" />
                 </button>
               )}
             </li>

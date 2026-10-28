@@ -1,4 +1,5 @@
 import type { RecognitionSnapshot, RecognitionStatus } from '../services/speech/SpeechRecognitionService';
+import { Icon } from './Icon';
 
 const BUSY: RecognitionStatus[] = ['requesting', 'listening', 'processing'];
 
@@ -25,12 +26,7 @@ export function MicButton({ status, onStart, onStop, disabled }: MicButtonProps)
       disabled={disabled || status === 'processing'}
       onClick={busy ? onStop : onStart}
     >
-      <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M12 2a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4zm-7 10h2a5 5 0 0 0 10 0h2a7 7 0 0 1-6 6.9V22h-2v-3.1A7 7 0 0 1 5 12z"
-        />
-      </svg>
+      <Icon name={status === 'listening' ? 'stop' : 'mic'} />
       <span>{label}</span>
     </button>
   );

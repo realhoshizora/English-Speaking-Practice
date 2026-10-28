@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { AnswerInput } from '../../components/AnswerInput';
+import { Icon } from '../../components/Icon';
 import { CountUp, LessonBar } from '../../components/LessonBar';
 import { Celebrate } from '../../components/mascot/Celebrate';
 import { MascotSays, type MascotMood } from '../../components/mascot/Mascot';
@@ -242,7 +243,8 @@ export function ConversationPractice({ scenario, mode }: Props) {
               )}
               {feedback.tips.map((tip) => (
                 <p key={tip} className="tip">
-                  💡 {tip}
+                  <Icon name="bulb" />
+                  <span>{tip}</span>
                 </p>
               ))}
               {feedback.example && (
@@ -266,7 +268,7 @@ export function ConversationPractice({ scenario, mode }: Props) {
                   session.useHint();
                 }}
               >
-                💡 Gợi ý
+                <Icon name="bulb" /> Gợi ý
               </button>
             )}
             {partner.example && !feedback?.accepted && (
@@ -279,16 +281,16 @@ export function ConversationPractice({ scenario, mode }: Props) {
             )}
             {feedback && !feedback.accepted && (
               <button type="button" className="btn" onClick={() => setFeedback(null)}>
-                ↺ Thử lại
+                <Icon name="retry" /> Thử lại
               </button>
             )}
             {feedback?.accepted ? (
               <>
                 <button type="button" className="btn" onClick={() => setFeedback(null)}>
-                  ↺ Nói lại câu này
+                  <Icon name="retry" /> Nói lại câu này
                 </button>
                 <button type="button" className="btn btn-primary" onClick={() => void next()} disabled={busy}>
-                  Tiếp tục →
+                  Tiếp tục <Icon name="arrow-right" />
                 </button>
               </>
             ) : (
@@ -299,8 +301,18 @@ export function ConversationPractice({ scenario, mode }: Props) {
               )
             )}
           </div>
-          {showHint && partner.hint && <p className="hint">💡 {partner.hint}</p>}
-          {showExample && partner.example && <p className="hint">🗨️ {partner.example}</p>}
+          {showHint && partner.hint && (
+            <p className="hint">
+              <Icon name="bulb" />
+              <span>{partner.hint}</span>
+            </p>
+          )}
+          {showExample && partner.example && (
+            <p className="hint">
+              <Icon name="chat" />
+              <span>{partner.example}</span>
+            </p>
+          )}
         </div>
       )}
 
@@ -352,7 +364,11 @@ function SummaryCard({ summary, saved, onRestart }: { summary: SessionSummary; s
         </div>
       </dl>
       <p className="muted small">“Hoàn thành nhiệm vụ” là tỉ lệ lượt trả lời đúng yêu cầu, không phải điểm phát âm.</p>
-      {summary.aiSummary && <p className="notice notice-ai">🤖 {summary.aiSummary}</p>}
+      {summary.aiSummary && (
+        <p className="notice notice-ai">
+          <Icon name="sparkle" /> {summary.aiSummary}
+        </p>
+      )}
       {summary.review.length > 0 && (
         <>
           <h3>Câu nên luyện lại</h3>

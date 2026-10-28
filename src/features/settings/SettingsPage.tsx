@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
+import { Icon } from '../../components/Icon';
 import { ResetDataButton } from '../../components/ResetDataButton';
 import { remoteProvider } from '../../services/conversation';
 import { playSound } from '../../services/sound/sfx';
@@ -16,15 +17,25 @@ const LANGS = [
   { id: 'en-IN', name: 'English (India)' },
 ];
 
-const MIC_TEXT: Record<MicRequestResult | MicPermission, string> = {
-  granted: '✓ Micro đã được cho phép.',
-  denied: '✗ Micro bị chặn. Bấm biểu tượng ổ khóa cạnh thanh địa chỉ → cho phép Micro → tải lại trang.',
-  prompt: 'Trình duyệt sẽ hỏi quyền khi bạn bấm nút bên dưới hoặc nút micro.',
-  unknown: 'Trình duyệt không cho biết trạng thái quyền micro. Hãy bấm “Kiểm tra micro”.',
-  'no-device': '✗ Không tìm thấy micro. Hãy cắm hoặc bật micro.',
-  unavailable: '✗ Trình duyệt không cho phép truy cập micro ở trang này (cần https hoặc localhost).',
-  error: '✗ Có lỗi khi mở micro. Hãy kiểm tra micro có đang được ứng dụng khác dùng không.',
+/** [ok?, text]: ok true draws a check, false a cross, null nothing. */
+const MIC_TEXT: Record<MicRequestResult | MicPermission, [boolean | null, string]> = {
+  granted: [true, 'Micro đã được cho phép.'],
+  denied: [false, 'Micro bị chặn. Bấm biểu tượng ổ khóa cạnh thanh địa chỉ → cho phép Micro → tải lại trang.'],
+  prompt: [null, 'Trình duyệt sẽ hỏi quyền khi bạn bấm nút bên dưới hoặc nút micro.'],
+  unknown: [null, 'Trình duyệt không cho biết trạng thái quyền micro. Hãy bấm “Kiểm tra micro”.'],
+  'no-device': [false, 'Không tìm thấy micro. Hãy cắm hoặc bật micro.'],
+  unavailable: [false, 'Trình duyệt không cho phép truy cập micro ở trang này (cần https hoặc localhost).'],
+  error: [false, 'Có lỗi khi mở micro. Hãy kiểm tra micro có đang được ứng dụng khác dùng không.'],
 };
+
+function Check({ ok, children, live }: { ok: boolean | null; children: string; live?: boolean }) {
+  return (
+    <li className={ok === null ? undefined : ok ? 'is-ok' : 'is-bad'} role={live ? 'status' : undefined}>
+      {ok !== null && <Icon name={ok ? 'check' : 'cross'} />}
+      <span>{children}</span>
+    </li>
+  );
+}
 
 export function SettingsPage() {
   const { state, updateSettings } = useProgress();
@@ -84,7 +95,7 @@ export function SettingsPage() {
               <input type="range" min={0.6} max={1.3} step={0.05} value={st.rate} onChange={(e) => updateSettings({ rate: Number(e.target.value) })} />
             </label>
             <button type="button" className="btn" onClick={() => tts.speak('Hello! Nice to meet you. How are you today?', 'settings-test', { rate: st.rate, voiceURI: st.voiceURI })}>
-              🔊 Nghe thử
+              <Icon name="speaker" /> Nghe thử
             </button>
             <p className="muted small">Giọng đọc phụ thuộc trình duyệt và hệ điều hành, mỗi máy có thể khác nhau.</p>
           </>
@@ -93,13 +104,23 @@ export function SettingsPage() {
 
       <section className="card" aria-labelledby="s-mic">
         <h2 id="s-mic">Micro và nhận diện giọng nói</h2>
-        <ul className="checklist">
-          <li>{caps.recognition ? '✓ Trình duyệt hỗ trợ nhận diện giọng nói.' : '✗ Trình duyệt không hỗ trợ nhận diện giọng nói (hãy dùng Chrome hoặc Edge). Bạn vẫn có thể gõ câu trả lời.'}</li>
-          <li>{caps.secureContext ? '✓ Trang chạy ở môi trường an toàn (https/localhost).' : '✗ Micro chỉ hoạt động trên https hoặc localhost.'}</li>
-          {mic && <li role="status">{MIC_TEXT[mic]}</li>}
+        <ul className="checks">
+          <Check ok={caps.recognition}>
+            {caps.recognition
+              ? 'Trình duyệt hỗ trợ nhận diện giọng nói.'
+              : 'Trình duyệt không hỗ trợ nhận diện giọng nói (hãy dùng Chrome hoặc Edge). Bạn vẫn có thể gõ câu trả lời.'}
+          </Check>
+          <Check ok={caps.secureContext}>
+            {caps.secureContext ? 'Trang chạy ở môi trường an toàn (https/localhost).' : 'Micro chỉ hoạt động trên https hoặc localhost.'}
+          </Check>
+          {mic && (
+            <Check ok={MIC_TEXT[mic][0]} live>
+              {MIC_TEXT[mic][1]}
+            </Check>
+          )}
         </ul>
         <button type="button" className="btn" onClick={() => void requestMicAccess().then(setMic)}>
-          🎤 Kiểm tra micro
+          <Icon name="mic" /> Kiểm tra micro
         </button>
         <p className="muted small">Nút này chỉ xin quyền rồi tắt micro ngay. Ứng dụng không ghi âm và không lưu giọng nói.</p>
         <label className="field">

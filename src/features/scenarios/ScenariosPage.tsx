@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { DialogueViewer } from '../../components/DialogueViewer';
+import { Icon } from '../../components/Icon';
+import { LessonHead } from '../../components/LessonHead';
 import { SpeakButton } from '../../components/SpeakButton';
 import { getScenario, scenarios } from '../../data/scenarios';
 import { isScenarioComplete, PASS_LISTENING, PASS_SPEAKING } from '../../services/storage/progress';
@@ -28,21 +30,32 @@ function ScenarioLibrary() {
           </button>
         ))}
       </div>
-      <ul className="grid">
-        {list.map((s) => (
-          <li key={s.id} className="card scenario-card">
-            <div className="row">
-              <span className="pill">{s.level}</span>
-              {isScenarioComplete(state.records, s.id) && <span className="pill pill-ok">✓ Đã hoàn thành</span>}
-            </div>
-            <h2>
-              <a href={`#/scenarios/${s.id}`}>{s.title}</a>
-            </h2>
-            <p className="muted">{s.titleVi}</p>
-            <p>{s.description}</p>
-          </li>
-        ))}
-      </ul>
+      <ol className="route">
+        {list.map((s) => {
+          const done = isScenarioComplete(state.records, s.id);
+          return (
+            <li key={s.id} className={`route-stop${done ? ' is-done' : ''}`}>
+              <span className="route-no">{scenarios.indexOf(s) + 1}</span>
+              <div className="route-body">
+                <h2 className="route-title">
+                  <a href={`#/scenarios/${s.id}`}>{s.title}</a>
+                </h2>
+                <p className="route-sum">
+                  <b>{s.titleVi}.</b> {s.description}
+                </p>
+              </div>
+              <span className="route-meta">
+                <span className="pill">{s.level}</span>
+                {done && (
+                  <span className="pill pill-ok">
+                    <Icon name="check" /> Đã hoàn thành
+                  </span>
+                )}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }
@@ -53,26 +66,29 @@ function ScenarioDetail({ scenario: s }: { scenario: Scenario }) {
   return (
     <div className="page">
       <a className="back" href="#/scenarios">
-        ← Tất cả tình huống
+        <Icon name="arrow-left" /> Tất cả tình huống
       </a>
-      <header className="page-head">
-        <p className="eyebrow">
-          {s.level} · {s.titleVi}
-        </p>
-        <h1>{s.title}</h1>
+      <LessonHead
+        scenario={s}
+        meta={
+          <>
+            <span className="pill">{s.level}</span> {s.titleVi}
+          </>
+        }
+      >
         <p>{s.description}</p>
         <div className="actions">
           <a className="btn btn-primary" href={`#/speaking/${s.id}/guided`}>
-            🎤 Luyện nói
+            <Icon name="mic" /> Luyện nói
           </a>
           <a className="btn" href={`#/speaking/${s.id}/repeat`}>
-            🔁 Nghe và nhắc lại
+            <Icon name="repeat" /> Nghe và nhắc lại
           </a>
           <a className="btn" href={`#/listening/${s.id}`}>
-            🎧 Bài nghe
+            <Icon name="headphones" /> Bài nghe
           </a>
         </div>
-      </header>
+      </LessonHead>
 
       <div className="two-col">
         <section className="card">
@@ -105,7 +121,16 @@ function ScenarioDetail({ scenario: s }: { scenario: Scenario }) {
             <li>Hoàn thành Guided Speaking hoặc Role-play với ít nhất {PASS_SPEAKING * 100}% lượt trả lời phù hợp.</li>
             <li>Đạt ít nhất {PASS_LISTENING * 100}% ở bài nghe.</li>
           </ul>
-          <p className={done ? 'status status-ok' : 'muted'}>{done ? '✓ Bạn đã hoàn thành tình huống này.' : 'Chưa hoàn thành.'}</p>
+          <p className={done ? 'status status-ok' : 'muted'}>
+            {done ? (
+              <>
+                <Icon name="check" />
+                Bạn đã hoàn thành tình huống này.
+              </>
+            ) : (
+              'Chưa hoàn thành.'
+            )}
+          </p>
         </section>
       </div>
 

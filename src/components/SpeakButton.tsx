@@ -1,4 +1,5 @@
 import { useTts } from '../hooks/useTts';
+import { Icon } from './Icon';
 
 interface Props {
   text: string;
@@ -12,7 +13,7 @@ export function SpeakButton({ text, label = 'Nghe', className = '' }: Props) {
   if (!t.supported) {
     return (
       <button type="button" className={`btn btn-ghost btn-sm ${className}`} disabled title="Trình duyệt không hỗ trợ đọc văn bản">
-        🔇 <span>{label}</span>
+        <Icon name="mute" /> <span>{label}</span>
       </button>
     );
   }
@@ -24,7 +25,7 @@ export function SpeakButton({ text, label = 'Nghe', className = '' }: Props) {
       aria-label={on ? 'Dừng đọc' : `${label}: ${text}`}
       onClick={() => (on ? t.stop() : t.speak(text))}
     >
-      <span aria-hidden="true">{on ? '⏹' : '🔊'}</span> <span>{on ? 'Dừng' : label}</span>
+      <Icon name={on ? 'stop' : 'speaker'} /> <span>{on ? 'Dừng' : label}</span>
     </button>
   );
 }

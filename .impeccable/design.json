@@ -1,156 +1,883 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-22T00:00:00.000Z",
+  "generatedAt": "2026-10-28T07:26:34.847Z",
   "title": "Design System: English Speaking Coach",
   "extensions": {
     "colorMeta": {
-      "coach-blue": { "role": "primary", "displayName": "Coach Blue", "canonical": "oklch(49.1% 0.181 262)", "tonalRamp": ["#05004e", "#000576", "#01309d", "#2154c1", "#4379ea", "#66a0ff", "#8cc7ff", "#b4edff"] },
-      "coach-blue-soft": { "role": "primary", "displayName": "Coach Blue Mist", "tonalRamp": ["#05004e", "#000576", "#01309d", "#2154c1", "#4379ea", "#66a0ff", "#8cc7ff", "#b4edff"] },
-      "heard-green": { "role": "secondary", "displayName": "Heard Green", "canonical": "oklch(48.2% 0.116 152)", "tonalRamp": ["#001500", "#003200", "#00501e", "#16703c", "#42945d", "#68b981", "#8ee1a6", "#b2ffc9"] },
-      "heard-green-soft": { "role": "secondary", "displayName": "Heard Green Tint", "tonalRamp": ["#001500", "#003200", "#00501e", "#16703c", "#42945d", "#68b981", "#8ee1a6", "#b2ffc9"] },
-      "missing-amber": { "role": "secondary", "displayName": "Missing Amber", "canonical": "oklch(49.4% 0.109 66)", "tonalRamp": ["#250000", "#441200", "#643000", "#864f00", "#ab722f", "#d29755", "#fbbd7b", "#ffe19e"] },
-      "missing-amber-soft": { "role": "secondary", "displayName": "Missing Amber Tint", "tonalRamp": ["#250000", "#441200", "#643000", "#864f00", "#ab722f", "#d29755", "#fbbd7b", "#ffe19e"] },
-      "stop-red": { "role": "secondary", "displayName": "Stop Red", "canonical": "oklch(50.1% 0.178 28)", "tonalRamp": ["#370000", "#5f0000", "#860000", "#ac1d17", "#d64a3d", "#ff7161", "#ff9a87", "#ffc3b0"] },
-      "stop-red-soft": { "role": "secondary", "displayName": "Stop Red Tint", "tonalRamp": ["#370000", "#5f0000", "#860000", "#ac1d17", "#d64a3d", "#ff7161", "#ff9a87", "#ffc3b0"] },
-      "ai-violet": { "role": "tertiary", "displayName": "AI Violet", "canonical": "oklch(48.4% 0.178 296)", "tonalRamp": ["#190045", "#32006b", "#4d1790", "#6a3eb4", "#8c63dc", "#b089ff", "#d6b0ff", "#f9d7ff"] },
-      "ai-violet-soft": { "role": "tertiary", "displayName": "AI Violet Tint", "tonalRamp": ["#190045", "#32006b", "#4d1790", "#6a3eb4", "#8c63dc", "#b089ff", "#d6b0ff", "#f9d7ff"] },
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(25.6% 0.033 263)", "tonalRamp": ["#050b19", "#1c2434", "#374051", "#545e70", "#768094", "#9aa5ba", "#c0cbe0", "#e3efff"] },
-      "slate-muted": { "role": "neutral", "displayName": "Slate Muted", "canonical": "oklch(50.2% 0.034 264)", "tonalRamp": ["#050b19", "#1c2434", "#374051", "#545e70", "#768094", "#9aa5ba", "#c0cbe0", "#e3efff"] },
-      "hairline": { "role": "neutral", "displayName": "Hairline", "tonalRamp": ["#050b19", "#1c2434", "#374051", "#545e70", "#768094", "#9aa5ba", "#c0cbe0", "#e3efff"] },
-      "paper": { "role": "neutral", "displayName": "Paper", "tonalRamp": ["#0a0b0e", "#232427", "#3e4043", "#5c5e61", "#7e8084", "#a3a5a8", "#c9cace", "#eceef2"] },
-      "morning-mist": { "role": "neutral", "displayName": "Morning Mist", "canonical": "oklch(97.6% 0.006 264)", "tonalRamp": ["#0a0b0e", "#232427", "#3e4043", "#5c5e61", "#7e8084", "#a3a5a8", "#c9cace", "#eceef2"] },
-      "on-coach-blue": { "role": "neutral", "displayName": "On Coach Blue", "tonalRamp": ["#0a0b0e", "#232427", "#3e4043", "#5c5e61", "#7e8084", "#a3a5a8", "#c9cace", "#eceef2"] }
+      "matcha-desk": {
+        "role": "neutral",
+        "displayName": "Matcha Desk",
+        "canonical": "#c5d7a7",
+        "tonalRamp": [
+          "#31362a",
+          "#636c54",
+          "#94a17d",
+          "#c5d7a7",
+          "#d4e1bd",
+          "#e2ebd3",
+          "#f1f5e9",
+          "#f9fbf6"
+        ],
+        "cssVar": "--ground",
+        "night": "#0e1a3a"
+      },
+      "desk-dots": {
+        "role": "neutral",
+        "displayName": "Desk Dots",
+        "canonical": "rgb(255 255 255 / 45%)",
+        "cssVar": "--dots",
+        "night": "rgb(197 215 167 / 15%)"
+      },
+      "number-fill": {
+        "role": "neutral",
+        "displayName": "Number Fill",
+        "canonical": "#bcd49a",
+        "tonalRamp": [
+          "#2f3527",
+          "#5e6a4d",
+          "#8d9f74",
+          "#bcd49a",
+          "#cddfb3",
+          "#deeacd",
+          "#eef4e6",
+          "#f8fbf5"
+        ],
+        "cssVar": "--fill-num",
+        "night": "#bcd49a"
+      },
+      "soft-fill": {
+        "role": "neutral",
+        "displayName": "Soft Fill",
+        "canonical": "#e4eed3",
+        "tonalRamp": [
+          "#393c35",
+          "#72776a",
+          "#abb39e",
+          "#e4eed3",
+          "#ebf2de",
+          "#f2f7e9",
+          "#f8fbf4",
+          "#fcfdfb"
+        ],
+        "cssVar": "--fill-soft",
+        "night": "#e4eed3"
+      },
+      "desk-ink": {
+        "role": "neutral",
+        "displayName": "Desk Ink",
+        "canonical": "#33461f",
+        "tonalRamp": [
+          "#0d1208",
+          "#1a2310",
+          "#263517",
+          "#33461f",
+          "#667457",
+          "#99a38f",
+          "#ccd1c7",
+          "#ebede9"
+        ],
+        "cssVar": "--ground-ink",
+        "night": "#cfe2b4"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0b1533",
+        "tonalRamp": [
+          "#03050d",
+          "#060b1a",
+          "#081026",
+          "#0b1533",
+          "#485066",
+          "#858a99",
+          "#c2c5cc",
+          "#e7e8eb"
+        ],
+        "cssVar": "--ink",
+        "night": "#edf6fb"
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#2e3a5c",
+        "tonalRamp": [
+          "#0c0f17",
+          "#171d2e",
+          "#232c45",
+          "#2e3a5c",
+          "#626b85",
+          "#979dae",
+          "#cbced6",
+          "#eaebef"
+        ],
+        "cssVar": "--ink-2",
+        "night": "#c3d1e6"
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Placeholder Ink",
+        "canonical": "#5a6788",
+        "tonalRamp": [
+          "#171a22",
+          "#2d3444",
+          "#444d66",
+          "#5a6788",
+          "#838da6",
+          "#adb3c4",
+          "#d6d9e1",
+          "#eff0f3"
+        ],
+        "cssVar": "--ink-3",
+        "night": "#9aabc8"
+      },
+      "klein": {
+        "role": "primary",
+        "displayName": "Klein Blue",
+        "canonical": "#002fa7",
+        "tonalRamp": [
+          "#000c2a",
+          "#001854",
+          "#00237d",
+          "#002fa7",
+          "#4063bd",
+          "#8097d3",
+          "#bfcbe9",
+          "#e6eaf6"
+        ],
+        "cssVar": "--klein",
+        "night": "#a5bdff"
+      },
+      "on-klein": {
+        "role": "neutral",
+        "displayName": "On Klein",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#404040",
+          "#808080",
+          "#bfbfbf",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff"
+        ],
+        "cssVar": "--on-me"
+      },
+      "act-yellow": {
+        "role": "primary",
+        "displayName": "Act-Here Yellow",
+        "canonical": "#ffe14d",
+        "tonalRamp": [
+          "#403813",
+          "#807127",
+          "#bfa93a",
+          "#ffe14d",
+          "#ffe97a",
+          "#fff0a6",
+          "#fff8d3",
+          "#fffced"
+        ],
+        "cssVar": "--yellow / --hl-yellow"
+      },
+      "heard-green": {
+        "role": "secondary",
+        "displayName": "Heard Green",
+        "canonical": "#9be88b",
+        "tonalRamp": [
+          "#273a23",
+          "#4e7446",
+          "#74ae68",
+          "#9be88b",
+          "#b4eea8",
+          "#cdf4c5",
+          "#e6f9e2",
+          "#f5fdf3"
+        ],
+        "cssVar": "--green / --hl-green"
+      },
+      "missing-pink": {
+        "role": "secondary",
+        "displayName": "Missing Pink",
+        "canonical": "#ff8fb8",
+        "tonalRamp": [
+          "#40242e",
+          "#80485c",
+          "#bf6b8a",
+          "#ff8fb8",
+          "#ffabca",
+          "#ffc7dc",
+          "#ffe3ed",
+          "#fff4f8"
+        ],
+        "cssVar": "--pink / --hl-pink"
+      },
+      "ai-lilac": {
+        "role": "tertiary",
+        "displayName": "Local-AI Lilac",
+        "canonical": "#d9c8ff",
+        "tonalRamp": [
+          "#363240",
+          "#6d6480",
+          "#a396bf",
+          "#d9c8ff",
+          "#e3d6ff",
+          "#ece4ff",
+          "#f6f1ff",
+          "#fbfaff"
+        ],
+        "cssVar": "--lilac"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#404040",
+          "#808080",
+          "#bfbfbf",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff"
+        ],
+        "cssVar": "--paper",
+        "night": "#17264d"
+      },
+      "paper-tint": {
+        "role": "neutral",
+        "displayName": "Tint Paper",
+        "canonical": "#f5f9ee",
+        "tonalRamp": [
+          "#3d3e3c",
+          "#7b7d77",
+          "#b8bbb3",
+          "#f5f9ee",
+          "#f8fbf2",
+          "#fafcf7",
+          "#fdfefb",
+          "#fefefd"
+        ],
+        "cssVar": "--paper-2",
+        "night": "#142a52"
+      },
+      "paper-pink": {
+        "role": "neutral",
+        "displayName": "Pink Paper",
+        "canonical": "#fff0f6",
+        "tonalRamp": [
+          "#403c3e",
+          "#80787b",
+          "#bfb4b9",
+          "#fff0f6",
+          "#fff4f8",
+          "#fff8fb",
+          "#fffbfd",
+          "#fffefe"
+        ],
+        "cssVar": "--paper-pink",
+        "night": "#351a32"
+      },
+      "paper-ok": {
+        "role": "neutral",
+        "displayName": "Green Paper",
+        "canonical": "#ecfbe7",
+        "tonalRamp": [
+          "#3b3f3a",
+          "#767e74",
+          "#b1bcad",
+          "#ecfbe7",
+          "#f1fced",
+          "#f6fdf3",
+          "#fafef9",
+          "#fdfffd"
+        ],
+        "cssVar": "--paper-ok",
+        "night": "#14331f"
+      },
+      "paper-me": {
+        "role": "neutral",
+        "displayName": "Learner Paper",
+        "canonical": "#e9efff",
+        "tonalRamp": [
+          "#3a3c40",
+          "#757880",
+          "#afb3bf",
+          "#e9efff",
+          "#eff3ff",
+          "#f4f7ff",
+          "#fafbff",
+          "#fdfdff"
+        ],
+        "cssVar": "--paper-me",
+        "night": "#1f2f66"
+      },
+      "paper-sel": {
+        "role": "neutral",
+        "displayName": "Selected Paper",
+        "canonical": "#fff6c2",
+        "tonalRamp": [
+          "#403e31",
+          "#807b61",
+          "#bfb992",
+          "#fff6c2",
+          "#fff8d1",
+          "#fffbe1",
+          "#fffdf0",
+          "#fffef9"
+        ],
+        "cssVar": "--paper-sel",
+        "night": "#3b3716"
+      },
+      "ok-text": {
+        "role": "secondary",
+        "displayName": "Done Green Text",
+        "canonical": "#0f6b33",
+        "tonalRamp": [
+          "#041b0d",
+          "#08361a",
+          "#0b5026",
+          "#0f6b33",
+          "#4b9066",
+          "#87b599",
+          "#c3dacc",
+          "#e7f0eb"
+        ],
+        "cssVar": "--ok",
+        "night": "#8fe3a4"
+      },
+      "error-crimson": {
+        "role": "secondary",
+        "displayName": "Error Crimson",
+        "canonical": "#b4124f",
+        "tonalRamp": [
+          "#2d0514",
+          "#5a0928",
+          "#870e3b",
+          "#b4124f",
+          "#c74d7b",
+          "#da89a7",
+          "#ecc4d3",
+          "#f8e7ed"
+        ],
+        "cssVar": "--error (= --warn)",
+        "night": "#ff9cc4"
+      },
+      "ai-violet": {
+        "role": "tertiary",
+        "displayName": "AI Violet Text",
+        "canonical": "#5b2bb5",
+        "tonalRamp": [
+          "#170b2d",
+          "#2e165b",
+          "#442088",
+          "#5b2bb5",
+          "#8460c8",
+          "#ad95da",
+          "#d6caed",
+          "#efeaf8"
+        ],
+        "cssVar": "--ai",
+        "night": "#c7adff"
+      },
+      "ai-soft": {
+        "role": "tertiary",
+        "displayName": "AI Paper",
+        "canonical": "#f3eeff",
+        "tonalRamp": [
+          "#3d3c40",
+          "#7a7780",
+          "#b6b3bf",
+          "#f3eeff",
+          "#f6f2ff",
+          "#f9f7ff",
+          "#fcfbff",
+          "#fefdff"
+        ],
+        "cssVar": "--ai-soft",
+        "night": "#2a2148"
+      },
+      "tape-yellow": {
+        "role": "neutral",
+        "displayName": "Yellow Washi Tape",
+        "canonical": "rgb(255 225 77 / 78%)",
+        "cssVar": "--tape-yellow",
+        "night": "#ffe14d"
+      },
+      "tape-pink": {
+        "role": "neutral",
+        "displayName": "Pink Washi Tape",
+        "canonical": "rgb(255 143 184 / 72%)",
+        "cssVar": "--tape-pink",
+        "night": "#ff8fb8"
+      },
+      "track": {
+        "role": "neutral",
+        "displayName": "Bar Track",
+        "canonical": "rgb(11 21 51 / 12%)",
+        "cssVar": "--track",
+        "night": "rgb(237 246 251 / 14%)"
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Dashed Hairline",
+        "canonical": "rgb(11 21 51 / 30%)",
+        "cssVar": "--border",
+        "night": "rgb(237 246 251 / 28%)"
+      },
+      "night-desk": {
+        "role": "neutral",
+        "displayName": "Night Desk",
+        "canonical": "#0e1a3a",
+        "tonalRamp": [
+          "#04070f",
+          "#070d1d",
+          "#0b142c",
+          "#0e1a3a",
+          "#4a536b",
+          "#878d9d",
+          "#c3c6ce",
+          "#e7e8eb"
+        ],
+        "cssVar": "--ground (dark)"
+      },
+      "night-paper": {
+        "role": "neutral",
+        "displayName": "Night Paper",
+        "canonical": "#17264d",
+        "tonalRamp": [
+          "#060a13",
+          "#0c1327",
+          "#111d3a",
+          "#17264d",
+          "#515c7a",
+          "#8b93a6",
+          "#c5c9d3",
+          "#e8e9ed"
+        ],
+        "cssVar": "--paper (dark)"
+      },
+      "chalk": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "#edf6fb",
+        "tonalRamp": [
+          "#3b3e3f",
+          "#777b7e",
+          "#b2b9bc",
+          "#edf6fb",
+          "#f2f8fc",
+          "#f6fbfd",
+          "#fbfdfe",
+          "#fdfeff"
+        ],
+        "cssVar": "--ink (dark)"
+      },
+      "night-klein": {
+        "role": "primary",
+        "displayName": "Night Klein",
+        "canonical": "#a5bdff",
+        "tonalRamp": [
+          "#292f40",
+          "#535f80",
+          "#7c8ebf",
+          "#a5bdff",
+          "#bcceff",
+          "#d2deff",
+          "#e9efff",
+          "#f6f8ff"
+        ],
+        "cssVar": "--klein (dark)"
+      },
+      "night-me": {
+        "role": "primary",
+        "displayName": "Night \"You\" Blue",
+        "canonical": "#2f50c4",
+        "tonalRamp": [
+          "#0c1431",
+          "#182862",
+          "#233c93",
+          "#2f50c4",
+          "#637cd3",
+          "#97a8e2",
+          "#cbd3f0",
+          "#eaeef9"
+        ],
+        "cssVar": "--me (dark)"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Page titles (h1) only." },
-      "headline": { "displayName": "Headline", "purpose": "The target sentence to say in Listen and Repeat." },
-      "title": { "displayName": "Title", "purpose": "Card and section headings." },
-      "body": { "displayName": "Body", "purpose": "Guidance and Vietnamese explanations." },
-      "practice": { "displayName": "Practice", "purpose": "English lines in chat bubbles and dialogues; always larger than surrounding Vietnamese." },
-      "label": { "displayName": "Label", "purpose": "Speaker names, pills, stat labels, eyebrows." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home headline only; key phrase carries the yellow highlighter."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page h1; beside the lesson number with a Klein scribble on scenario pages."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "h2 section headings."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "h3, step titles, large buttons."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Buttons, nav, tabs, mic label, speech bubbles, quiz letters."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Lesson numbers and stats in Itim; tabular figures for counts."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading in Be Vietnam Pro."
+      },
+      "practice": {
+        "displayName": "Practice",
+        "purpose": "The highlighted transcript; tall leading holds the marker band and diacritics."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Meta lines, tables, chips."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Pills, speaker names, role terms; never uppercase."
+      }
     },
+    "fonts": [
+      {
+        "family": "Itim",
+        "weights": [
+          400
+        ],
+        "source": "@fontsource/itim (self-hosted, Vietnamese subset)"
+      },
+      {
+        "family": "Be Vietnam Pro",
+        "weights": [
+          400,
+          500,
+          600,
+          700
+        ],
+        "source": "@fontsource/be-vietnam-pro (self-hosted, Vietnamese subset)"
+      }
+    ],
     "shadows": [
-      { "name": "paper-lift", "value": "0 1px 2px rgb(16 24 40 / 6%), 0 2px 8px rgb(16 24 40 / 5%)", "purpose": "All cards." },
-      { "name": "mic-glow", "value": "0 4px 14px rgb(36 87 197 / 35%)", "purpose": "Idle mic button only." },
-      { "name": "listening-halo", "value": "0 0 0 8px color-mix(in srgb, var(--error) 25%, transparent)", "purpose": "Mic while listening; pulses to 14px at 10% over 1.4s when motion is allowed." },
-      { "name": "current-ring", "value": "0 0 0 2px var(--primary)", "purpose": "Dialogue line currently playing." },
-      { "name": "press-lip", "value": "0 var(--lip-h) 0 var(--btn-lip)", "purpose": "Solid edge under buttons and tiles (4px; 3px small/tiles; 5px large). Goes to 0 while pressed." }
+      {
+        "name": "rest",
+        "value": "0 16px 28px -20px rgb(11 21 51 / 60%)",
+        "night": "0 16px 28px -18px rgb(0 0 0 / 75%)",
+        "purpose": "Sheets, buttons, bubbles, current stop and line."
+      },
+      {
+        "name": "lift",
+        "value": "0 22px 34px -18px rgb(11 21 51 / 60%)",
+        "night": "0 22px 34px -16px rgb(0 0 0 / 80%)",
+        "purpose": "Hover lift; the mic at rest."
+      },
+      {
+        "name": "press",
+        "value": "0 6px 12px -10px rgb(11 21 51 / 70%)",
+        "night": "0 6px 12px -8px rgb(0 0 0 / 85%)",
+        "purpose": "90ms active press."
+      },
+      {
+        "name": "logo",
+        "value": "0 10px 16px -10px rgb(0 47 167 / 85%)",
+        "night": "0 10px 16px -10px rgb(0 0 0 / 80%)",
+        "purpose": "Brand Quạc tile only."
+      }
     ],
     "motion": [
-      { "name": "mic-pulse", "value": "pulse 1.4s ease-in-out infinite", "purpose": "Listening halo; only under prefers-reduced-motion: no-preference." },
-      { "name": "press", "value": "transform 90ms cubic-bezier(0.3, 0.7, 0.4, 1)", "purpose": "Button or tile sinks into its lip on :active." },
-      { "name": "mascot-moods", "value": "steps() sprite frames; hop 640ms; shake 520ms; wave 700ms x4", "purpose": "Quạc reacts to listening, heard, not understood and finished." },
-      { "name": "bubble-pop", "value": "280ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Coach bubble appears when Quạc speaks." },
-      { "name": "rise-in / nudge", "value": "rise-in 320ms; nudge 380ms", "purpose": "Feedback panels arrive; a try-again panel or wrong tile shakes once." },
-      { "name": "celebrate", "value": "confetti 1300ms x28 pieces; count-up 900ms", "purpose": "End of a passed lesson, quiz or round. The one authored moment." }
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Every transition and entrance."
+      },
+      {
+        "name": "press",
+        "value": "90ms",
+        "purpose": "Active press duration on buttons, mic and tiles."
+      },
+      {
+        "name": "lift",
+        "value": "0.3s",
+        "purpose": "Hover lift and tilt."
+      },
+      {
+        "name": "hl-swipe-word",
+        "value": "520ms, stagger 70ms (cap 12), +120ms",
+        "purpose": "The highlighter pass, word by word."
+      },
+      {
+        "name": "hl-swipe-headline",
+        "value": "0.9s, delay 0.15s",
+        "purpose": "Headline highlighter; nav current swipe 0.6s."
+      },
+      {
+        "name": "pen-circle",
+        "value": "7s linear infinite",
+        "purpose": "Dashed ring circling the listening mic."
+      },
+      {
+        "name": "rise-in",
+        "value": "320ms",
+        "purpose": "Feedback and result panels; warn adds a 380ms nudge."
+      },
+      {
+        "name": "bar-grow",
+        "value": "800ms",
+        "purpose": "Progress bars filling."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all animation behind prefers-reduced-motion: no-preference; reduce sets transitions to 0.01ms",
+        "purpose": "Safety net."
+      }
     ],
     "breakpoints": [
-      { "name": "phone", "value": "640px" },
-      { "name": "content-max", "value": "1040px" }
-    ]
+      {
+        "name": "phone",
+        "value": "640px",
+        "purpose": "Mic area centres; match grid and history table stack."
+      },
+      {
+        "name": "phone-nav",
+        "value": "720px",
+        "purpose": "Nav wraps to two rows, bar not sticky, tighter sheets, one tape strip."
+      },
+      {
+        "name": "panels-stack",
+        "value": "860px",
+        "purpose": "Mode panels stack; arrows point down."
+      },
+      {
+        "name": "nav-row",
+        "value": "1099px",
+        "purpose": "Nav drops to its own scrolling row."
+      },
+      {
+        "name": "rail",
+        "value": "1024px",
+        "purpose": "Route rail appears (262px)."
+      },
+      {
+        "name": "rail-wide",
+        "value": "1240px",
+        "purpose": "Rail widens to 290px."
+      }
+    ],
+    "frames": {
+      "technique": "border-image: var(--frame) 30 fill / 30px / 0 stretch (24px on phones); 120x120 SVG, fill baked in; forced-colors drops to a system border",
+      "variants": {
+        "white": {
+          "day": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23ffffff' stroke='%230b1533' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%230b1533' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")",
+          "night": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%2317264d' stroke='%23edf6fb' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%23edf6fb' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")"
+        },
+        "matcha-tint": {
+          "day": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23f5f9ee' stroke='%230b1533' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%230b1533' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")",
+          "night": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23142a52' stroke='%23edf6fb' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%23edf6fb' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")"
+        },
+        "pink": {
+          "day": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23fff0f6' stroke='%230b1533' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%230b1533' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")",
+          "night": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23351a32' stroke='%23edf6fb' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%23edf6fb' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")"
+        },
+        "green": {
+          "day": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23ecfbe7' stroke='%230b1533' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%230b1533' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")",
+          "night": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%2314331f' stroke='%23edf6fb' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%23edf6fb' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\")"
+        }
+      }
+    },
+    "line": {
+      "outline": "2.5px",
+      "piece": "2px",
+      "small": "1.5px",
+      "focus": "3px solid klein, offset 3px"
+    },
+    "sound": {
+      "engine": "Web Audio square wave, volume 0.05",
+      "effects": [
+        "correct",
+        "retry",
+        "complete",
+        "pop"
+      ],
+      "default": "on",
+      "rule": "never while a mic session is open"
+    },
+    "mascot": {
+      "name": "Quạc",
+      "art": "original pixel-art duck sprite sheets, pixel-snapped motion",
+      "moods": [
+        "idle",
+        "listen",
+        "happy",
+        "cheer",
+        "confused",
+        "wave"
+      ],
+      "a11y": "aria-hidden; adjacent text carries meaning"
+    }
   },
   "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Default drawn button: paper, ink outline, Itim label; lifts on hover, presses on click.",
+      "html": "<button class=\"ds-btn\">Nghe mẫu</button>",
+      "css": ".ds-btn{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:44px;padding:.5rem 1.1rem;background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-2);box-shadow:var(--shadow);font:400 1.12rem/1.1 var(--f-marker);cursor:pointer;transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out),background-color .2s;}.ds-btn:hover:not(:disabled){box-shadow:var(--shadow-lift);transform:translateY(-3px) rotate(-1deg)}.ds-btn:active:not(:disabled){box-shadow:var(--shadow-press);transform:translateY(1px);transition-duration:90ms}.ds-btn:focus-visible{outline:3px solid var(--klein);outline-offset:3px}"
+    },
     {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Main action on a screen; at most one per view besides the mic.",
-      "html": "<button class=\"ds-btn-primary\">Bắt đầu luyện</button>",
-      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-height:44px;padding:.5rem 1rem;border-radius:10px;border:1px solid var(--primary,#2457c5);background:var(--primary,#2457c5);color:var(--primary-text,#fff);font:inherit;font-weight:600;cursor:pointer}.ds-btn-primary:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}.ds-btn-primary:disabled{opacity:.55;cursor:not-allowed}"
-    },
-    {
-      "name": "Default Button",
-      "kind": "button",
-      "refersTo": "button",
-      "description": "Secondary actions: replay, next, show hint.",
-      "html": "<button class=\"ds-btn\">🔊 Nghe lại</button>",
-      "css": ".ds-btn{display:inline-flex;align-items:center;gap:.35rem;min-height:44px;padding:.5rem 1rem;border-radius:10px;border:1px solid var(--border,#dfe4ee);background:var(--surface,#fff);color:var(--text,#1b2333);font:inherit;font-weight:600;cursor:pointer}.ds-btn:hover{border-color:var(--primary,#2457c5)}.ds-btn:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}"
-    },
-    {
-      "name": "Filter Chip",
-      "kind": "chip",
-      "refersTo": "chip",
-      "description": "Level/topic filters; active fills blue.",
-      "html": "<button class=\"ds-chip\">A1</button> <button class=\"ds-chip ds-chip-on\">A2</button>",
-      "css": ".ds-chip{border:1px solid var(--border,#dfe4ee);background:var(--surface,#fff);color:var(--text,#1b2333);padding:.35rem .9rem;border-radius:999px;font:inherit;cursor:pointer;min-height:36px}.ds-chip:hover{border-color:var(--primary,#2457c5)}.ds-chip:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}.ds-chip-on{background:var(--primary,#2457c5);border-color:var(--primary,#2457c5);color:var(--primary-text,#fff)}"
-    },
-    {
-      "name": "Text Input",
-      "kind": "input",
-      "refersTo": "input",
-      "description": "Typed-answer fallback and settings fields.",
-      "html": "<input class=\"ds-input\" placeholder=\"Gõ câu trả lời…\">",
-      "css": ".ds-input{font:inherit;padding:.5rem .65rem;border-radius:8px;border:1px solid var(--border,#dfe4ee);background:var(--surface,#fff);color:var(--text,#1b2333);min-height:44px}.ds-input:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}"
-    },
-    {
-      "name": "Nav Pills",
-      "kind": "nav",
-      "refersTo": "nav-link-active",
-      "description": "Sticky top navigation; current page filled blue.",
-      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">🏠 Home</a><a href=\"#\">🎤 Speaking</a><a href=\"#\">🎧 Listening</a></nav>",
-      "css": ".ds-nav{display:flex;gap:.25rem;background:var(--surface,#fff);border-bottom:1px solid var(--border,#dfe4ee);padding:.5rem 1rem}.ds-nav a{padding:.45rem .7rem;border-radius:999px;text-decoration:none;color:var(--muted,#5a6478);font-weight:500;white-space:nowrap}.ds-nav a:hover{background:var(--primary-soft,#e8eefc);color:var(--text,#1b2333)}.ds-nav a:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:2px}.ds-nav a[aria-current=page]{background:var(--primary,#2457c5);color:var(--primary-text,#fff)}"
-    },
-    {
-      "name": "Card",
-      "kind": "card",
-      "refersTo": "card",
-      "description": "One idea per card on a misty background.",
-      "html": "<article class=\"ds-card\"><span class=\"ds-pill\">A1</span><h3>Ordering coffee</h3><p>Gọi đồ uống tại quán cà phê.</p></article>",
-      "css": ".ds-card{background:var(--surface,#fff);border:1px solid var(--border,#dfe4ee);border-radius:14px;padding:1rem 1.1rem;box-shadow:0 1px 2px rgb(16 24 40/6%),0 2px 8px rgb(16 24 40/5%);color:var(--text,#1b2333)}.ds-card h3{margin:.5rem 0 .25rem;font-size:1.1rem}.ds-card p{margin:0;color:var(--muted,#5a6478)}.ds-pill{display:inline-block;font-size:.78rem;font-weight:600;padding:.1rem .55rem;border-radius:999px;background:var(--primary-soft,#e8eefc);color:var(--primary,#2457c5)}"
+      "description": "The one \"act here\" action, yellow; returns to paper when disabled.",
+      "html": "<button class=\"ds-btn-primary\">Bắt đầu luyện nói</button> <button class=\"ds-btn-primary\" disabled>Kiểm tra</button>",
+      "css": ".ds-btn-primary{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:44px;padding:.5rem 1.1rem;background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-2);box-shadow:var(--shadow);font:400 1.12rem/1.1 var(--f-marker);cursor:pointer;transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out),background-color .2s;background:var(--yellow);color:var(--ink)}.ds-btn-primary:disabled{background:var(--paper);box-shadow:none;opacity:.55;cursor:not-allowed}.ds-btn-primary:hover:not(:disabled){box-shadow:var(--shadow-lift);transform:translateY(-3px) rotate(-1deg)}.ds-btn-primary:active:not(:disabled){box-shadow:var(--shadow-press);transform:translateY(1px);transition-duration:90ms}.ds-btn-primary:focus-visible{outline:3px solid var(--klein);outline-offset:3px}"
     },
     {
       "name": "Mic Button",
       "kind": "custom",
       "refersTo": "mic-button",
-      "description": "Hero object of speaking screens; turns red and pulses while listening.",
-      "html": "<button class=\"ds-mic\">🎤<span>Bấm để nói</span></button> <button class=\"ds-mic ds-mic-on\">⏺<span>Đang nghe…</span></button>",
-      "css": ".ds-mic{width:112px;height:112px;border-radius:50%;border:0;background:var(--primary,#2457c5);color:var(--primary-text,#fff);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgb(36 87 197/35%)}.ds-mic:focus-visible{outline:3px solid var(--primary,#2457c5);outline-offset:4px}.ds-mic-on{background:var(--error,#b3261e);color:#fff;box-shadow:0 0 0 8px color-mix(in srgb,var(--error,#b3261e) 25%,transparent)}"
+      "description": "The big yellow ink blob; pink with a dashed pen ring while listening.",
+      "html": "<button class=\"ds-mic\"><svg viewBox=\"0 0 24 24\" width=\"38\" height=\"38\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5a3 3 0 0 0-3 3v5.5a3 3 0 0 0 6 0V6.5a3 3 0 0 0-3-3ZM5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M8.5 21h7\"/></svg>Bấm để nói</button> <button class=\"ds-mic is-listening\">Nói xong</button>",
+      "css": ".ds-mic{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;position:relative;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;width:116px;height:116px;margin:12px;background:var(--yellow);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-blob);box-shadow:var(--shadow-lift);font:400 1.12rem/1.1 var(--f-marker);cursor:pointer;transition:transform .3s var(--ease-out),background-color .2s}.ds-mic:hover{transform:rotate(-4deg) scale(1.03)}.ds-mic:active{box-shadow:var(--shadow-press);transform:scale(.95)}.ds-mic:focus-visible{outline:3px solid var(--klein);outline-offset:3px}.ds-mic.is-listening{background:var(--pink)}.ds-mic.is-listening::after{content:'';position:absolute;inset:-12px;border:2.5px dashed var(--ink);border-radius:var(--r-blob);animation:ds-pen 7s linear infinite}@keyframes ds-pen{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.ds-mic.is-listening::after{animation:none}}"
     },
     {
-      "name": "Word Diff",
-      "kind": "custom",
-      "description": "What the browser heard vs the target; never a pronunciation grade.",
-      "html": "<p class=\"ds-diff\"><span class=\"ds-w ds-ok\">Can</span> <span class=\"ds-w ds-ok\">I</span> <span class=\"ds-w ds-miss\">have</span> <span class=\"ds-w ds-ok\">a</span> <span class=\"ds-w ds-ok\">latte</span></p>",
-      "css": ".ds-diff{font-size:1.2rem;line-height:2;margin:0}.ds-w{padding:.05rem .2rem;border-radius:6px}.ds-ok{background:var(--ok-soft,#e4f5ea);color:var(--ok,#17703c)}.ds-miss{background:var(--warn-soft,#fff3dc);color:var(--warn,#8a5300);text-decoration:underline wavy;text-underline-offset:4px}"
+      "name": "Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "A paper sheet in the 9-slice hand-drawn frame, with washi tape on working sheets.",
+      "html": "<div class=\"ds-sheet\"><h3>Hôm nay</h3><p>Ordering coffee · Gọi cà phê</p></div>",
+      "css": ".ds-sheet{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;position:relative;padding:1.25rem 1.4rem;border:2.5px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M15 3.5C40 2.5 80 4.5 104 3C112 3 117 7 117 15C118 40 116 80 117.5 104C117.5 112 113 117 105 117C80 118 40 115.5 16 117.5C8 117.5 3 113 3 105C2 80 4.5 40 2.5 16C2.5 8 7 3.5 15 3.5Z' fill='%23ffffff' stroke='%230b1533' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M5.5 13C5 7.5 8.5 4.5 14 4M106 115.5C111 115 114.5 112 115 106' fill='none' stroke='%230b1533' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E\") 30 fill / 30px / 0 stretch;box-shadow:var(--shadow);font:400 1.0625rem/1.65 var(--f-body);color:var(--ink)}.ds-sheet h3{margin:0 0 .4rem;font:400 1.25rem/1.2 var(--f-marker)}.ds-sheet::before,.ds-sheet::after{content:'';position:absolute;top:-13px;width:96px;height:26px;background:rgb(255 225 77 / 78%);clip-path:polygon(2% 10%,98% 0,100% 88%,4% 100%,0 52%);left:46px;transform:rotate(-4deg)}.ds-sheet::after{left:auto;right:54px;background:rgb(255 143 184 / 72%);transform:rotate(5deg)}"
     },
     {
-      "name": "Notice",
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "The typed fallback beside every voice action.",
+      "html": "<input class=\"ds-input\" placeholder=\"Hoặc gõ câu trả lời…\">",
+      "css": ".ds-input{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;min-height:44px;padding:.5rem .8rem;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:var(--r-2);font:500 1rem/1.4 var(--f-body);caret-color:var(--klein)}.ds-input::placeholder{color:#5a6788}.ds-input:focus-visible{outline:3px solid var(--klein);outline-offset:3px}"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Itim text links on the matcha bar; Klein underline draws in on hover, yellow highlighter marks the current page.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Home</a><a href=\"#\">Speaking</a><a href=\"#\">Listening</a><a href=\"#\">Scenarios</a></nav>",
+      "css": ".ds-nav{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;display:flex;gap:.8rem;padding:.5rem 1rem;background:var(--ground);border-bottom:2.5px solid var(--ink)}.ds-nav a{position:relative;padding:.3rem;color:var(--ink);font:400 1.12rem/1.2 var(--f-marker);text-decoration:none}.ds-nav a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--klein);border-radius:3px;transform:scaleX(0) rotate(-1.5deg);transform-origin:left;transition:transform .4s var(--ease-out)}.ds-nav a:hover::after{transform:scaleX(1) rotate(-1.5deg)}.ds-nav a:focus-visible{outline:3px solid var(--klein);outline-offset:3px}.ds-nav a[aria-current=page]{background:linear-gradient(transparent 0 36%,var(--yellow) 36% 92%,transparent 92%) no-repeat}"
+    },
+    {
+      "name": "Route Rail Stops",
+      "kind": "nav",
+      "refersTo": "route-stop",
+      "description": "Numbered scenario stops: green when done, exactly one yellow (current or next).",
+      "html": "<ol class=\"ds-rail\"><li><a class=\"ds-stop is-done\" href=\"#\"><span class=\"ds-no\">1</span><span>Greetings<small>Chào hỏi</small></span></a></li><li><a class=\"ds-stop is-next\" href=\"#\"><span class=\"ds-no\">2</span><span>Ordering coffee<small>Gọi cà phê</small></span></a></li><li><a class=\"ds-stop\" href=\"#\"><span class=\"ds-no\">3</span><span>Asking the way<small>Hỏi đường</small></span></a></li></ol>",
+      "css": ".ds-rail{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;display:grid;gap:6px;margin:0;padding:0;list-style:none;max-width:280px}.ds-stop{display:grid;grid-template-columns:32px 1fr;align-items:center;gap:10px;padding:7px 10px 7px 9px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:var(--r-2);font:600 .94rem/1.3 var(--f-body);text-decoration:none;transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out)}.ds-stop small{display:block;font-size:.8rem;font-weight:500;color:#2e3a5c}.ds-stop:hover{transform:translateX(4px) rotate(-.8deg);box-shadow:var(--shadow)}.ds-stop:focus-visible{outline:3px solid var(--klein);outline-offset:3px}.ds-stop.is-next{background:var(--yellow);box-shadow:var(--shadow);transform:rotate(-1.2deg)}.ds-stop.is-next small{color:var(--ink)}.ds-no{display:grid;place-items:center;width:30px;height:30px;background:var(--fill-soft);border:2px solid var(--ink);border-radius:var(--r-blob);font:400 1rem/1 var(--f-marker)}.ds-stop.is-done .ds-no{background:var(--green)}"
+    },
+    {
+      "name": "Chips and Pills",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Filter chips (yellow when active) and status pills (green ok, pink warn, lilac local AI).",
+      "html": "<button class=\"ds-chip is-active\">Tất cả</button> <button class=\"ds-chip\">Đã xong</button> <span class=\"ds-pill ok\">Đã nghe</span> <span class=\"ds-pill warn\">Cần luyện lại</span> <span class=\"ds-pill ai\">AI cục bộ</span>",
+      "css": ".ds-chip{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;display:inline-flex;align-items:center;min-height:38px;padding:.3rem .95rem;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:999px;font:600 .875rem/1.2 var(--f-body);cursor:pointer;transition:transform .3s var(--ease-out),background-color .25s}.ds-chip:hover{transform:translateY(-2px) rotate(-1.5deg)}.ds-chip:focus-visible{outline:3px solid var(--klein);outline-offset:3px}.ds-chip.is-active{background:var(--yellow);transform:rotate(-1.5deg)}.ds-pill{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;display:inline-flex;padding:.05rem .6rem;background:var(--fill-soft);color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;font:600 .8rem/1.5 var(--f-body)}.ds-pill.ok{background:var(--green)}.ds-pill.warn{background:var(--pink)}.ds-pill.ai{background:#d9c8ff}"
+    },
+    {
+      "name": "Quiz Option",
       "kind": "custom",
-      "description": "Honest state message in a soft tint (info/warn/error/AI).",
-      "html": "<p class=\"ds-notice\"><strong>Chế độ hội thoại: theo kịch bản.</strong> Không dùng AI.</p>",
-      "css": ".ds-notice{border-radius:10px;padding:.65rem .9rem;margin:0;background:var(--primary-soft,#e8eefc);border:1px solid color-mix(in srgb,var(--primary,#2457c5) 25%,transparent);color:var(--text,#1b2333)}"
+      "refersTo": "quiz-option",
+      "description": "Drawn answer rows with lettered blob circles; the radio stays for accessibility.",
+      "html": "<fieldset class=\"ds-q\"><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-q\"><span class=\"ds-key\"></span>A latte, please.</label><label class=\"ds-opt\"><input type=\"radio\" name=\"ds-q\" checked><span class=\"ds-key\"></span>Here you are.</label><label class=\"ds-opt is-answer\"><input type=\"radio\" name=\"ds-q\"><span class=\"ds-key\"></span>Large, thanks.</label></fieldset>",
+      "css": ".ds-q{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;border:0;margin:0;padding:0;counter-reset:opt;font:400 1.0625rem/1.65 var(--f-body);color:var(--ink)}.ds-opt{position:relative;counter-increment:opt;display:flex;align-items:center;gap:.75rem;margin:0 0 .5rem;padding:.5rem .85rem;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-2);cursor:pointer;transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out),background-color .25s}.ds-opt:hover{box-shadow:var(--shadow);transform:translateX(5px) rotate(-.5deg)}.ds-opt input{position:absolute;width:1px;height:1px;margin:0;opacity:0}.ds-opt:has(input:focus-visible){outline:3px solid var(--klein);outline-offset:3px}.ds-key{display:grid;place-items:center;flex:none;width:30px;height:30px;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r-blob);font:400 1.12rem/1 var(--f-marker);transition:background-color .25s,transform .35s var(--ease-out)}.ds-key::before{content:counter(opt,upper-alpha)}.ds-opt:has(input:checked){background:var(--paper-sel)}.ds-opt:has(input:checked) .ds-key{background:var(--yellow);transform:rotate(-6deg) scale(1.06)}.ds-opt.is-answer{background:var(--paper-ok)}.ds-opt.is-answer .ds-key{background:var(--green);transform:rotate(-6deg)}"
+    },
+    {
+      "name": "Highlighter Pass",
+      "kind": "custom",
+      "refersTo": "practice",
+      "description": "Signature: heard words swipe green left to right, missing words swipe pink with a wavy underline; the match % is only plain text in the honesty line.",
+      "html": "<div class=\"ds-diff\"><span class=\"ds-w ok\" style=\"--i:0\">Can</span> <span class=\"ds-w ok\" style=\"--i:1\">I</span> <span class=\"ds-w ok\" style=\"--i:2\">have</span> <span class=\"ds-w miss\" style=\"--i:3\">a</span> <span class=\"ds-w ok\" style=\"--i:4\">latte</span></div><p class=\"ds-honest\">Mức khớp transcript: 80%. Đây không phải điểm phát âm.</p>",
+      "css": ".ds-diff{--ink:#0b1533;--paper:#ffffff;--yellow:#ffe14d;--green:#9be88b;--pink:#ff8fb8;--klein:#002fa7;--ground:#c5d7a7;--fill-num:#bcd49a;--fill-soft:#e4eed3;--paper-sel:#fff6c2;--paper-ok:#ecfbe7;--paper-pink:#fff0f6;--error:#b4124f;--r-1:22px 14px 26px 12px / 14px 26px 12px 22px;--r-2:14px 20px 12px 22px / 20px 12px 22px 14px;--r-blob:50% 46% 52% 48% / 48% 52% 46% 50%;--shadow:0 16px 28px -20px rgb(11 21 51 / 60%);--shadow-lift:0 22px 34px -18px rgb(11 21 51 / 60%);--shadow-press:0 6px 12px -10px rgb(11 21 51 / 70%);--ease-out:cubic-bezier(0.16,1,0.3,1);--f-marker:'Itim','Be Vietnam Pro',system-ui,sans-serif;--f-body:'Be Vietnam Pro',system-ui,sans-serif;font:400 1.25rem/2.1 var(--f-body);color:var(--ink)}.ds-w{padding:0 .14em;margin:0 -.04em;background-repeat:no-repeat;background-size:100% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone}.ds-w.ok{background-image:linear-gradient(transparent 0 38%,var(--green) 38% 90%,transparent 90%)}.ds-w.miss{background-image:linear-gradient(transparent 0 38%,var(--pink) 38% 90%,transparent 90%);text-decoration:underline wavy var(--error);text-decoration-thickness:1.5px;text-underline-offset:6px}@media (prefers-reduced-motion:no-preference){.ds-w{animation:ds-swipe 520ms var(--ease-out) both;animation-delay:calc(var(--i,0) * 70ms + 120ms)}}@keyframes ds-swipe{from{background-size:0% 100%}}.ds-honest{font:400 .875rem/1.5 var(--f-body);color:#2e3a5c}"
     }
   ],
   "narrative": {
-    "northStar": "The Practice Room",
-    "overview": "A quiet, well-lit room where a student rehearses alone and nobody is judging. The surfaces are calm and pale, so the English sentence, the microphone, and the feedback are the only things that ask for attention. Warmth comes from the tone and the softness, not from decoration: rounded cards, gentle shadows, friendly pill shapes, and encouraging Vietnamese guidance next to the English being practiced.\n\nThe system is a single-column-first web app (max 1040px), comfortable on a phone and a laptop alike. Density is moderate: generous 44px touch targets, 1rem gaps, cards that hold one idea each. Color carries meaning before mood: blue is \"your turn / the coach\", green is \"the browser heard this\", amber is \"missing / try again\", red is \"stop / listening / danger\", violet is \"AI is active\". Light and dark themes are both first-class and switch with the OS.",
+    "northStar": "Cẩm nang Dwell, the Speaking Handbook",
+    "overview": "The app is the learner's own hand-drawn speaking handbook, built in the owner's pinned world, their handbook site \"Cẩm nang Dwell\"; the owner swapped that handbook's cyan desk for matcha latte because the cyan glared. White paper sheets in an inked, slightly wobbly frame lie on a matcha-latte desk covered in a white dot grid. The working sheets carry yellow and pink washi tape. The ten scenarios are a numbered route of stops. When something matters (the next step, the page you are on, the words the browser heard), it gets a highlighter mark. Everything is outlined in one dark navy ink, so a screen reads like a page someone drew rather than a stack of grey cards.\n\nDensity is calm and generous. There is one reading column (max 1000px) beside a route rail on desktop, and every block is a separate sheet or a drawn row. Colour is never decoration: each of the four marker colours has one job, and the white paper and matcha desk carry everything else. Itim, a handwritten marker face, sets the voice for headings, buttons, navigation and numbers. Be Vietnam Pro carries all reading, so Vietnamese diacritics stay crisp at every size.\n\nAt night the same handbook sits on a navy desk. The ink becomes chalk, the paper becomes deep blue, and the marks keep their colours as opaque bands with ink text on top. The night theme is the day handbook seen in different light, not a separate world.",
     "keyCharacteristics": [
-      "One accent (Coach Blue) for action and current state; semantic colors for everything else.",
-      "System font stack: native, fast, renders Vietnamese diacritics everywhere.",
-      "Soft, approachable components: 10–14px corners, pill navigation and chips, whisper-light shadows.",
-      "The microphone is the hero object of any speaking screen.",
-      "Every voice action has a visible text fallback next to it."
+      "Matcha-latte dotted desk (18px white dot grid) under white sheets in a 9-slice hand-drawn SVG frame.",
+      "One ink for every outline, at 2–2.5px.",
+      "Wobbly asymmetric radii on every piece; organic blob circles for every number.",
+      "Itim for voice (headings, controls, nav, numbers); Be Vietnam Pro for reading.",
+      "Four marker colours with single jobs: yellow act/here, Klein link/focus/you, green heard/done, pink missing/warning.",
+      "Soft ink drop shadows, ±1° tilts, lift on hover, press down on click.",
+      "Signature: the highlighter pass over the words the browser heard.",
+      "Quạc, an original pixel-art duck, who keeps the 8-bit voice of the app alongside short synthesized sounds."
     ],
     "rules": [
-      { "name": "The Meaning-First Rule", "section": "colors", "body": "Green, amber, red and violet are reserved for their meaning. Never use them as decoration or to make a section \"pop\"." },
-      { "name": "The Soft-Tint Pair Rule", "section": "colors", "body": "Every semantic color appears as a pair: the strong color for text/borders, its `-soft` tint for the background. Notices add a 25–35% `color-mix` border of the strong color." },
-      { "name": "The One Accent Rule", "section": "colors", "body": "Coach Blue is the only accent. A screen should have at most one filled-blue primary action competing for the eye (the mic counts as one)." },
-      { "name": "The English-Is-Bigger Rule", "section": "typography", "body": "English practice text is always set larger than the Vietnamese guidance around it. Translations sit below in Slate Muted at ~0.92rem." },
-      { "name": "The Only-The-Mic-Glows Rule", "section": "elevation", "body": "Strong, colored shadows belong to the microphone alone. Other components stay at paper lift or flat." }
+      {
+        "name": "The One Job Rule",
+        "body": "Each marker colour has one meaning. Yellow is act/here, Klein is link/focus/you, green is heard/done, pink is missing/warning, lilac is local AI. Never use a marker colour as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Yellow Returns to Paper Rule",
+        "body": "If a yellow element cannot act (a disabled primary button), it becomes paper. Yellow on something inert is a lie.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink on Marks Rule",
+        "body": "Text on any yellow, green, pink or matcha fill is always ink (`--on-mark`), in both themes. At night the marks stay opaque and the text on them turns ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Pink Family Rule",
+        "body": "Warning and error are one family: pink marks, crimson text, pink paper. There is no amber or cream warning tone; the old warm paper was retired on purpose.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Itim speaks (headings, buttons, nav, numbers, bubbles); Be Vietnam Pro explains (body, labels, inputs, meta). Never set a paragraph in Itim, and never set a button in the body face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Single Weight Marker Rule",
+        "body": "Itim only ever appears at 400. Emphasis comes from size and highlighter marks, not weight.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lift-and-Press Rule",
+        "body": "Controls lift on hover (translateY(-3px) rotate(-1deg) with the Lift shadow, hover-capable devices only) and press down on click (translateY(1px) with the Press shadow). This replaces the old Duolingo press lips; never bring back a solid bottom lip.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Small Tilt Rule",
+        "body": "Tilts stay within about ±1.5° for pieces and sheets (current stop -1.2°, the today sheet -0.3°, the second and third panels +0.8° and -0.6°). Only number circles (-5° to -6°) and the logo tile (-4°) lean further.",
+        "section": "elevation"
+      }
     ],
     "dos": [
-      "**Do** use the CSS custom properties in `src/styles/global.css` (`--primary`, `--ok-soft`, `--radius`…) rather than raw hex, so dark mode keeps working.",
-      "**Do** keep every tappable control at least 44px tall (36px for small buttons and chips).",
-      "**Do** pair every semantic color with its `-soft` tint, as notices, pills and word chips already do.",
-      "**Do** put a text fallback next to every voice interaction.",
-      "**Do** gate motion behind `prefers-reduced-motion: no-preference`, as the mic pulse does."
+      "**Do** put every sheet in the drawn frame and every number in a blob circle; outline pieces in ink at 2–2.5px.",
+      "**Do** keep each marker colour to its one job, and put ink text on every marker fill in both themes.",
+      "**Do** keep exactly one yellow stop on the route, and return a disabled primary to paper.",
+      "**Do** use Itim for headings, buttons, nav and numbers, and Be Vietnam Pro for everything read.",
+      "**Do** keep a text fallback beside every voice action and 44px minimum targets.",
+      "**Do** let marks at night cover the full glyph height so diacritics stay readable.",
+      "**Do** keep every animation behind `prefers-reduced-motion` and keep Quạc `aria-hidden` next to meaningful text."
     ],
     "donts": [
-      "**Don't** introduce a second accent color or a second typeface.",
-      "**Don't** use green/amber/red/violet decoratively; they always mean heard / missing / stop / AI.",
-      "**Don't** give anything other than the mic a colored or heavy shadow.",
-      "**Don't** style transcript match like a score or grade; it is not pronunciation assessment.",
-      "**Don't** hard-code light-only colors (e.g. `#fff` text) on new surfaces without checking the dark theme."
+      "**Don't** present a transcript match as a grade, badge or score; it is plain text inside the honesty line.",
+      "**Don't** bring back Duolingo-style press lips, glowing blue mics, blue pill nav or grey hairline cards.",
+      "**Don't** add an amber or cream warning tone; warning is pink with crimson text.",
+      "**Don't** use lilac for anything except the local-AI note.",
+      "**Don't** use emoji or glyph icons; icons are the drawn stroke family, `aria-hidden`, beside a label.",
+      "**Don't** add uppercase eyebrow or kicker labels above headings.",
+      "**Don't** play sounds while the microphone is listening."
     ]
   }
 }

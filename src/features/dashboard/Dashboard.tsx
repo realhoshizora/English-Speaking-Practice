@@ -11,7 +11,7 @@ const SPEAKING = ['repeat', 'guided', 'roleplay'];
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 /** Resume the scenario the learner touched last; otherwise the first unfinished one. */
-function pickScenario(records: PracticeRecord[]): Scenario | undefined {
+export function pickScenario(records: PracticeRecord[]): Scenario | undefined {
   const open = (id: string | null) => !!id && !isScenarioComplete(records, id);
   const last = [...records].reverse().find((r) => open(r.scenarioId));
   return scenarios.find((s) => s.id === last?.scenarioId) ?? scenarios.find((s) => open(s.id));
@@ -45,11 +45,24 @@ export function Dashboard() {
 
   return (
     <div className="page">
-      <header className="page-head home-head">
-        <Mascot mood="wave" size={96} />
+      <header className="home-hero">
         <div>
-          <h1>{isNew ? 'Chào bạn, mình là Quạc! Mình bắt đầu luyện nói nhé?' : 'Hôm nay mình luyện gì?'}</h1>
-          <p>Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
+          <h1>
+            {isNew ? (
+              <>
+                Mình bắt đầu <mark className="hl">luyện nói</mark> nhé?
+              </>
+            ) : (
+              <>
+                Hôm nay mình <mark className="hl">luyện gì?</mark>
+              </>
+            )}
+          </h1>
+          <p className="lead">Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
+        </div>
+        <div className="hero-quac">
+          <p className="say-bubble">{isNew ? 'Chào bạn, mình là Quạc!' : 'Chào bạn!'}</p>
+          <Mascot mood="wave" size={128} />
         </div>
       </header>
 

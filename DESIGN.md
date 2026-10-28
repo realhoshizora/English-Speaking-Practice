@@ -1,337 +1,420 @@
 ---
 name: English Speaking Coach
-description: A quiet, warm practice room where A1–B1 students rehearse real-life English conversations.
+description: The learner's own hand-drawn speaking handbook, in the owner's "Cẩm nang Dwell" world.
 colors:
-  coach-blue: "#2457c5"
-  coach-blue-soft: "#e8eefc"
-  on-coach-blue: "#ffffff"
-  heard-green: "#17703c"
-  heard-green-soft: "#e4f5ea"
-  missing-amber: "#8a5300"
-  missing-amber-soft: "#fff3dc"
-  stop-red: "#b3261e"
-  stop-red-soft: "#fdeceb"
-  ai-violet: "#6b3fb5"
-  ai-violet-soft: "#f1eafc"
-  ink: "#1b2333"
-  slate-muted: "#5a6478"
-  hairline: "#dfe4ee"
+  matcha-desk: "#c5d7a7"
+  desk-dots: "rgb(255 255 255 / 45%)"
+  number-fill: "#bcd49a"
+  soft-fill: "#e4eed3"
+  desk-ink: "#33461f"
+  ink: "#0b1533"
+  ink-2: "#2e3a5c"
+  ink-3: "#5a6788"
+  klein: "#002fa7"
+  on-klein: "#ffffff"
+  act-yellow: "#ffe14d"
+  heard-green: "#9be88b"
+  missing-pink: "#ff8fb8"
+  ai-lilac: "#d9c8ff"
   paper: "#ffffff"
-  morning-mist: "#f5f7fb"
-  press-lip: "#cdd5e2"
-  coach-blue-lip: "#173b8f"
-  stop-red-lip: "#7d1a14"
+  paper-tint: "#f5f9ee"
+  paper-pink: "#fff0f6"
+  paper-ok: "#ecfbe7"
+  paper-me: "#e9efff"
+  paper-sel: "#fff6c2"
+  ok-text: "#0f6b33"
+  error-crimson: "#b4124f"
+  ai-violet: "#5b2bb5"
+  ai-soft: "#f3eeff"
+  tape-yellow: "rgb(255 225 77 / 78%)"
+  tape-pink: "rgb(255 143 184 / 72%)"
+  track: "rgb(11 21 51 / 12%)"
+  hairline: "rgb(11 21 51 / 30%)"
+  night-desk: "#0e1a3a"
+  night-paper: "#17264d"
+  chalk: "#edf6fb"
+  night-klein: "#a5bdff"
+  night-me: "#2f50c4"
 typography:
   display:
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif"
-    fontSize: "clamp(1.5rem, 4vw, 2rem)"
-    fontWeight: 700
-    lineHeight: 1.25
-  headline:
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif"
-    fontSize: "clamp(1.25rem, 3.5vw, 1.6rem)"
-    fontWeight: 700
-    lineHeight: 1.25
-  title:
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif"
-    fontSize: "1.2rem"
-    fontWeight: 700
-    lineHeight: 1.25
-  body:
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif"
-    fontSize: "1rem"
+    fontFamily: "Itim, 'Be Vietnam Pro', system-ui, sans-serif"
+    fontSize: "clamp(2.4rem, 5.4vw, 3.9rem)"
     fontWeight: 400
-    lineHeight: 1.5
+    lineHeight: 1.08
+  headline:
+    fontFamily: "Itim, 'Be Vietnam Pro', system-ui, sans-serif"
+    fontSize: "clamp(2.1rem, 4.4vw, 3.1rem)"
+    fontWeight: 400
+    lineHeight: 1.1
+    letterSpacing: "-0.01em"
+  title:
+    fontFamily: "Itim, 'Be Vietnam Pro', system-ui, sans-serif"
+    fontSize: "clamp(1.5rem, 2.4vw, 1.75rem)"
+    fontWeight: 400
+    lineHeight: 1.2
+  subtitle:
+    fontFamily: "Itim, 'Be Vietnam Pro', system-ui, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 400
+    lineHeight: 1.2
+  control:
+    fontFamily: "Itim, 'Be Vietnam Pro', system-ui, sans-serif"
+    fontSize: "1.12rem"
+    fontWeight: 400
+    lineHeight: 1.1
+  numeral:
+    fontFamily: "Itim, 'Be Vietnam Pro', system-ui, sans-serif"
+    fontSize: "2rem"
+    fontWeight: 400
+    lineHeight: 1
+  body:
+    fontFamily: "'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "1.0625rem"
+    fontWeight: 400
+    lineHeight: 1.65
   practice:
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif"
-    fontSize: "1.05rem"
+    fontFamily: "'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 400
+    lineHeight: 2.1
+  small:
+    fontFamily: "'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.5
   label:
-    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif"
-    fontSize: "0.78rem"
+    fontFamily: "'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "0.8rem"
     fontWeight: 600
     lineHeight: 1.5
 rounded:
-  sm: "6px"
-  input: "8px"
-  md: "10px"
-  button: "12px"
-  card: "14px"
+  sheet: "22px 14px 26px 12px / 14px 26px 12px 22px"
+  piece: "14px 20px 12px 22px / 20px 12px 22px 14px"
+  small: "10px 14px 9px 15px / 14px 9px 15px 10px"
+  blob: "50% 46% 52% 48% / 48% 52% 46% 50%"
+  note: "14px"
+  bubble: "18px 18px 18px 6px"
   pill: "999px"
 spacing:
-  xs: "0.25rem"
-  sm: "0.5rem"
-  md: "0.75rem"
-  lg: "1rem"
-  xl: "1.5rem"
+  tight: "0.35rem"
+  row: "0.5rem"
+  actions: "0.65rem"
+  section: "1.25rem"
+  page: "1.35rem"
+  sheet-x: "1.4rem"
+  gutter: "1.75rem"
+  gutter-phone: "1rem"
 components:
   button:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.button}"
-    padding: "0.5rem 1rem"
+    typography: "{typography.control}"
+    rounded: "{rounded.piece}"
+    padding: "0.5rem 1.1rem"
     height: "44px"
   button-primary:
-    backgroundColor: "{colors.coach-blue}"
-    textColor: "{colors.on-coach-blue}"
-    rounded: "{rounded.button}"
-    padding: "0.5rem 1rem"
+    backgroundColor: "{colors.act-yellow}"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.piece}"
+    padding: "0.5rem 1.1rem"
     height: "44px"
-  button-small:
-    rounded: "{rounded.button}"
-    padding: "0.3rem 0.7rem"
-    height: "36px"
-  button-danger:
-    backgroundColor: "{colors.stop-red}"
-    textColor: "{colors.on-coach-blue}"
-    rounded: "{rounded.button}"
-  chip:
+  button-primary-disabled:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.pill}"
-    padding: "0.35rem 0.9rem"
-    height: "36px"
-  chip-active:
-    backgroundColor: "{colors.coach-blue}"
-    textColor: "{colors.on-coach-blue}"
-  pill:
-    backgroundColor: "{colors.coach-blue-soft}"
-    textColor: "{colors.coach-blue}"
-    rounded: "{rounded.pill}"
-    padding: "0.1rem 0.55rem"
-  card:
+  button-active:
+    backgroundColor: "{colors.paper-sel}"
+  button-danger:
+    backgroundColor: "{colors.missing-pink}"
+    textColor: "{colors.ink}"
+  button-danger-ghost:
+    textColor: "{colors.error-crimson}"
+  button-lg:
+    padding: "0.65rem 1.5rem"
+    height: "54px"
+  button-sm:
+    padding: "0.3rem 0.8rem"
+    height: "38px"
+  mic-button:
+    backgroundColor: "{colors.act-yellow}"
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    rounded: "{rounded.blob}"
+    size: "116px"
+  mic-button-listening:
+    backgroundColor: "{colors.missing-pink}"
+  sheet:
     backgroundColor: "{colors.paper}"
-    rounded: "{rounded.card}"
-    padding: "1rem 1.1rem"
+    rounded: "{rounded.sheet}"
+    padding: "1.25rem 1.4rem"
+  sheet-ok:
+    backgroundColor: "{colors.paper-ok}"
+  sheet-warn:
+    backgroundColor: "{colors.paper-pink}"
   input:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.input}"
-    padding: "0.5rem 0.65rem"
+    rounded: "{rounded.piece}"
+    padding: "0.5rem 0.8rem"
     height: "44px"
-  nav-link-active:
-    backgroundColor: "{colors.coach-blue}"
-    textColor: "{colors.on-coach-blue}"
-    rounded: "{rounded.pill}"
-    padding: "0.45rem 0.7rem"
-  mic-button:
-    backgroundColor: "{colors.coach-blue}"
-    textColor: "{colors.on-coach-blue}"
-    rounded: "{rounded.pill}"
-    size: "112px"
-  mic-button-listening:
-    backgroundColor: "{colors.stop-red}"
-    textColor: "{colors.on-coach-blue}"
-  mascot:
-    size: "72px"
-  coach-bubble:
+  chip:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.card}"
-    padding: "0.65rem 0.9rem"
-  lesson-bar:
-    backgroundColor: "{colors.heard-green}"
+    typography: "{typography.small}"
     rounded: "{rounded.pill}"
-    height: "16px"
+    padding: "0.3rem 0.95rem"
+    height: "38px"
+  chip-active:
+    backgroundColor: "{colors.act-yellow}"
+    textColor: "{colors.ink}"
+  pill:
+    backgroundColor: "{colors.soft-fill}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+    padding: "0.05rem 0.6rem"
+  pill-ok:
+    backgroundColor: "{colors.heard-green}"
+  pill-warn:
+    backgroundColor: "{colors.missing-pink}"
+  pill-ai:
+    backgroundColor: "{colors.ai-lilac}"
+  route-stop:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.piece}"
+    padding: "7px 10px 7px 9px"
+  route-stop-current:
+    backgroundColor: "{colors.act-yellow}"
+    textColor: "{colors.ink}"
+  number-circle:
+    backgroundColor: "{colors.soft-fill}"
+    textColor: "{colors.ink}"
+    typography: "{typography.numeral}"
+    rounded: "{rounded.blob}"
+    size: "64px"
+  number-circle-done:
+    backgroundColor: "{colors.heard-green}"
+  quiz-option:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.piece}"
+    padding: "0.5rem 0.85rem"
+  quiz-option-checked:
+    backgroundColor: "{colors.paper-sel}"
+  quiz-option-answer:
+    backgroundColor: "{colors.paper-ok}"
+  quiz-option-picked-wrong:
+    backgroundColor: "{colors.paper-pink}"
+  bubble-partner:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.bubble}"
+    padding: "0.6rem 0.95rem"
+  bubble-learner:
+    backgroundColor: "{colors.klein}"
+    textColor: "{colors.on-klein}"
+    padding: "0.6rem 0.95rem"
+  notice:
+    backgroundColor: "{colors.paper-tint}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.note}"
+    padding: "0.75rem 1rem"
+  notice-warn:
+    backgroundColor: "{colors.paper-pink}"
+  notice-ai:
+    backgroundColor: "{colors.ai-soft}"
 ---
 
 # Design System: English Speaking Coach
 
 ## Overview
 
-**Creative North Star: "The Practice Room"**
+**Creative North Star: "Cẩm nang Dwell, the Speaking Handbook"**
 
-A quiet, well-lit room where a student rehearses alone and nobody is judging. The surfaces are calm and pale, so the English sentence, the microphone, and the feedback are the only things that ask for attention. Warmth comes from the tone and the softness, not from decoration: rounded cards, gentle shadows, friendly pill shapes, and encouraging Vietnamese guidance next to the English being practiced.
+The app is the learner's own hand-drawn speaking handbook, built in the owner's pinned world, their handbook site "Cẩm nang Dwell"; the owner swapped that handbook's cyan desk for matcha latte because the cyan glared. White paper sheets in an inked, slightly wobbly frame lie on a matcha-latte desk covered in a white dot grid. The working sheets carry yellow and pink washi tape. The ten scenarios are a numbered route of stops. When something matters (the next step, the page you are on, the words the browser heard), it gets a highlighter mark. Everything is outlined in one dark navy ink, so a screen reads like a page someone drew rather than a stack of grey cards.
 
-The room has a coach: **Quạc**, a pixel-art yellow duck wearing the app's blue headset. Quạc is the app's ears. When the browser hears the learner, Quạc hops; when the scripted matcher does not understand, Quạc is the one holding its head ("Quạc chưa hiểu ý bạn"), never the learner who is "wrong". That keeps the playful, Duolingo-like energy honest about what the machine can judge. Motion and 8-bit sound give every answer a physical response, and lesson completion gets one authored celebration.
+Density is calm and generous. There is one reading column (max 1000px) beside a route rail on desktop, and every block is a separate sheet or a drawn row. Colour is never decoration: each of the four marker colours has one job, and the white paper and matcha desk carry everything else. Itim, a handwritten marker face, sets the voice for headings, buttons, navigation and numbers. Be Vietnam Pro carries all reading, so Vietnamese diacritics stay crisp at every size.
 
-The system is a single-column-first web app (max 1040px), comfortable on a phone and a laptop alike. Density is moderate: generous 44px touch targets, 1rem gaps, cards that hold one idea each. Color carries meaning before mood: blue is "your turn / the coach", green is "the browser heard this", amber is "missing / try again", red is "stop / listening / danger", violet is "AI is active". Light and dark themes are both first-class and switch with the OS.
+At night the same handbook sits on a navy desk. The ink becomes chalk, the paper becomes deep blue, and the marks keep their colours as opaque bands with ink text on top. The night theme is the day handbook seen in different light, not a separate world.
 
 **Key Characteristics:**
-- One accent (Coach Blue) for action and current state; semantic colors for everything else.
-- System font stack: native, fast, renders Vietnamese diacritics everywhere.
-- Soft, approachable components: 10–14px corners, pill navigation and chips, whisper-light shadows.
-- The microphone is the hero object of any speaking screen.
-- Every voice action has a visible text fallback next to it.
-- Quạc reacts to the machine's understanding (listening, heard, not understood, finished); the text next to Quạc always carries the meaning.
-- Press buttons: a solid darker lip under every button that the button sinks into when pressed.
+- Matcha-latte dotted desk (18px white dot grid) under white sheets in a 9-slice hand-drawn SVG frame.
+- One ink for every outline, at 2–2.5px.
+- Wobbly asymmetric radii on every piece; organic blob circles for every number.
+- Itim for voice (headings, controls, nav, numbers); Be Vietnam Pro for reading.
+- Four marker colours with single jobs: yellow act/here, Klein link/focus/you, green heard/done, pink missing/warning.
+- Soft ink drop shadows, ±1° tilts, lift on hover, press down on click.
+- Signature: the highlighter pass over the words the browser heard.
+- Quạc, an original pixel-art duck, who keeps the 8-bit voice of the app alongside short synthesized sounds.
 
 ## Colors
 
-A cool, low-chroma neutral base with one confident blue, plus a small set of meaning colors that each come with a soft tint for backgrounds.
+A calm, clean desk palette: matcha-latte ground, white paper, deep navy ink, and four saturated highlighter colours, each with exactly one meaning.
 
 ### Primary
-- **Coach Blue** (coach-blue): primary buttons, the active nav pill, active chips, links, focus outlines, the idle mic button, and the "current line" ring in dialogues. It means "act here" or "you are here".
-- **Coach Blue Mist** (coach-blue-soft): learner chat bubbles, learner dialogue lines, info notices, nav hover, selected match items.
+- **Act-Here Yellow** (act-yellow): the only colour that means "act here" or "you are here". Used for the primary button, the mic at rest, the current or next route stop, the active chip and tab, the current dialogue line, a checked quiz option's letter circle, the lit streak, text selection, the skip link, and the nav highlighter swipe on the current page. A primary button that cannot act yet goes back to paper.
+- **Klein Blue** (klein): links, the focus ring (3px outline, 3px offset), the caret, checkbox and range accents, the hover underline in nav, the scribble under lesson titles, the drawn arrows between mode panels, tip icons, and the learner's own chat bubbles ("you" in chat). At night it lightens to night-klein for text, and "you" bubbles use night-me.
 
-### Secondary (semantic)
-- **Heard Green** (heard-green / heard-green-soft): words the recognizer matched, passed results, the daily-goal bar, "ok" pills.
-- **Missing Amber** (missing-amber / missing-amber-soft): words not heard (with wavy underline), hints and tips, warnings, "needs practice" pills.
-- **Stop Red** (stop-red / stop-red-soft): the mic while listening (pulsing), errors, wrong answers, destructive actions.
-- **AI Violet** (ai-violet / ai-violet-soft): only for signaling that the local AI conversation mode is active.
+### Secondary
+- **Heard Green** (heard-green): heard and done. It marks words the browser heard, finished route stops and number circles, the correct quiz answer, ok pills, and the hatched fill of every progress bar. Text that means "ok" uses the darker ok-text, never the marker itself.
+- **Missing Pink** (missing-pink): missing, warning and error, all one family. It marks words the browser missed, the mic while listening, wrong picks, warn pills, and the danger button. Text in this family is Error Crimson (error-crimson); `--warn` is an alias of `--error`. Warning surfaces use paper-pink.
+
+### Tertiary
+- **Local-AI Lilac** (ai-lilac, with ai-violet text and ai-soft paper): used only for the note that a local AI model is answering (the AI pill and the AI notice). Nothing else uses it.
 
 ### Neutral
-- **Ink** (ink): body text and headings.
-- **Slate Muted** (slate-muted): secondary text, speaker labels, Vietnamese translations under English lines, inactive tabs and nav links.
-- **Hairline** (hairline): card borders, dividers, inactive input and button borders, the empty progress track.
-- **Paper** (paper): cards, inputs, the top bar, partner chat bubbles.
-- **Morning Mist** (morning-mist): page background, inset feedback panels, explanation boxes.
-
-Dark theme swaps every token in place (`prefers-color-scheme: dark`): background `#11151d`, surface `#1a202b`, text `#e8ecf4`, primary lifts to `#7aa2ff` with dark text on it. Semantic colors lighten so they stay readable on dark tints.
-
-### Press lips
-**Press Lip** (press-lip), **Coach Blue Lip** (coach-blue-lip), **Stop Red Lip** (stop-red-lip): the solid edge under default, primary and danger buttons and under tiles. Dark theme: `#0b0f16`, `#3f63c9`, `#c4574f`.
-
-### Mascot palette
-Quạc's yellows, oranges, pink blush and headset blues live only inside the sprites (`src/components/mascot/sprites.ts`) and the confetti. They never become UI colours.
+- **Matcha Desk** (matcha-desk): the page ground and the sticky top bar, under a dot grid of desk-dots at 18px.
+- **Number Fill** (number-fill): the large number circles (mode panels, lesson steps).
+- **Soft Fill** (soft-fill): resting fill of small number circles (rail stops, quiz questions), pills, table heads, and the mic while it requests access or processes.
+- **Desk Ink** (desk-ink): secondary text that sits directly on the desk (brand subtitle, footer, route counts, route summaries).
+- **Ink** (ink): every outline and all main text. Ink-2 is muted text; ink-3 is placeholders.
+- **Paper** (paper) and its tints: paper-tint for notes, tips and sub-panels; paper-ok, paper-pink and paper-sel for green, pink and yellow states on a sheet; paper-me for the learner's lines in a dialogue.
+- **Hairline** (hairline): dashed dividers inside sheets and the footer rule. **Track** (track): the empty part of progress bars, tinted so it never reads as an input.
+- **Night** (night-desk, night-paper, chalk): the night desk, the night paper, and chalk replacing ink for outlines and text. On the navy desk the dots turn a faint matcha (15%) and desk ink lightens to #cfe2b4; number fill and soft fill keep their day values.
 
 ### Named Rules
-**The Meaning-First Rule.** Green, amber, red and violet are reserved for their meaning. Never use them as decoration or to make a section "pop".
+**The One Job Rule.** Each marker colour has one meaning. Yellow is act/here, Klein is link/focus/you, green is heard/done, pink is missing/warning, lilac is local AI. Never use a marker colour as decoration.
 
-**The Soft-Tint Pair Rule.** Every semantic color appears as a pair: the strong color for text/borders, its `-soft` tint for the background. Notices add a 25–35% `color-mix` border of the strong color.
+**The Yellow Returns to Paper Rule.** If a yellow element cannot act (a disabled primary button), it becomes paper. Yellow on something inert is a lie.
 
-**The One Accent Rule.** Coach Blue is the only accent. A screen should have at most one filled-blue primary action competing for the eye (the mic counts as one).
+**The Ink on Marks Rule.** Text on any yellow, green, pink or matcha fill is always ink (`--on-mark`), in both themes. At night the marks stay opaque and the text on them turns ink.
+
+**The Pink Family Rule.** Warning and error are one family: pink marks, crimson text, pink paper. There is no amber or cream warning tone; the old warm paper was retired on purpose.
 
 ## Typography
 
-**Display Font:** system-ui (with -apple-system, Segoe UI, Roboto, Noto Sans, sans-serif)
-**Body Font:** same stack
+**Display Font:** Itim (with Be Vietnam Pro, system-ui)
+**Body Font:** Be Vietnam Pro (with system-ui, -apple-system, Segoe UI, Roboto)
 
-**Character:** One native family across all roles: familiar on every device, instant to load, and reliable for Vietnamese diacritics. Hierarchy comes from weight (700 vs 400/500) and size, not from a second typeface.
+**Character:** Itim is a friendly handwritten marker face, used at weight 400 only, that makes headings and controls feel written in the handbook. Be Vietnam Pro (400/500/600/700) is a clear humanist sans built for Vietnamese, used for everything a learner reads closely. Both are self-hosted with Vietnamese subsets.
 
 ### Hierarchy
-- **Display** (700, clamp(1.5rem, 4vw, 2rem), 1.25): page titles (h1) only.
-- **Headline** (700, clamp(1.25rem, 3.5vw, 1.6rem), 1.25): the target sentence to say in Listen and Repeat. Flashcard words go bigger (2rem).
-- **Title** (700, 1.2rem / 1.05rem, 1.25): card and section headings (h2/h3).
-- **Body** (400, 1rem, 1.5): guidance, descriptions, Vietnamese explanations.
-- **Practice** (400, 1.05–1.2rem, 1.5–2): English lines in chat bubbles and dialogues; the word-diff line runs 1.2rem with line-height 2 so highlight chips don't collide.
-- **Label** (600–700, 0.75–0.85rem): speaker names, pills, stat labels, eyebrow text (uppercase, 0.05em tracking).
+- **Display** (Itim 400, clamp(2.4rem, 5.4vw, 3.9rem), 1.08): the Home headline only. Its key phrase carries a yellow highlighter. Other big moments use fluid clamps in the same face: today's scenario title clamp(2rem, 4.6vw, 2.75rem), flashcard word clamp(2.4rem, 6vw, 3.4rem), target sentence clamp(1.6rem, 3.6vw, 2.2rem).
+- **Headline** (Itim 400, clamp(2.1rem, 4.4vw, 3.1rem), 1.1, -0.01em): page `h1`. On scenario pages it sits beside the lesson number with a Klein scribble under it.
+- **Title** (Itim 400, clamp(1.5rem, 2.4vw, 1.75rem), 1.2): `h2`. Section titles use clamp(1.4rem, 2.3vw, 1.65rem); route titles, panel titles and the rail title use 1.5rem.
+- **Subtitle** (Itim 400, 1.25rem): `h3`, step titles, the summary line, and large buttons.
+- **Control** (Itim 400, 1.12rem, 1.1–1.2): buttons, nav links, tabs, the mic label, speech bubbles and quiz letters.
+- **Numeral** (Itim 400, 2rem, 1): lesson numbers and stats; smaller number circles step down to 1.5 / 1.25 / 1.12 / 1rem. Counts use tabular figures.
+- **Body** (Be Vietnam Pro 400, 1.0625rem, 1.65): all reading. Leads use 1.12rem at 1.6. Long text is capped at 50–66ch.
+- **Practice** (Be Vietnam Pro 400, 1.25rem, 2.1): the highlighted transcript. The tall line height leaves room for the marker band and diacritics. Chat and dialogue lines use 1.12rem.
+- **Small** (Be Vietnam Pro, 0.875rem) and **secondary** (0.94rem): meta lines, route summaries, history tables, back links.
+- **Label** (Be Vietnam Pro 600, 0.8rem): pills, speaker names, role terms, the Vietnamese line under route stops. Labels are never uppercase.
+
+The full rem ramp is 0.8 / 0.875 / 0.94 / 1 / 1.0625 / 1.12 / 1.25 / 1.4 / 1.5 / 2, plus the fluid display clamps above. Don't add new steps.
 
 ### Named Rules
-**The English-Is-Bigger Rule.** English practice text is always set larger than the Vietnamese guidance around it. Translations sit below in Slate Muted at ~0.92rem.
+**The Two Voices Rule.** Itim speaks (headings, buttons, nav, numbers, bubbles); Be Vietnam Pro explains (body, labels, inputs, meta). Never set a paragraph in Itim, and never set a button in the body face.
+
+**The Single Weight Marker Rule.** Itim only ever appears at 400. Emphasis comes from size and highlighter marks, not weight.
 
 ## Layout
 
-Centered column, `max-width: 1040px`, 1rem padding (0.75rem under 640px). Pages are a vertical grid with 1rem gaps. Card collections use auto-fill grids (`minmax(260px, 1fr)` for scenarios, `minmax(280px, 1fr)` for two-column sections, `minmax(150px, 1fr)` for stats), so they collapse to one column on phones without breakpoints.
+The shell is a sticky matcha top bar (76px, thick ink bottom rule) above a centred grid, max 1380px wide with padding 2rem 1.75rem 3rem. From 1024px the grid gains a left route rail (262px, 290px from 1240px). The rail sticks under the top bar and scrolls on its own. The stage column is max 1000px wide and starts at the left edge next to the rail.
 
-The top bar is sticky, holding the brand and a horizontally scrollable row of nav pills; under 640px the nav wraps to its own full-width row. The one explicit breakpoint (640px) also centers the mic area, stacks the Match game to one column, turns the history table into stacked rows, and widens chat bubbles to 95%.
+Pages are a single grid with a 1.35rem gap; two-column groups auto-fit at minmax(280px, 1fr) with a 1.25rem gap. Inside sheets, rows use 0.35–0.5rem gaps and action rows use 0.65rem. The Home hero puts the headline beside Quạc and his speech bubble. The three mode panels sit in three columns joined by drawn arrows; below 860px they stack, and each arrow turns to point down.
 
-Spacing steps are 0.25 / 0.5 / 0.75 / 1 / 1.5rem. Speaking-page actions stick to the bottom of the viewport on a translucent background so the next step is always reachable.
+Below 1100px the nav moves to its own row and scrolls sideways, with a fade at the right edge, and the current page is scrolled into view. At 720px and below the nav wraps to two rows of 44px targets, the bar stops being sticky (it scrolls away), the brand subtitle hides, the shell padding drops to 1.4rem 1rem, and the hero stacks with Quạc first. Sticky action bars inside practice pages sit on a 92% desk tint with a dashed top rule.
 
 ## Elevation & Depth
 
-Mostly flat with a whisper of lift. Cards carry a two-layer ambient shadow so they read as sheets of paper on the misty background; everything else is defined by 1px hairline borders and tonal tints. The only strong shadow belongs to the mic button.
+Depth comes from paper lying on a desk: one soft ink drop shadow that falls downward under sheets and lifted pieces, plus small tilts. Nothing glows and nothing uses a hard offset shadow. Shadows answer state: pieces lift on hover, press down on click, and the mic sits on the highest shadow because it is the main action.
 
 ### Shadow Vocabulary
-- **Paper lift** (`box-shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 2px 8px rgb(16 24 40 / 5%)`): all cards.
-- **Mic glow** (`box-shadow: 0 4px 14px rgb(36 87 197 / 35%)`): the idle mic button.
-- **Listening halo** (`0 0 0 8px` → `14px` of Stop Red at 25% → 10%, 1.4s pulse): the mic while listening, animated only under `prefers-reduced-motion: no-preference`.
-- **Current ring** (`0 0 0 2px` Coach Blue): the dialogue line being played.
-- **Press lip** (`0 4px 0` of the lip colour; 3px for small buttons and tiles, 5px for large): every button and tile. On press the button moves down by the lip height and the lip goes to 0, so it looks pushed in. Ghost and link buttons have no lip.
+- **Rest** (`box-shadow: 0 16px 28px -20px rgb(11 21 51 / 60%)`): sheets, buttons, speech bubbles, step cards, current route stop, current dialogue line.
+- **Lift** (`box-shadow: 0 22px 34px -18px rgb(11 21 51 / 60%)`): hover on buttons and match tiles; the mic at rest.
+- **Press** (`box-shadow: 0 6px 12px -10px rgb(11 21 51 / 70%)`): the 90ms active state.
+- **Logo** (`box-shadow: 0 10px 16px -10px rgb(0 47 167 / 85%)`): the tilted Quạc tile in the brand only.
+- At night the same shadows turn to pure black at 75–85%.
 
 ### Named Rules
-**The Only-The-Mic-Glows Rule.** Strong, colored, blurred shadows belong to the microphone alone. The press lip is a solid edge with no blur, not a glow. Other components stay at paper lift or flat.
+**The Lift-and-Press Rule.** Controls lift on hover (translateY(-3px) rotate(-1deg) with the Lift shadow, hover-capable devices only) and press down on click (translateY(1px) with the Press shadow). This replaces the old Duolingo press lips; never bring back a solid bottom lip.
+
+**The Small Tilt Rule.** Tilts stay within about ±1.5° for pieces and sheets (current stop -1.2°, the today sheet -0.3°, the second and third panels +0.8° and -0.6°). Only number circles (-5° to -6°) and the logo tile (-4°) lean further.
 
 ## Shapes
 
-Soft and approachable. Corners scale with size: 6px for inline word highlights, 8px for inputs, hints and small boxes, 10px for notices and dialogue lines, 12px for press buttons and tiles, 14px for cards, chat bubbles and Quạc's speech bubble, full pill (999px) for nav links, chips, pills and progress bars, and a full circle for the mic. Borders are 1px hairline; buttons, tiles and the speech bubble use 2px. Feedback panels and result banners are tinted with their meaning colour (soft tint background, translucent border), never a thick coloured side border. The active tab keeps its 3px bottom border.
+Every shape looks hand-drawn. Sheets use a 9-slice SVG frame (`border-image: var(--frame) 30 fill / 30px`, 24px on phones) with the fill baked into the drawing. Because of that, no square corner shows outside the line. The frame comes in four fills: white, matcha-tint, pink and green, with night versions in navy and chalk. Under forced colours the drawing drops to a plain system border.
+
+Pieces that are not sheets (buttons, inputs, quiz options, dialogue lines, route stops) use a 2–2.5px ink border with wobbly asymmetric radii: sheet (22/14/26/12), piece (14/20/12/22) and small (10/14/9/15). Numbers always sit in organic blob circles. Notes, tips and explanations use a dashed ink border on a 12–14px radius, and pills and chips are full capsules. Speech bubbles have one tight corner (6px) toward the speaker plus a drawn tail. Washi tape is a clipped, rotated strip: yellow at -4° on the left and pink at +5° on the right, on the working sheets (today, turn, target, flashcard, summary). Phones keep only the yellow strip.
+
+Icons are one drawn stroke family: a 24px grid, 2.1px round strokes in the current text colour, always `aria-hidden` next to a text label.
 
 ## Components
 
 ### Buttons
-Chunky press buttons, friendly and tactile (the Duolingo feel, chosen by the product owner).
-- **Shape:** 12px corners, 2px border, minimum 44px tall (36px small, 52px large), weight 700, sentence case.
-- **Default:** Paper background, hairline border, Ink text, Press Lip underneath.
-- **Primary:** Coach Blue fill and border, white text, Coach Blue Lip; hover lightens the fill slightly.
-- **Press:** `:active` moves the button down by the lip height (90ms) and the lip disappears.
-- **Hover / Focus:** hover shifts the border to Coach Blue; focus shows a 3px Coach Blue outline offset 2px. Disabled drops to 55% opacity and does not press.
-- **Ghost / Danger / Link:** ghost is transparent with no lip; danger is Stop Red fill with Stop Red Lip (or red text when ghost); link is an underlined blue text button.
-- **Tiles** (match and choose-the-word options) use the same 2px border, 12px corners and a 3px lip; matched tiles turn Heard Green, wrong picks turn Stop Red and shake once.
+Drawn and tactile: they lift when you hover and press down when you click.
+- **Shape:** wobbly piece radius, 2.5px ink border, min height 44px (38px small, 54px large).
+- **Default:** paper with ink Itim text at 1.12rem, padding 0.5rem 1.1rem, Rest shadow.
+- **Primary:** Act-Here Yellow with ink text. When disabled it returns to paper; every disabled button drops its shadow and fades to 55%.
+- **Hover / Active / Focus:** Lift-and-Press Rule; the global Klein focus ring.
+- **Ghost:** transparent with no shadow, turning paper on hover. **Danger:** pink. **Danger ghost:** crimson text, pink paper on hover. **Link button:** Klein text in the body face with a 40% Klein underline that goes solid on hover.
 
-### Chips
-- **Style:** pill, Paper background, hairline border, 36px tall. Used for filters (level, topic).
-- **State:** active fills Coach Blue with white text.
+### Mic Button (signature control)
+A 116px blob circle in yellow with a 38px mic icon and an Itim label, resting on the Lift shadow. On hover it tilts -4° and scales to 1.03; on press it scales to 0.95. While listening it turns pink and a dashed ink ring circles it (7s rotation, motion permitting). While requesting or processing it uses soft fill. There is always a text-answer field beside it.
 
-### Pills (badges)
-- Small pill labels (0.78rem, 600): Coach Blue Mist with blue text by default; green and amber variants for "done" and "needs practice".
+### Chips and Pills
+- **Chips** (filters): paper capsule, 2px ink, body face at 600 / 0.875rem, 38px tall. Hover lifts with a -1.5° tilt; the active chip is yellow.
+- **Pills** (status labels): soft-fill capsule, 1.5px ink, 600 / 0.8rem. Ok is green, warn is pink, AI is lilac, quiet is paper. A link pill turns yellow on hover.
+- **Listening chips:** before the learner submits, transcript lines collapse into numbered play chips (capsules with an Itim speaker label and a play button). This keeps the words hidden.
 
-### Cards / Containers
-- **Corner Style:** 14px.
-- **Background:** Paper.
-- **Shadow Strategy:** paper lift.
-- **Border:** 1px hairline.
-- **Internal Padding:** 1rem × 1.1rem.
+### Cards / Containers (sheets)
+- **Corner Style:** the drawn 9-slice frame (sheet radius as fallback).
+- **Background:** baked into the frame: white, or green for ok, pink for warn.
+- **Shadow Strategy:** Rest.
+- **Internal Padding:** 1.25rem 1.4rem (1.1rem 1.05rem on phones).
+- **Tape:** only on the sheets the learner works on.
 
 ### Inputs / Fields
-- **Style:** Paper background, 1px hairline, 8px corners, 44px tall, inherits the body font.
-- **Focus:** the global 3px Coach Blue focus outline.
+- **Style:** paper, 2px ink border, piece radius, body face at 500 / 1rem, min height 44px, ink-3 placeholder, Klein caret.
+- **Focus:** the global 3px Klein outline.
+- Fields stack with a 0.35rem label gap and a max width of 420px.
 
 ### Navigation
-Sticky white top bar with a hairline bottom border. Links are pills in Slate Muted (weight 500) with emoji icons; hover tints to Coach Blue Mist; the current page fills Coach Blue with white text. On phones the pill row scrolls horizontally on its own line.
+- **Top bar:** a -4° tilted Quạc tile on paper, "English Speaking Coach" in Itim at 1.5rem with a desk-ink subtitle, then seven Itim text links at 1.12rem. A Klein underline draws in from the left on hover. The current page gets a yellow highlighter band that swipes in. There are no icons in the nav.
+- **Route rail (desktop):** "Lộ trình học n/10", then ten stops. Each stop is a paper piece with a blob number, the English title, and the Vietnamese line under it. Finished stops have a green number and a green check. Exactly one stop is yellow (tilted -1.2°): the scenario on screen, or else the one Home recommends next. Hover nudges a stop 4px right.
+- **Phone:** the nav wraps to two rows and scrolls away with the page.
 
-### Notices
-Full-width rounded (10px) bars in a soft tint with a matching translucent border: info (blue), warn (amber), error (red), AI (violet). They explain state honestly in Vietnamese and usually include a link to fix it.
+### Lesson Head
+A 64px blob number (50px on phones), tilted -5°, next to the Itim `h1`. A Klein hand-drawn scribble sits under the title (up to 340px wide), followed by a meta line in 600 / 0.94rem muted text.
 
-### Mic Button (signature)
-A 112px Coach Blue circle with an icon and short label, glowing softly. While listening it turns Stop Red with a pulsing halo; while requesting permission or processing it goes Slate Muted. It always sits beside a live status line and an "answer by typing" fallback.
+### Route List and Mode Panels
+Scenario lists are route stops: 52px blob numbers connected by a 3px dashed ink line, with an Itim 1.5rem title linked in ink (Klein underline on hover) and a desk-ink summary. Done stops turn green. The three practice modes are panels with 46px number-fill circles, joined by Klein drawn arrows.
 
-### Word Diff (signature)
-The transcript-match line: each word is a small 6px-rounded chip, Heard Green tint for matched words and Missing Amber tint with a wavy underline for missing ones. It shows what the browser heard and never grades pronunciation.
+### Quiz Options
+Each option is a drawn row: a paper piece with a 30px lettered blob circle (letters come from a CSS counter, so the label text is just the answer). The real radio input stays in the row, visually hidden, for keyboards and screen readers. The row shows the focus ring when its radio has focus. Hover slides the row 5px right. The checked option gets yellow paper and a yellow letter tilted -6°. Once graded, the correct answer gets green paper and a green letter, and a wrong pick gets pink paper and a pink letter. Question numbers sit in a 32px soft-fill blob beside the question.
 
-### Chat Bubbles & Dialogue Lines
-Partner bubbles are Paper with a hairline border, aligned left; learner bubbles are Coach Blue Mist, aligned right; 14px corners, max 85% width. New bubbles slide in from their own side. Dialogue lines stack speaker label, English line, and muted Vietnamese translation, with a play button on the right.
+### Chat and Dialogue
+The partner writes on paper (bubble with a tight bottom-left corner). The learner writes in Klein (white text, tight bottom-right corner). Bubbles slide in from their own side. Dialogue lines are paper pieces; the learner's lines use paper-me, and the line currently playing turns yellow with a -0.6° tilt.
 
-### Quạc (mascot, signature)
-A 32×32 pixel sprite drawn as data in `src/components/mascot/sprites.ts`, rendered as an SVG sprite sheet at whole-pixel sizes (72px next to exercises, 96px on Home and result banners, 128px in lesson summaries). Moods and when they are used:
-- **idle:** blinks and breathes by one sprite pixel. Waiting for the learner.
-- **listen:** eyes closed, wing on the headset, three pixel sound bars. While the mic is requesting, listening or processing.
-- **happy:** hop with squash and stretch plus three sparkles. Answer accepted, transcript match at least 90%, right tile.
-- **confused:** dazed eyes, wing on head, a pixel "?" and a one-pixel shake. The app did not understand, match below 60%, wrong tile.
-- **cheer:** both wings up, three hops. Lesson, quiz or vocabulary round passed (60% or more).
-- **wave:** waves four times, then settles to idle. Greeting on Home, and the end of a lesson that did not pass.
-Quạc is always `aria-hidden`; the bubble or result text beside it carries the meaning. Looping moods pause while Quạc is scrolled out of view.
+### The Highlighter Pass (signature)
+Transcript words at 1.25rem / 2.1. Heard words get a green marker band (38–90% of the line height); missing words get a pink band plus a 1.5px wavy crimson underline. The bands swipe in left to right, one word after another, 70ms apart (capped at 12 steps), each in 520ms. At night each band covers the full glyph height, the text turns ink, and the underline turns ink, so Vietnamese diacritics never land on navy. The same yellow band marks a headline's key phrase (`.hl`) and the current nav link. The match is never shown as a grade: the percentage appears only as plain text inside the honesty line, which says it is a transcript match and not a pronunciation score.
 
-### Coach Bubble
-Quạc's speech bubble: Paper, 2px hairline border, 14px corners, a small tail pointing at Quạc. It holds the task ("Nhiệm vụ: …"), the turn prompt, or a one-line reaction in bold (Heard Green for praise, Missing Amber for "Quạc chưa hiểu ý bạn"). It pops in whenever the mood or answer changes.
+### Progress Bars and Streak
+Bars are 16px capsule tracks (2px ink border, tinted track) filled with green and fine diagonal ink hatching, with an ink edge at the fill end. They grow in over 800ms. The streak is a paper capsule with an Itim count and a pixel flame; once lit it turns yellow and tilts.
 
-### Lesson Bar
-A 16px Heard Green pill with a light top band, at the top of every lesson and vocabulary round, with an optional "Câu 2/6" count. It fills as answers are accepted and never moves backwards, even when a conversation branch adds a turn.
+### Quạc (mascot)
+Quạc is an original pixel-art duck drawn from sprite sheets. Movement snaps to whole sprite pixels, so the art stays crisp. Its moods are idle (blink and bob), listen (bob and Klein sound bars), happy (hop), cheer (three hops), confused (shake and a question mark) and wave. Sparkles and confetti appear only at the end-of-lesson moment. Quạc is always `aria-hidden`; the speech bubble or text beside him carries the meaning, tinted green or pink with the same jobs as everywhere else.
 
-### Celebration
-At the end of a lesson: Quạc cheers, 28 pixel confetti squares in the mascot palette burst once (1.3s), the main number counts up, and a short fanfare plays after the partner's voice has finished. Below the pass mark Quạc waves instead and there is no confetti.
-
-### Streak Flame
-A two-frame pixel flame inside the streak pill. It flickers a few times when the streak is alive and is grey when the streak is 0.
-
-## Motion & Sound
-
-Motion answers the learner; it never decorates. One authored moment (the end-of-lesson celebration); everything else is fast feedback.
-
-- **Feedback (100–300ms):** button press 90ms; coach bubble pop 280ms; chat bubbles 300ms; feedback panels rise 320ms; word chips pop one after another (45ms apart, capped); a "try again" panel or wrong tile shakes once (380ms).
-- **Mascot:** sprite moves in whole sprite pixels with `steps()`; hops use squash and stretch over 640ms.
-- **Continuity:** lesson and daily-goal bars grow from 0 on arrival and ease to new values (600ms).
-- **Easing:** `cubic-bezier(0.16, 1, 0.3, 1)` for arrivals, `cubic-bezier(0.3, 0.7, 0.4, 1)` for presses. No elastic curves.
-- **Reduced motion:** every animation sits behind `prefers-reduced-motion: no-preference`. With reduced motion, moods still change (static frames), colours and text still change, and counters show their final value; nothing moves and there is no confetti.
-- **Sound:** short 8-bit square-wave effects synthesised with Web Audio (`src/services/sound/sfx.ts`): "correct" (rising ting), "retry" (soft step down), "complete" (C-major arpeggio), "pop". On by default, switchable in Settings, and never played while any microphone session is open.
+### Sound and Motion
+Sounds are short 8-bit square-wave effects synthesized with Web Audio (correct, retry, complete, pop), at a low volume and with no audio files. They are on by default, can be turned off in Settings, and never play while a microphone session is open. Motion answers the learner and never decorates. Everything uses `--ease-out` (cubic-bezier(0.16, 1, 0.3, 1)) at 280–900ms, and all of it sits behind `prefers-reduced-motion: no-preference`. A global reduce rule also cuts transitions to near zero.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** use the CSS custom properties in `src/styles/global.css` (`--primary`, `--ok-soft`, `--radius`…) rather than raw hex, so dark mode keeps working.
-- **Do** keep every tappable control at least 44px tall (36px for small buttons and chips).
-- **Do** pair every semantic color with its `-soft` tint, as notices, pills and word chips already do.
-- **Do** put a text fallback next to every voice interaction.
-- **Do** gate motion behind `prefers-reduced-motion: no-preference`, as the mic pulse does.
-- **Do** let Quạc react to what the machine understood, and put the meaning in the text beside it.
-- **Do** keep celebration proportional: a sparkle for one right answer, confetti only when a lesson or round is passed.
+- **Do** put every sheet in the drawn frame and every number in a blob circle; outline pieces in ink at 2–2.5px.
+- **Do** keep each marker colour to its one job, and put ink text on every marker fill in both themes.
+- **Do** keep exactly one yellow stop on the route, and return a disabled primary to paper.
+- **Do** use Itim for headings, buttons, nav and numbers, and Be Vietnam Pro for everything read.
+- **Do** keep a text fallback beside every voice action and 44px minimum targets.
+- **Do** let marks at night cover the full glyph height so diacritics stay readable.
+- **Do** keep every animation behind `prefers-reduced-motion` and keep Quạc `aria-hidden` next to meaningful text.
 
 ### Don't:
-- **Don't** introduce a second accent color or a second typeface.
-- **Don't** use green/amber/red/violet decoratively; they always mean heard / missing / stop / AI.
-- **Don't** give anything other than the mic a colored or heavy shadow.
-- **Don't** style transcript match like a score or grade; it is not pronunciation assessment.
-- **Don't** hard-code light-only colors (e.g. `#fff` text) on new surfaces without checking the dark theme.
-- **Don't** use the mascot palette (duck yellow, orange, blush pink) for UI chrome, text or states.
-- **Don't** play sound effects while the mic is listening or when the learner turned them off.
-- **Don't** show a confused or sad Quạc as a judgement of the learner; it means the app did not understand.
+- **Don't** present a transcript match as a grade, badge or score; it is plain text inside the honesty line.
+- **Don't** bring back Duolingo-style press lips, glowing blue mics, blue pill nav or grey hairline cards.
+- **Don't** add an amber or cream warning tone; warning is pink with crimson text.
+- **Don't** use lilac for anything except the local-AI note.
+- **Don't** use emoji or glyph icons; icons are the drawn stroke family, `aria-hidden`, beside a label.
+- **Don't** add uppercase eyebrow or kicker labels above headings.
+- **Don't** play sounds while the microphone is listening.
