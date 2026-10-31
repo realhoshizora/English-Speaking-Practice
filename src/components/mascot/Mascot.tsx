@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { FLAME, FRAMES, QUESTION, SPARKLE, sheetUrl, type FrameName } from './sprites';
 
-export type MascotMood = 'idle' | 'happy' | 'cheer' | 'confused' | 'listen' | 'wave';
+export type MascotMood = 'idle' | 'happy' | 'cheer' | 'confused' | 'listen' | 'wave' | 'bow';
 
 // Frames per mood; two-frame moods alternate (blink, wave) through CSS.
 const SHEETS: Record<MascotMood, FrameName[]> = {
@@ -11,6 +11,7 @@ const SHEETS: Record<MascotMood, FrameName[]> = {
   confused: ['confused'],
   listen: ['listen'],
   wave: ['wave1', 'wave2'],
+  bow: ['happy'],
 };
 
 const sheet = (mood: MascotMood) => sheetUrl(mood, SHEETS[mood].map((f) => FRAMES[f]));
@@ -38,7 +39,7 @@ interface MascotProps {
 
 /** Quạc, the pixel duck. Decorative: the text next to it always carries the meaning. */
 export function Mascot({ mood = 'idle', size = 96, bump = 0 }: MascotProps) {
-  // "wave" plays a few times, then Quạc settles back to idle
+  // "wave" and "bow" play a few times, then Quạc settles back to idle
   const [shown, setShown] = useState(mood);
   useEffect(() => setShown(mood), [mood, bump]);
   const ref = useRef<HTMLDivElement>(null);
@@ -50,7 +51,7 @@ export function Mascot({ mood = 'idle', size = 96, bump = 0 }: MascotProps) {
       className={`mascot mascot-${shown}${onScreen ? '' : ' is-paused'}`}
       style={{ '--size': `${size}px`, '--frames': SHEETS[shown].length } as CSSProperties}
       aria-hidden="true"
-      onAnimationEnd={(e) => e.animationName === 'mascot-wave' && setShown('idle')}
+      onAnimationEnd={(e) => (e.animationName === 'mascot-wave' || e.animationName === 'mascot-bow') && setShown('idle')}
     >
       <span key={`${shown}-${bump}`} className="mascot-body" style={{ backgroundImage: sheet(shown) }} />
       {shown === 'confused' && <span className="mascot-question" style={{ backgroundImage: sheetUrl('question', [QUESTION]) }} />}

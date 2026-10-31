@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import { useProgress } from '../../app/ProgressContext';
 import { Mascot } from '../../components/mascot/Mascot';
 import { scenarios } from '../../data/scenarios';
 import { detectSpeechCapabilities } from '../../services/speech/SpeechCapabilityDetector';
 import { isScenarioComplete, PASS_SPEAKING } from '../../services/storage/progress';
-import { SHEET_URL } from '../../services/sync/teacherSync';
 import type { PracticeRecord, Scenario } from '../../types';
 import { DailyGoal } from '../progress/ProgressPage';
 
@@ -27,8 +27,46 @@ function nextStep(records: PracticeRecord[], s: Scenario) {
   return { href: `#/listening/${s.id}`, label: 'Làm bài nghe', hint: 'Còn bài nghe nữa là xong tình huống này.' };
 }
 
+/** First visit on this browser: Quạc asks the learner's name before anything else. */
+function AskName() {
+  const { updateSettings } = useProgress();
+  const [name, setName] = useState('');
+  return (
+    <div className="page">
+      <header className="home-hero">
+        <form
+          className="ask-name"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (name.trim()) updateSettings({ studentName: name.trim().slice(0, 60) });
+          }}
+        >
+          <h1>
+            Bạn <mark className="hl">tên là gì?</mark>
+          </h1>
+          <label className="lead" htmlFor="ask-name">
+            Quạc sẽ gọi bạn bằng tên này mỗi lần bạn vào học.
+          </label>
+          <div className="text-answer">
+            <input id="ask-name" value={name} maxLength={60} placeholder="Ví dụ: Lan Anh" autoComplete="given-name" autoFocus onChange={(e) => setName(e.target.value)} />
+            <button type="submit" className="btn btn-primary" disabled={!name.trim()}>
+              Bắt đầu
+            </button>
+          </div>
+        </form>
+        <div className="hero-quac">
+          <p className="say-bubble">Chào bạn, mình là Quạc!</p>
+          <Mascot mood="wave" size={128} />
+        </div>
+      </header>
+    </div>
+  );
+}
+
 export function Dashboard() {
   const { state } = useProgress();
+  const name = state.settings.studentName;
+  if (!name) return <AskName />;
   const caps = detectSpeechCapabilities();
   const isNew = state.records.length === 0;
   const scenario = pickScenario(state.records);
@@ -61,16 +99,10 @@ export function Dashboard() {
           <p className="lead">Ứng dụng không ghi âm giọng của bạn. Nói sai cũng không sao, cứ thử lại bao nhiêu lần cũng được.</p>
         </div>
         <div className="hero-quac">
-          <p className="say-bubble">{isNew ? 'Chào bạn, mình là Quạc!' : 'Chào bạn!'}</p>
-          <Mascot mood="wave" size={128} />
+          <p className="say-bubble">{isNew ? `Chào ${name}, mình là Quạc!` : `Chào ${name}!`}</p>
+          <Mascot mood="bow" size={128} />
         </div>
       </header>
-
-      {SHEET_URL && !state.settings.studentName && (
-        <p className="notice notice-info">
-          Nhập tên của bạn để giáo viên theo dõi được tiến độ. <a href="#/settings">Nhập tên</a>
-        </p>
-      )}
 
       {issues.length > 0 && (
         <div className="notice notice-warn" role="status">

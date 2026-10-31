@@ -177,10 +177,22 @@ describe('Progress dashboard', () => {
 
 describe('Home dashboard', () => {
   const seed = (records: object[]) =>
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, records, vocab: {}, retry: {}, settings: {} }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, records, vocab: {}, retry: {}, settings: { studentName: 'Lan' } }));
   const now = () => new Date().toISOString();
 
+  it('asks a first-time learner for their name, then Quạc greets them by it', async () => {
+    renderApp(<Dashboard />);
+    expect(screen.queryByRole('link', { name: 'Bắt đầu luyện nói' })).toBeNull();
+    const start = screen.getByRole('button', { name: 'Bắt đầu' });
+    expect(start).toBeDisabled();
+    await userEvent.type(screen.getByLabelText(/Quạc sẽ gọi bạn/), '  Lan Anh ');
+    await userEvent.click(start);
+    expect(screen.getByText('Chào Lan Anh, mình là Quạc!')).toBeInTheDocument();
+    expect(stored().settings.studentName).toBe('Lan Anh');
+  });
+
   it('sends a new learner to Listen and Repeat of the first scenario, with how-to steps', () => {
+    seed([]);
     renderApp(<Dashboard />);
     expect(screen.getByRole('link', { name: 'Bắt đầu luyện nói' })).toHaveAttribute('href', expect.stringMatching(/\/repeat$/));
     expect(screen.getByText('Một buổi luyện diễn ra thế nào')).toBeInTheDocument();
@@ -192,6 +204,7 @@ describe('Home dashboard', () => {
       { id: '2', type: 'guided', scenarioId: 'ordering-coffee', date: now(), score: 0.8 },
     ]);
     renderApp(<Dashboard />);
+    expect(screen.getByText('Chào Lan!')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: coffee.title })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Làm bài nghe' })).toHaveAttribute('href', '#/listening/ordering-coffee');
     expect(screen.getByText(/Tuần này bạn đã luyện nói 2 lần/)).toBeInTheDocument();

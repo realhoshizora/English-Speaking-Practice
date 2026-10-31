@@ -937,6 +937,14 @@ a.pill:hover {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+.ask-name {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 520px;
+}
+.ask-name .lead {
+  margin: 0;
+}
 .hero-quac {
   display: grid;
   justify-items: center;
@@ -2434,6 +2442,9 @@ fieldset {
   .mascot-wave .mascot-body {
     animation: mascot-wave 700ms steps(1, end) 4;
   }
+  .mascot-bow .mascot-body {
+    animation: mascot-bow 1s var(--ease-out) 0.3s 2 both;
+  }
   .mascot-question {
     animation:
       pop-in 360ms var(--ease-out) both,
@@ -2596,6 +2607,17 @@ fieldset {
   }
   50% {
     background-position: 100% 0;
+  }
+}
+/* the head tips toward the learner, holds, then straightens */
+@keyframes mascot-bow {
+  0%,
+  100% {
+    transform: perspective(calc(var(--size) * 3)) rotateX(0) scale(1, 1);
+  }
+  35%,
+  60% {
+    transform: perspective(calc(var(--size) * 3)) translateY(var(--px)) rotateX(-38deg) scale(1.04, 0.88);
   }
 }
 @keyframes sparkle {
